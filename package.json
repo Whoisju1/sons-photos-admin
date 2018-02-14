@@ -1,0 +1,11 @@
+{
+  "name": "sons-photos-homepage",
+  "version": "1.0.0",
+  "description": "This is the homepage of sSons Photos",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "author": "Juan John-Charles",
+  "license": "ISC"
+}

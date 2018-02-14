@@ -7,5 +7,12 @@
     "test": "npm run test"
   },
   "author": "Juan John-Charles",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "express-graphql": "^0.6.11",
+    "graphiql": "^0.11.11",
+    "graphql": "^0.13.0",
+    "mongoose": "^5.0.5"
+  }
 }

@@ -12,5 +12,9 @@
     "express-graphql": "^0.6.12",
     "graphiql": "^0.11.11",
     "graphql": "^0.13.2"
+  },
+  "devDependencies": {
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.11.0"
   }
 }

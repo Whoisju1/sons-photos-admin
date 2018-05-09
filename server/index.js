@@ -8,4 +8,4 @@ app.use('/graphql', graphqlHTTP({
   graphiql: true,
 }));
 
-app.listen(PORT, () => console.log(`Listening on PORT ${PORT}`));
+app.listen(PORT, () => console.log(`Listening on PORT ${PORT}`)); // eslint-disable-line no-console

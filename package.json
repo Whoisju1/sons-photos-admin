@@ -1,24 +1,8 @@
 {
-  "name": "sons-photos-homepage",
+  "name": "sons_photos_admin",
   "version": "1.0.0",
-  "description": "This is the homepage of Sons Photos",
+  "description": "This is a content management app for Sons Photots",
   "main": "index.js",
-  "scripts": {
-    "test": "npm run test"
-  },
-  "author": "Juan John-Charles",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.16.2",
-    "express-graphql": "^0.6.11",
-    "graphiql": "^0.11.11",
-    "graphql": "^0.13.0",
-    "mongoose": "^5.0.5"
-  },
-  "devDependencies": {
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.6.1"
-  }
+  "author": "Juan John-Charles <whoisju1@gmail.com>",
+  "license": "MIT"
 }

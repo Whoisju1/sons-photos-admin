@@ -6,7 +6,7 @@
   "author": "Juan John-Charles <whoisju1@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": " nodemon --require dotenv/config server/index.js",
+    "dev": " nodemon --exec babel-node server/index.js",
     "server": "node --require dotenv/config server/index.js"
   },
   "dependencies": {

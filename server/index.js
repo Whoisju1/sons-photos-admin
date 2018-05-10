@@ -10,8 +10,11 @@ const { PORT } = process.env;
 // ues middleware
 app.use(logger('dev'));
 
-app.use('/graphql', graphqlHTTP({
+app.use('/graphql', graphqlHTTP(async (request, response) => ({ // eslint-disable-line no-unused-vars
   graphiql: true,
-}));
+  context: {
+    request,
+  },
+})));
 
 app.listen(PORT, () => console.log(`Listening on PORT ${PORT}`)); // eslint-disable-line no-console

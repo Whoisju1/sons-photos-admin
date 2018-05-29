@@ -1,5 +1,5 @@
 import { GraphQLObjectType, GraphQLList } from 'graphql';
-import { AccountType, CompanyType, GalleryType } from '../types';
+import { AccountType, CompanyType, GalleryType, PhotoType } from '../types';
 
 const query = new GraphQLObjectType({
   name: 'RootQuery',
@@ -14,6 +14,10 @@ const query = new GraphQLObjectType({
     },
     galleries: {
       type: GraphQLList(GalleryType),
+      resolve: () => null,
+    },
+    photos: {
+      type: GraphQLList(PhotoType),
       resolve: () => null,
     },
   },

@@ -7,7 +7,7 @@ import {
 import { GalleryType } from '.';
 
 const PhotoType = new GraphQLObjectType({
-  name: 'photos',
+  name: 'photo',
   fields: {
     photoID: {
       type: GraphQLID,

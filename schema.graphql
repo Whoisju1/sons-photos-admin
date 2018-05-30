@@ -1,0 +1,46 @@
+type Query {
+  account: Account
+  galleries: [Gallery]
+  gallery: Gallery
+  photo: Photo
+}
+
+type Account {
+  accountID: ID!
+  firstName: String!
+  lastName: String!
+  userName: String!
+  email: String
+  phone: Int
+  password: String!
+  timeCreated: String
+  company: Company
+}
+
+type Photo {
+  photoID: ID!
+  url: String
+  description: String
+  clickNumber: Int
+  timeCreated: String
+}
+
+type Gallery {
+  galleryID: ID!
+  title: String!
+  description: String
+  clickNumber: Int
+  timeCreated: String
+  photos: [Photo]
+}
+
+type Company {
+  companyID: ID!
+  name: String!
+  logo: String
+  motto: String
+  email: String
+  phone: Int
+  description: String
+}
+

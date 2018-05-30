@@ -1,7 +1,10 @@
 import express from 'express';
-import graphqlHTTP from 'express-graphql';
+import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
+import { makeExecutableSchema } from 'graphql-tools';
+import fs from 'fs';
 import logger from 'morgan';
-import schema from '../schema/schema';
+import bodyParser from 'body-parser';
+import resolvers from '../resolvers';
 
 require('dotenv').config(); // eslint-disable-line
 
@@ -11,12 +14,18 @@ const { PORT } = process.env;
 // ues middleware
 app.use(logger('dev'));
 
-app.use('/graphql', graphqlHTTP(async (request, response) => ({ // eslint-disable-line no-unused-vars
+app.use(bodyParser.json());
+
+const typeDefs = fs.readFileSync('schema.graphql', { encoding: 'utf8' });
+const schema = makeExecutableSchema({ typeDefs, resolvers });
+
+app.use('/graphql', graphqlExpress(request => ({
   schema,
-  graphiql: true,
   context: {
     request,
   },
 })));
+
+app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
 
 app.listen(PORT, () => console.log(`Listening on PORT ${PORT}`)); // eslint-disable-line no-console

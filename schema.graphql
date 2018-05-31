@@ -9,11 +9,10 @@ type Account {
   accountID: ID!
   firstName: String!
   lastName: String!
-  userName: String!
+  username: String!
   email: String
   phone: Int
-  password: String!
-  timeCreated: String
+  createdAt: String
   company: Company
 }
 

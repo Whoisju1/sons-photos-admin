@@ -5,6 +5,7 @@ import fs from 'fs';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import resolvers from '../resolvers';
+import db from '../db/knex';
 
 require('dotenv').config();
 
@@ -26,6 +27,7 @@ app.use('/graphql', graphqlExpress(request => ({
   schema,
   context: {
     request, // the express request object
+    db,
   },
 })));
 

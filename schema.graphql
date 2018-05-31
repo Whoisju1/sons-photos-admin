@@ -1,3 +1,4 @@
+# ROOT TYPES
 type Query {
   account: Account
   galleries: [Gallery]
@@ -5,6 +6,11 @@ type Query {
   photo: Photo
 }
 
+type Mutation {
+  createAccount(input: createAccountInput): Account
+}
+
+# TYPES
 type Account {
   accountID: ID!
   firstName: String!
@@ -43,3 +49,12 @@ type Company {
   description: String
 }
 
+# INPUT TYPES 
+input createAccountInput {
+  username: String!
+  first_name: String!
+  last_name: String!
+  password: String!
+  email: String
+  phone: Int
+}

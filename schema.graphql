@@ -20,7 +20,7 @@ type Photo {
   photoID: ID!
   url: String
   description: String
-  clickNumber: Int
+  clickCount: Int
   timeCreated: String
 }
 
@@ -28,8 +28,8 @@ type Gallery {
   galleryID: ID!
   title: String!
   description: String
-  clickNumber: Int
-  timeCreated: String
+  clickCount: Int
+  createdAt: String
   photos: [Photo]
 }
 

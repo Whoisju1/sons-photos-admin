@@ -21,7 +21,7 @@ type Photo {
   url: String
   description: String
   clickCount: Int
-  timeCreated: String
+  created_at: String
 }
 
 type Gallery {

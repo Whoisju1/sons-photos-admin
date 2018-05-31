@@ -1,4 +1,8 @@
 import express from 'express';
+import expressJwt from 'express-jwt';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import cors from 'cors';
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
 import { makeExecutableSchema } from 'graphql-tools';
 import fs from 'fs';
@@ -9,14 +13,20 @@ import db from '../db/knex';
 
 require('dotenv').config();
 
+const secret = Buffer.from(process.env.JWT_SECRETE, 'base64');
 const app = express();
 const { PORT } = process.env;
 
 // ues middleware
-// use morgan for logging to request details to the console
-app.use(logger('dev'));
-
-app.use(bodyParser.json());
+app.use(
+  logger('dev'),
+  cors(),
+  bodyParser.json(),
+  expressJwt({
+    secret,
+    credentialsRequired: false,
+  }),
+);
 
 // get schema from graphql file using fs module
 const typeDefs = fs.readFileSync('schema.graphql', { encoding: 'utf8' });
@@ -28,6 +38,9 @@ app.use('/graphql', graphqlExpress(request => ({
   context: {
     request, // the express request object
     db,
+    jwt,
+    bcrypt,
+    secret,
   },
 })));
 

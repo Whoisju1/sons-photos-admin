@@ -20,6 +20,7 @@ type Account {
   phone: Int
   createdAt: String
   company: Company
+  token: String
 }
 
 type Photo {

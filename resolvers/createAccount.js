@@ -1,4 +1,6 @@
-const createAccount = async (root, { input: accountInfo }, { bcrypt, db }) => {
+const createAccount = async (root, { input: accountInfo }, {
+  bcrypt, db, jwt, secret,
+}) => {
   try {
     accountInfo.password = await bcrypt.hash(accountInfo.password, 10); // eslint-disable-line
     const [newAccount] = await db
@@ -14,6 +16,9 @@ const createAccount = async (root, { input: accountInfo }, { bcrypt, db }) => {
       ])
       .insert(accountInfo)
       .into('account');
+
+    const { accountID, firstName, lastName } = newAccount;
+    newAccount.token = jwt.sign({ accountID, firstName, lastName }, secret);
 
     return newAccount;
   } catch (err) {

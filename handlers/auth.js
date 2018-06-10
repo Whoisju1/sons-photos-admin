@@ -18,7 +18,7 @@ export const signUp = async (req, res) => {
     // save user info to database
     const [userInfo] = await postgres('account')
       .insert(req.body)
-      .returning(['first_name', 'last_name', 'username', 'account_id', 'email']);
+      .returning(['username', 'account_id']);
 
     // create token and send it to the client
     const token = jwt.sign(userInfo, secret);

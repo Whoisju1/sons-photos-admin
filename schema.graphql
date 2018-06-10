@@ -4,6 +4,7 @@ type Query {
   galleries: [Gallery]
   gallery: Gallery
   photo: Photo
+  login (input: loginInput): Account
 }
 
 type Mutation {
@@ -58,4 +59,9 @@ input createAccountInput {
   password: String!
   email: String
   phone: Int
+}
+
+input loginInput {
+  username: String!
+  password: String!
 }

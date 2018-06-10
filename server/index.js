@@ -10,7 +10,6 @@ import logger from 'morgan';
 import bodyParser from 'body-parser';
 import resolvers from '../resolvers';
 import db from '../db/knex';
-import authRoutes from '../routes/auth';
 
 require('dotenv').config();
 
@@ -29,9 +28,6 @@ app.use(
   }),
 );
 
-// auth routes
-app.use('/auth', authRoutes);
-
 // get schema from graphql file using fs module
 const typeDefs = fs.readFileSync('schema.graphql', { encoding: 'utf8' });
 const schema = makeExecutableSchema({ typeDefs, resolvers });
@@ -40,7 +36,7 @@ const schema = makeExecutableSchema({ typeDefs, resolvers });
 app.use('/graphql', graphqlExpress(request => ({
   schema,
   context: {
-    request, // the express request object
+    user: request.user, // get user from the request object
     db,
     jwt,
     bcrypt,

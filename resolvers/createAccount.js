@@ -17,8 +17,8 @@ const createAccount = async (root, { input: accountInfo }, {
       .insert(accountInfo)
       .into('account');
 
-    const { accountID, firstName, lastName } = newAccount;
-    newAccount.token = jwt.sign({ accountID, firstName, lastName }, secret);
+    const { accountID } = newAccount;
+    newAccount.token = jwt.sign({ sub: { account_id: accountID } }, secret);
 
     return newAccount;
   } catch (err) {

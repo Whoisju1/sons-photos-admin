@@ -13,6 +13,7 @@ import busboyBodyParser from 'busboy-body-parser';
 import resolvers from '../resolvers';
 import db from '../db/knex';
 import upload from '../routes/upload';
+import requireAuth from '../middleware/requireAuth';
 
 require('dotenv').config();
 
@@ -42,7 +43,7 @@ const schema = makeExecutableSchema({ typeDefs, resolvers });
 app.use('/graphql', graphqlExpress(request => ({
   schema,
   context: {
-    user: request.user.sub, // get user from the request object
+    user: request, // get user from the request object
     db,
     jwt,
     bcrypt,
@@ -50,7 +51,7 @@ app.use('/graphql', graphqlExpress(request => ({
   },
 })));
 
-app.use('/upload', upload);
+app.use('/upload', requireAuth, upload);
 app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' })); // use graphiql for testing graphql endpoint
 
 app.listen(PORT, () => console.log(`Listening on PORT ${PORT}`)); // eslint-disable-line no-console

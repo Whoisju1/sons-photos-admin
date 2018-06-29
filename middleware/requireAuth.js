@@ -1,11 +1,11 @@
 const requireAuth = (req, res, next) => {
   try {
     const { user } = req;
-    console.log(user);
-    if (!user) return res.status(401).json('Unauthorized');
+    if (!user) return res.status(401).json('Please sign in.');
     return next();
-  } catch (error) {
-    return res.status(500).json(error);
+  } catch (err) {
+    if (err.name === 'UnauthorizedError') res.status(401).json('Unauthorized!');
+    return res.status(500).json(err);
   }
 };
 

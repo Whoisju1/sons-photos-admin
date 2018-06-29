@@ -1,8 +1,7 @@
-const account = async (root, args, { db, user }) => {
+const account = async (root, args, { db, request: { user } }) => {
   if (!user) return new Error('Please sign in');
   // get user id
-  const { account_id } = user; // eslint-disable-line camelcase
-
+  const { account_id } = user.sub; // eslint-disable-line camelcase
   const [accountInfo] = await db
     .column(
       { accountID: 'account_id' },

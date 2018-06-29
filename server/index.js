@@ -43,7 +43,7 @@ const schema = makeExecutableSchema({ typeDefs, resolvers });
 app.use('/graphql', graphqlExpress(request => ({
   schema,
   context: {
-    user: request, // get user from the request object
+    request, // get user from the request object
     db,
     jwt,
     bcrypt,

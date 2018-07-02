@@ -4,7 +4,7 @@ DROP VIEW IF EXISTS account_view;
 
 CREATE VIEW account_view AS
 SELECT
-	account_id AS "accoundID",
+	account_id AS "accountID",
 	first_name AS "firstName",
 	last_name AS "lastName",
 	username,

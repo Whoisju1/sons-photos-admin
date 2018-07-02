@@ -3,29 +3,19 @@ const login = async (root, { input: { username, password } }, {
 }) => {
   try {
     // fetch user from database
-    const [userInfo] = await db('account')
-      .column(
-        { accountID: 'account_id' },
-        { firstName: 'first_name' },
-        { lastName: 'last_name' },
-        { createdAt: 'created_at' },
-        'company_id',
-        'email',
-        'phone',
-        'username',
-        'password',
-      )
+    const [userInfo] = await db('account_view')
+      .select('*')
       .where({ username });
 
     // check if user exits
-    if (!userInfo) return new Error('User does not exit');
+    if (!userInfo) return new Error('User not found');
 
     // check if password is correct
     const isPasswordCorrect = await bcrypt.compare(password, userInfo.password);
     if (!isPasswordCorrect) return new Error('Incorrect password');
 
     // if all is well create token
-    const { account_id } = userInfo; // eslint-disable-line camelcase
+    const { accountID: account_id } = userInfo; // eslint-disable-line camelcase
     userInfo.token = await jwt.sign({ sub: { account_id } }, secret);
 
     // remove password from payload

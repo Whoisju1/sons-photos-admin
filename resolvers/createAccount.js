@@ -9,7 +9,6 @@ const createAccount = async (root, { input: accountInfo }, {
         { firstName: 'first_name' },
         { lastName: 'last_name' },
         { createdAt: 'created_at' },
-        'company_id',
         'email',
         'phone',
         'username',

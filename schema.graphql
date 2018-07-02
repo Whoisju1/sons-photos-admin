@@ -18,7 +18,7 @@ type Account {
   lastName: String!
   username: String!
   email: String
-  phone: Int
+  phone: Float
   createdAt: String
   company: Company
   token: String
@@ -28,15 +28,15 @@ type Photo {
   photoID: ID!
   url: String
   description: String
-  clickCount: Int
-  created_at: String
+  clickCount: Float
+  createdAt: String
 }
 
 type Gallery {
   galleryID: ID!
   title: String!
   description: String
-  clickCount: Int
+  clickCount: Float
   createdAt: String
   photos: [Photo]
 }
@@ -47,7 +47,7 @@ type Company {
   logo: String
   motto: String
   email: String
-  phone: Int
+  phone: Float
   description: String
 }
 
@@ -58,7 +58,7 @@ input createAccountInput {
   last_name: String!
   password: String!
   email: String
-  phone: Int
+  phone: Float
 }
 
 input loginInput {

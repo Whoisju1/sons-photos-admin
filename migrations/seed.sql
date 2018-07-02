@@ -42,6 +42,3 @@ CREATE TABLE photo(
   click_count BIGINT DEFAULT 0,
     created_at TIMESTAMP DEFAULT NOW()
 );
-
-
-

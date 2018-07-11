@@ -22,11 +22,6 @@ const s3PreSignedURL = async (root, { input }) => {
       Key: key,
     };
 
-    // s3.getSignedUrl('putObject', params, (err, url) => {
-    //   if (err) return err.message;
-    //   return { key, url };
-    // });
-
     const url = s3.getSignedUrl('putObject', params);
     return { key, url };
   } catch (err) {

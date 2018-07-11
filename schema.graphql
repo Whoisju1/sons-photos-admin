@@ -5,6 +5,7 @@ type Query {
   gallery: Gallery
   photo: Photo
   login (input: loginInput): Account
+  s3PreSignedURL (gallery: String): S3PreSignedURL
 }
 
 type Mutation {
@@ -49,6 +50,11 @@ type Company {
   email: String
   phone: Float
   description: String
+}
+
+type S3PreSignedURL {
+  url: String
+  key: String
 }
 
 # INPUT TYPES 

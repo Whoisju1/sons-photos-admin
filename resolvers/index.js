@@ -4,6 +4,7 @@ import gallery from './gallery';
 import photo from './photo';
 import createAccount from './createAccount';
 import login from './login';
+import s3PreSignedURL from './s3PreSignedURL';
 
 const Query = {
   account,
@@ -11,6 +12,7 @@ const Query = {
   gallery,
   photo,
   login,
+  s3PreSignedURL,
 };
 
 const Mutation = {

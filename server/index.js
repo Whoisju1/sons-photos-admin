@@ -8,12 +8,8 @@ import { makeExecutableSchema } from 'graphql-tools';
 import fs from 'fs';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
-import busboy from 'connect-busboy';
-import busboyBodyParser from 'busboy-body-parser';
 import resolvers from '../resolvers';
 import db from '../db/knex';
-import upload from '../routes/upload';
-import requireAuth from '../middleware/requireAuth';
 
 require('dotenv').config();
 
@@ -27,8 +23,6 @@ app.use(
   cors(),
   bodyParser.json(),
   bodyParser.urlencoded({ extended: true }),
-  busboy(),
-  busboyBodyParser(),
   expressJwt({
     secret,
     credentialsRequired: false,
@@ -51,7 +45,6 @@ app.use('/graphql', graphqlExpress(request => ({
   },
 })));
 
-app.use('/upload', requireAuth, upload);
 app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' })); // use graphiql for testing graphql endpoint
 
 app.listen(PORT, () => console.log(`Listening on PORT ${PORT}`)); // eslint-disable-line no-console

@@ -40,5 +40,5 @@ CREATE TABLE photo(
   photo_description TEXT,
   gallery_id INTEGER REFERENCES gallery (gallery_id) NOT NULL,
   click_count BIGINT DEFAULT 0,
-    created_at TIMESTAMP DEFAULT NOW()
+  created_at TIMESTAMP DEFAULT NOW()
 );

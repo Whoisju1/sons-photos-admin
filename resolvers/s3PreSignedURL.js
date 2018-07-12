@@ -11,10 +11,9 @@ const s3 = new AWS.S3({
   secretAccessKey: SECRETE_ACCESS_KEY,
 });
 
-const s3PreSignedURL = async (root, { input }) => {
+const s3PreSignedURL = async (root, { filename }) => {
   try {
-    const { gallery, filename } = input;
-    const key = `${gallery}/${uuid()}-${filename}`;
+    const key = `${uuid()}-${filename}`;
 
     const params = {
       Bucket: 'sons-photos-bucket',

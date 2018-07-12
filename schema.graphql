@@ -5,11 +5,12 @@ type Query {
   gallery: Gallery
   photo: Photo
   login (input: loginInput): Account
-  s3PreSignedURL (input: fileDetailsInput): S3PreSignedURL
+  s3PreSignedURL (filename: String): S3PreSignedURL
 }
 
 type Mutation {
   createAccount(input: createAccountInput): Account
+  uploadPhoto (input: photoInput): Photo
 }
 
 # TYPES
@@ -72,7 +73,8 @@ input loginInput {
   password: String!
 }
 
-input fileDetailsInput {
-  gallery: String
-  filename: String
+input photoInput {
+  url: String!
+  gallery_id: Int!
+  photo_description: String
 }

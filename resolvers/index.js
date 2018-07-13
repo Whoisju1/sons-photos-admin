@@ -55,9 +55,24 @@ const Account = {
   },
 };
 
+const Company = {
+  galleries: async ({ companyID }, args, { db }) => {
+    try {
+      const galleriesInfo = await db('gallery_view')
+        .select()
+        .where({ companyID });
+
+      return galleriesInfo;
+    } catch (err) {
+      return err;
+    }
+  },
+};
+
 export default {
   Query,
   Mutation,
   Gallery,
   Account,
+  Company,
 };

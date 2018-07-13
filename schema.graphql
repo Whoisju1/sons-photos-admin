@@ -53,6 +53,7 @@ type Company {
   email: String
   phone: Float
   description: String
+  galleries: [Gallery]
 }
 
 type S3PreSignedURL {

@@ -2,7 +2,7 @@
 type Query {
   account: Account
   galleries: [Gallery]
-  gallery: Gallery
+  gallery (galleryID: Int): Gallery
   photo: Photo
   login (input: loginInput): Account
   s3PreSignedURL (filename: String): S3PreSignedURL

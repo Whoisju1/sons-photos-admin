@@ -1,6 +1,5 @@
 const createCompany = async (root, { input }, { request, db }) => {
   try {
-    console.log(request.user);
     const { user } = request;
     if (!user) return new Error('Please sign in');
     const { account_id } = user.sub; // eslint-disable-line
@@ -17,7 +16,6 @@ const createCompany = async (root, { input }, { request, db }) => {
 
     return company;
   } catch (err) {
-    console.log(JSON.stringify(err, null, 3));
     return err;
   }
 };

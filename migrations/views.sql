@@ -18,9 +18,9 @@ FROM account;
 -- CREATE VIEW FOR RETRIEVING PHOTOS
 CREATE VIEW photo_view AS
 SELECT
-	photo_id AS photoID,
+	photo_id AS "photoID",
 	url,
 	photo_description AS description,
-	click_count AS clickCount,
-	created_at AS createdAt
+	click_count AS "clickCount",
+	created_at AS "createdAt"
 FROM photo;

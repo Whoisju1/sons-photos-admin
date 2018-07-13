@@ -84,7 +84,7 @@ input photoInput {
 input createGalleryInput {
   gallery_title: String
   gallery_description: String
-  company_id: String
+  company_id: Int
 }
 
 input createCompanyInput {
@@ -94,5 +94,4 @@ input createCompanyInput {
   email: String
   phone: String
   company_description: String
-  account_id: Int!
 }

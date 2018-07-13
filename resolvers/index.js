@@ -5,6 +5,9 @@ import photo from './photo';
 import createAccount from './createAccount';
 import login from './login';
 import s3PreSignedURL from './s3PreSignedURL';
+import uploadPhoto from './uploadPhoto';
+import createGallery from './createGallery';
+import createCompany from './createCompany';
 
 const Query = {
   account,
@@ -17,6 +20,9 @@ const Query = {
 
 const Mutation = {
   createAccount,
+  uploadPhoto,
+  createGallery,
+  createCompany,
 };
 
 export default { Query, Mutation };

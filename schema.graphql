@@ -11,6 +11,8 @@ type Query {
 type Mutation {
   createAccount(input: createAccountInput): Account
   uploadPhoto (input: photoInput): Photo
+  createGallery (input: createGalleryInput): Gallery
+  createCompany (input: createCompanyInput): Company
 }
 
 # TYPES
@@ -27,7 +29,7 @@ type Account {
 }
 
 type Photo {
-  photoID: ID!
+  photoID: ID
   url: String
   description: String
   clickCount: Float
@@ -35,8 +37,8 @@ type Photo {
 }
 
 type Gallery {
-  galleryID: ID!
-  title: String!
+  galleryID: ID
+  title: String
   description: String
   clickCount: Float
   createdAt: String
@@ -44,8 +46,8 @@ type Gallery {
 }
 
 type Company {
-  companyID: ID!
-  name: String!
+  companyID: ID
+  name: String
   logo: String
   motto: String
   email: String
@@ -77,4 +79,20 @@ input photoInput {
   url: String!
   gallery_id: Int!
   photo_description: String
+}
+
+input createGalleryInput {
+  gallery_title: String
+  gallery_description: String
+  company_id: String
+}
+
+input createCompanyInput {
+  company_name: String!
+  company_logo: String
+  motto: String
+  email: String
+  phone: String
+  company_description: String
+  account_id: Int!
 }

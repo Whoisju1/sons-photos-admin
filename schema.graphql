@@ -24,7 +24,7 @@ type Account {
   email: String
   phone: Float
   createdAt: String
-  company: Company
+  company: [Company]
   token: String
 }
 

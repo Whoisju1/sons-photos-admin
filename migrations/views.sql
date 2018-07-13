@@ -40,7 +40,7 @@ SELECT
 	email,
 	phone,
 	company_description AS description,
-	account_id as "AccountID"
+	account_id as "accountID"
 FROM company;
 
 

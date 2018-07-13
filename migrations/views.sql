@@ -37,3 +37,13 @@ SELECT
 	company_description AS description,
 	account_id
 FROM company;
+
+CREATE VIEW gallery_view AS
+SELECT
+	gallery_id AS "galleryID",
+	gallery_title AS "title",
+	gallery_description AS description,
+	click_count AS "clickCount",
+	company_id AS "companyID",
+	created_at AS "createdAt"
+FROM gallery;

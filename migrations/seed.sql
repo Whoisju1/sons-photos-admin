@@ -16,13 +16,13 @@ CREATE TABLE account(
 
 CREATE TABLE company(
   company_id SERIAL UNIQUE,
-  company_name VARCHAR(50) NOT NULL,
+  company_name VARCHAR(50) NOT NULL UNIQUE,
   company_logo TEXT,
   motto TEXT,
   email VARCHAR(100),
   phone VARCHAR(50),
   company_description TEXT,
-  account_id INTEGER REFERENCES account(account_id)
+  account_id INTEGER REFERENCES account(account_id) ON DELETE CASCADE NOT NULL
 );
 
 CREATE TABLE gallery(
@@ -30,7 +30,7 @@ CREATE TABLE gallery(
   gallery_title VARCHAR(50) UNIQUE NOT NULL,
   gallery_description VARCHAR(50),
   click_count BIGINT DEFAULT 0,
-  company_id INTEGER REFERENCES company (company_id) NOT NULL,
+  company_id INTEGER REFERENCES company (company_id) ON DELETE CASCADE NOT NULL,
   created_at TIMESTAMP DEFAULT NOW()
 );
 
@@ -38,7 +38,7 @@ CREATE TABLE photo(
   photo_id SERIAL UNIQUE,
   url TEXT UNIQUE NOT NULL,
   photo_description TEXT,
-  gallery_id INTEGER REFERENCES gallery (gallery_id) NOT NULL,
+  gallery_id INTEGER REFERENCES gallery (gallery_id) ON DELETE CASCADE NOT NULL,
   click_count BIGINT DEFAULT 0,
   created_at TIMESTAMP DEFAULT NOW()
 );

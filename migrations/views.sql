@@ -24,3 +24,16 @@ SELECT
 	click_count AS "clickCount",
 	created_at AS "createdAt"
 FROM photo;
+
+-- CREATE VIEW FOR VIEWING COMPANIES
+CREATE VIEW company_view AS
+SELECT
+	company_id AS "companyID",
+	company_name AS name,
+	company_logo AS logo,
+	motto,
+	email,
+	phone,
+	company_description AS description,
+	account_id
+FROM company;

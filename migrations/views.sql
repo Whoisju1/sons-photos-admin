@@ -16,16 +16,21 @@ SELECT
 FROM account;
 
 -- CREATE VIEW FOR RETRIEVING PHOTOS
+DROP VIEW IF EXISTS photo_view; 
+
 CREATE VIEW photo_view AS
 SELECT
 	photo_id AS "photoID",
 	url,
 	photo_description AS description,
 	click_count AS "clickCount",
+	gallery_id AS "galleryID",
 	created_at AS "createdAt"
 FROM photo;
 
 -- CREATE VIEW FOR VIEWING COMPANIES
+DROP VIEW IF EXISTS company_view; 
+
 CREATE VIEW company_view AS
 SELECT
 	company_id AS "companyID",
@@ -35,8 +40,12 @@ SELECT
 	email,
 	phone,
 	company_description AS description,
-	account_id
+	account_id as "AccountID"
 FROM company;
+
+
+-- CREATE VIEW FOR VIEWING GALLLERIES
+DROP VIEW IF EXISTS gallery_view; 
 
 CREATE VIEW gallery_view AS
 SELECT

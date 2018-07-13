@@ -18,6 +18,7 @@ const Query = {
   s3PreSignedURL,
 };
 
+
 const Mutation = {
   createAccount,
   uploadPhoto,
@@ -25,4 +26,21 @@ const Mutation = {
   createCompany,
 };
 
-export default { Query, Mutation };
+// CREATE RESOLVERS FOR NESTED QUERIES
+const Gallery = {
+  photos: async ({ galleryID }, args, { db }) => {
+    try {
+      const photosInfo = await db('photo_view')
+        .select()
+        .where({ galleryID });
+
+      return photosInfo;
+    } catch (err) {
+      return err;
+    }
+  },
+};
+
+export default {
+  Query, Mutation, Gallery,
+};

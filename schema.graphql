@@ -11,7 +11,7 @@ type Query {
   # user is logged in and user information is provided
   login (input: loginInput): Account
   # This query provides a presigned URL from AWS S3 which is as the address where the file is uploaded
-  s3PreSignedURL (filename: String): S3PreSignedURL
+  s3PreSignedURL (filename: String!): S3PreSignedURL
 }
 
 type Mutation {

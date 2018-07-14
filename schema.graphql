@@ -113,6 +113,7 @@ input createCompanyInput {
   company_description: String
 }
 
+# different things the gallery list can be sorted by
 enum SortGalleryBy {
   galleryID
   title
@@ -121,11 +122,13 @@ enum SortGalleryBy {
   createdAt
 }
 
+# the two directions the the gallery list can be sorted by: asc = ascending, desc = descending
 enum SortOrder {
   asc
   desc
 }
 
+# the the options of items to delete
 enum itemToDelete {
   photo
   gallery

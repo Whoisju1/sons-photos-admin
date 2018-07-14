@@ -8,6 +8,7 @@ import s3PreSignedURL from './s3PreSignedURL';
 import uploadPhoto from './uploadPhoto';
 import createGallery from './createGallery';
 import createCompany from './createCompany';
+import deletePhoto from './deletePhoto';
 
 const Query = {
   account,
@@ -18,12 +19,12 @@ const Query = {
   s3PreSignedURL,
 };
 
-
 const Mutation = {
   createAccount,
   uploadPhoto,
   createGallery,
   createCompany,
+  deletePhoto,
 };
 
 // CREATE RESOLVERS FOR NESTED QUERIES

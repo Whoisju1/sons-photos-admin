@@ -15,10 +15,7 @@ type Mutation {
   createGallery (input: createGalleryInput): Gallery
   createCompany (input: createCompanyInput): Company
   # DELETIONS MUTATIONS
-  deletePhoto (photo_id: Int!): Photo
-  deleteGallery (gallery_id: Int!): Gallery
-  deleteCompany (company_id: Int!): Company
-  unregisterAccount (account_id: Int!): Account
+  deleteItem (item: itemToDelete!, ID: Int!): DeleteItem
 }
 
 # TYPES
@@ -65,6 +62,10 @@ type Company {
 type S3PreSignedURL {
   url: String
   key: String
+}
+
+type DeleteItem {
+  quantityDeleted: Int
 }
 
 # INPUT TYPES 
@@ -114,4 +115,11 @@ enum SortGalleryBy {
 enum SortOrder {
   asc
   desc
+}
+
+enum itemToDelete {
+  photo
+  gallery
+  company
+  account
 }

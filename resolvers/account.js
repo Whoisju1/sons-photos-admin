@@ -1,3 +1,5 @@
+import requireAuth from '../resolverMiddleware/requireAuth';
+
 const account = async (root, args, { db, request: { user } }) => {
   if (!user) return new Error('Please sign in');
   // get user id
@@ -10,4 +12,4 @@ const account = async (root, args, { db, request: { user } }) => {
   return accountInfo;
 };
 
-export default account;
+export default requireAuth(account);

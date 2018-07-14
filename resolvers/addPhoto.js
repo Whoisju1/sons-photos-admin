@@ -1,9 +1,7 @@
-const addPhoto = async (root, { input }, { db, request }) => {
-  try {
-    const { user = null } = request;
-    // throw return an error if user is not signed in
-    if (!user) return new Error('Please sign in');
+import requireAuth from '../resolverMiddleware/requireAuth';
 
+const addPhoto = async (root, { input }, { db }) => {
+  try {
     // store photo and retrieve the photo id
     const [photoID] = await db('photo')
       .insert(input)
@@ -20,4 +18,4 @@ const addPhoto = async (root, { input }, { db, request }) => {
   }
 };
 
-export default addPhoto;
+export default requireAuth(addPhoto);

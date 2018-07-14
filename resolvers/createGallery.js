@@ -1,7 +1,8 @@
+import requireAuth from '../resolverMiddleware/requireAuth';
+
 const createGallery = async (root, { input }, { db, request }) => {
   try {
     const { user } = request;
-    if (!user) return new Error('Please log in');
     const { account_id } = user.sub; // eslint-disable-line camelcase
 
     const [galleryID] = await db('gallery')
@@ -19,4 +20,4 @@ const createGallery = async (root, { input }, { db, request }) => {
   }
 };
 
-export default createGallery;
+export default requireAuth(createGallery);

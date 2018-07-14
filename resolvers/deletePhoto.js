@@ -1,7 +1,8 @@
+import requireAuth from '../resolverMiddleware/requireAuth';
+
 /* eslint-disable camelcase */
-const deletePhoto = async (root, { photo_id }, { db, request: { user } }) => {
+const deletePhoto = async (root, { photo_id }, { db }) => {
   try {
-    if (!user) return new Error('Please sign in');
     const res = await db('photo')
       .where({ photo_id })
       .del()
@@ -14,4 +15,4 @@ const deletePhoto = async (root, { photo_id }, { db, request: { user } }) => {
   }
 };
 
-export default deletePhoto;
+export default requireAuth(deletePhoto);

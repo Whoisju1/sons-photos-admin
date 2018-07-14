@@ -1,5 +1,6 @@
 import AWS from 'aws-sdk';
 import uuid from 'uuid/v1';
+import requireAuth from '../resolverMiddleware/requireAuth';
 
 require('dotenv').config();
 
@@ -11,9 +12,8 @@ const s3 = new AWS.S3({
   secretAccessKey: SECRETE_ACCESS_KEY,
 });
 
-const s3PreSignedURL = async (root, { filename }, { request: { user } }) => {
+const s3PreSignedURL = async (root, { filename }) => {
   try {
-    if (!user) return new Error('Please sign in');
     const key = `${uuid()}-${filename}`;
 
     const params = {
@@ -29,7 +29,7 @@ const s3PreSignedURL = async (root, { filename }, { request: { user } }) => {
   }
 };
 
-export default s3PreSignedURL;
+export default requireAuth(s3PreSignedURL);
 
 // WHAT SHOULD HAPPEN ON THE FRONTEND
 // const submitFile = async (values, file) => {

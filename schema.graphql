@@ -69,11 +69,14 @@ type Company {
 }
 
 type S3PreSignedURL {
+  # The url address where the photo will be uploaded
   url: String
+  # This the determined filename
   key: String
 }
 
 type DeleteItem {
+  # The number of items that was deleted. If "0" is returned then the item may not have existed in the first place
   quantityDeleted: Int
 }
 
@@ -92,8 +95,11 @@ input loginInput {
 }
 
 input photoInput {
+  # The S3 presigned URL where the photo was uploaded to 
   url: String!
+  # The gallery id of the id the photo should be associated with
   gallery_id: Int!
+  # A description of the photo being added to the gallery
   photo_description: String
 }
 

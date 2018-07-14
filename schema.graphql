@@ -1,20 +1,29 @@
 # ROOT TYPES
 type Query {
+  # Information for the current user is provided - Authenication Required
   account: Account
+  # All the galleries are provided
   galleries(sortOrder: SortOrder, SortBy: SortGalleryBy): [Gallery]
+  # the gallery for the given `galleryID` is provided
   gallery (galleryID: Int): Gallery
+  # The photo for the given 'photoID' is provided
   photo: Photo
+  # user is logged in and user information is provided
   login (input: loginInput): Account
+  # This query provides a presigned URL from AWS S3 which is as the address where the file is uploaded
   s3PreSignedURL (filename: String): S3PreSignedURL
 }
 
 type Mutation {
-  # CREATION MUTATIONS
+  # User is signed up and user information is provided
   createAccount(input: createAccountInput): Account
+  # A Photo is added to the gallery of choice
   addPhoto (input: photoInput): Photo
+  # A photo gallery is created
   createGallery (input: createGalleryInput): Gallery
+  # A company is created
   createCompany (input: createCompanyInput): Company
-  # DELETIONS MUTATIONS
+  # The `item` argument represents the table name and the `ID` argument represents the row that is to be deleted 
   deleteItem (item: itemToDelete!, ID: Int!): DeleteItem
 }
 

@@ -1,7 +1,7 @@
-const galleries = async (root, args, { db }) => {
+const galleries = async (root, { orderBy = 'galleryID', sortOrder = 'asc' }, { db }) => {
   try {
     const galleriesList = await db('gallery_view')
-      .select();
+      .orderBy(orderBy, sortOrder);
 
     return galleriesList;
   } catch (err) {

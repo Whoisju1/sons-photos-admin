@@ -1,7 +1,7 @@
 # ROOT TYPES
 type Query {
   account: Account
-  galleries: [Gallery]
+  galleries(sortOrder: SortOrder, SortBy: SortGalleryBy): [Gallery]
   gallery (galleryID: Int): Gallery
   photo: Photo
   login (input: loginInput): Account
@@ -95,4 +95,17 @@ input createCompanyInput {
   email: String
   phone: String
   company_description: String
+}
+
+enum SortGalleryBy {
+  galleryID
+  title
+  description
+  clickCount
+  createdAt
+}
+
+enum SortOrder {
+  asc
+  desc
 }

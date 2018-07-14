@@ -9,10 +9,16 @@ type Query {
 }
 
 type Mutation {
+  # CREATION MUTATIONS
   createAccount(input: createAccountInput): Account
   uploadPhoto (input: photoInput): Photo
   createGallery (input: createGalleryInput): Gallery
   createCompany (input: createCompanyInput): Company
+  # DELETIONS MUTATIONS
+  deletePhoto (photo_id: Int!): Photo
+  deleteGallery (gallery_id: Int!): Gallery
+  deleteCompany (company_id: Int!): Company
+  unregisterAccount (account_id: Int!): Account
 }
 
 # TYPES

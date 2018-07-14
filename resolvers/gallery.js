@@ -1,6 +1,5 @@
-const gallery = async (root, { galleryID }, { db, request: { user = null } }) => {
+const gallery = async (root, { galleryID }, { db }) => {
   try {
-    if (!user) return new Error('Please sign in');
     const [galleryInfo] = await db('gallery_view')
       .select()
       .where({ galleryID });

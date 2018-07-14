@@ -11,7 +11,7 @@ type Query {
 type Mutation {
   # CREATION MUTATIONS
   createAccount(input: createAccountInput): Account
-  uploadPhoto (input: photoInput): Photo
+  addPhoto (input: photoInput): Photo
   createGallery (input: createGalleryInput): Gallery
   createCompany (input: createCompanyInput): Company
   # DELETIONS MUTATIONS

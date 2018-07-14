@@ -5,7 +5,7 @@ import photo from './photo';
 import createAccount from './createAccount';
 import login from './login';
 import s3PreSignedURL from './s3PreSignedURL';
-import uploadPhoto from './uploadPhoto';
+import addPhoto from './addPhoto';
 import createGallery from './createGallery';
 import createCompany from './createCompany';
 import deletePhoto from './deletePhoto';
@@ -21,7 +21,7 @@ const Query = {
 
 const Mutation = {
   createAccount,
-  uploadPhoto,
+  addPhoto,
   createGallery,
   createCompany,
   deletePhoto,

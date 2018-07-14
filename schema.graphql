@@ -77,7 +77,6 @@ type DeleteItem {
   quantityDeleted: Int
 }
 
-# INPUT TYPES 
 input createAccountInput {
   username: String!
   first_name: String!
@@ -121,9 +120,11 @@ enum SortGalleryBy {
   createdAt
 }
 
-# the two directions the the gallery list can be sorted by: asc = ascending, desc = descending
+# the two directions the the gallery list can be sorted by.
 enum SortOrder {
+  # ascending
   asc
+  # descending
   desc
 }
 

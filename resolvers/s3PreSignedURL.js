@@ -11,8 +11,9 @@ const s3 = new AWS.S3({
   secretAccessKey: SECRETE_ACCESS_KEY,
 });
 
-const s3PreSignedURL = async (root, { filename }) => {
+const s3PreSignedURL = async (root, { filename }, { request: { user } }) => {
   try {
+    if (!user) return new Error('Please sign in');
     const key = `${uuid()}-${filename}`;
 
     const params = {

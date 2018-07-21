@@ -4,7 +4,8 @@
     "rules": {
         "linebreak-style":"off",
         "camelcase":"off",
-        "react/jsx-filename-extension": "off"
+        "react/jsx-filename-extension": "off",
+        "react/jsx-one-expression-per-line": "off"
     },
     "env": {
         "browser": true

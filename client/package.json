@@ -14,7 +14,7 @@
     "eject": "react-scripts eject"
   },
   "proxy": {
-    "/graphql": {
+    "/graphql/*": {
       "target": "http://localhost:8000"
     }
   }

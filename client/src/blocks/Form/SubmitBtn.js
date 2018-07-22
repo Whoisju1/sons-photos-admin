@@ -1,9 +1,8 @@
-import React from 'react';
 import styled from 'styled-components';
 
-const Button = styled.input.attrs({
+const SubmitBtn = styled.input.attrs({
   type: 'submit',
 })`
 `;
 
-export default props => <Button {...props} />;
+export default SubmitBtn;

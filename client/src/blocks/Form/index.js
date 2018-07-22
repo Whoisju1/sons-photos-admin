@@ -1,15 +1,17 @@
 import styled from 'styled-components';
 
 import SubmitBtn from './SubmitBtn';
-import Input from './Input';
+import TextInput from './TextInput';
 import Label from './Label';
+import PasswordInput from './PasswordInput';
 
 const Form = styled.form`
 
 `;
 
 Form.SubmitBtn = SubmitBtn;
-Form.Input = Input;
+Form.TextInput = TextInput;
+Form.PasswordInput = PasswordInput;
 Form.Label = Label;
 
 export default Form;

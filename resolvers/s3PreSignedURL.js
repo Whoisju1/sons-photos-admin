@@ -14,6 +14,11 @@ const s3 = new AWS.S3({
 
 const s3PreSignedURL = async (root, { filename }) => {
   try {
+    filename = filename // eslint-disable-line
+      .toLowerCase()
+      .replace(/ /gi, '_');
+
+    console.log(filename);
     const key = `${uuid()}-${filename}`;
 
     const params = {

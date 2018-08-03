@@ -14,11 +14,10 @@ const s3 = new AWS.S3({
 
 const s3PreSignedURL = async (root, { filename }) => {
   try {
-    filename = filename // eslint-disable-line
+    filename = filename // eslint-disable-line no-param-reassign
       .toLowerCase()
       .replace(/ /gi, '_');
 
-    console.log(filename);
     const key = `${uuid()}-${filename}`;
 
     const params = {
@@ -35,24 +34,3 @@ const s3PreSignedURL = async (root, { filename }) => {
 };
 
 export default requireAuth(s3PreSignedURL);
-
-// WHAT SHOULD HAPPEN ON THE FRONTEND
-// const submitFile = async (values, file) => {
-//   // this gets the pre-signed url from aws
-//   const uploadConfig = await axios.get('/api/upload');
-//   // destructure the url from aws
-//   const { url } = uploadConfig.data;
-//   // upload to file directly to aws S3
-//   const upload = axios.put(url, file, {
-//     headers: {
-//       'Content-Type': file.type,
-//     },
-//   });
-
-//   // send all the data along with the key returned
-//   // from a successful upload to AWS for accessing the uploaded file
-//   const res = await axios.post('/api/photo', {
-//     ...values,
-//     imageURL: uploadConfig.data.key,
-//   });
-// };

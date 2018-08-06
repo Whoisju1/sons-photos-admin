@@ -11,11 +11,13 @@ import registerServiceWorker from './registerServiceWorker';
 
 const SONS_PHOTOS_URI = '/graphql';
 
+const token = localStorage.getItem('token');
+
+const headers = token? { authorization: `Bearer ${token}` } : null;
+
 const httpLink = new HttpLink({
   uri: SONS_PHOTOS_URI,
-  headers: {
-    authorization: `Bearer ${localStorage.getItem('token')}`,
-  },
+  headers,
 });
 
 const cache = new InMemoryCache();

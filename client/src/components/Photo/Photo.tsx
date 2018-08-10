@@ -14,6 +14,6 @@ interface IProps {
   imageType: 'thumbnail' | 'full-size';
 }
 
-const Photo: React.SFC<IProps> = ({ src, imageType }) => <Img src={src} imageType={imageType} />;
+const Photo: React.SFC<IProps> = ({ src, imageType }) => <Img src={`https://sons-photos-bucket.s3.amazonaws.com/${src}`} imageType={imageType} />;
 
 export default Photo;

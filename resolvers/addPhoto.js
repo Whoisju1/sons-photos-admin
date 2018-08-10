@@ -12,7 +12,6 @@ const addPhoto = async (root, { input }, { db }) => {
       .select()
       .where({ photoID });
 
-    photo.url = `https://s3.amazonaws.com/sons-photos-bucket/${photo.url}`;
     return photo;
   } catch (err) {
     return err;

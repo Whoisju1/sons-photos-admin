@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from '../../styled-components';
+import { Link } from '../GeneralComponents';
 
 const SideNav = styled.nav`
 
@@ -7,6 +8,8 @@ const SideNav = styled.nav`
 
 export default () => (
   <SideNav>
-    Side Nav
+    <Link to={'/galleries'} >
+      Galleries
+    </Link>
   </SideNav>
 );

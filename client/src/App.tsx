@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { reset } from 'styled-reset';
 import Footer from './components/Footer';
 import Header from './components/Header/Header';
 import Section from './components/Section';
@@ -7,6 +8,7 @@ import SideNav from './components/SideNav';
 import { injectGlobal } from './styled-components';
 
 injectGlobal`
+${reset}
   *,
   *::after,
   *::before {

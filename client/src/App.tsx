@@ -21,7 +21,8 @@ injectGlobal`
   body {
     box-sizing: border-box;
     display: grid;
-    
+    min-height: 100vh;
+    min-width: 100vw;
   }
 `;
 

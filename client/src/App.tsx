@@ -8,7 +8,8 @@ import SideNav from './components/SideNav';
 import { injectGlobal } from './styled-components';
 
 injectGlobal`
-${reset}
+  ${reset}
+
   *,
   *::after,
   *::before {
@@ -20,11 +21,13 @@ ${reset}
   html {
     font-size: 62.5%;
   }
+
   body {
     box-sizing: border-box;
     display: grid;
     min-height: 100vh;
     min-width: 100vw;
+    font-size: 1.6rem;
   }
 `;
 

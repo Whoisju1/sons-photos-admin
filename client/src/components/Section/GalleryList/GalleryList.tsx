@@ -45,7 +45,7 @@ export default ({ sortBy = 'title', sortOrder = 'asc' }: IVariables) => (
         const { galleries } = data;
         return galleries.map(({ galleryID, title }) => (
           <Link
-            to={`/gallery/gallery/:${galleryID}`}
+            to={`/galleries/gallery/${galleryID}`}
             key={galleryID}
           >
             {title}

@@ -1,17 +1,17 @@
 import * as React from 'react';
-import { Link, LinkProps } from 'react-router-dom';
+import { Link as BrowserLink, LinkProps } from 'react-router-dom';
 import styled from '../../../styled-components';
 
-const StyledLink = styled(Link)<{}>`
+const StyledLink = styled(BrowserLink)<{}>`
   
 `;
 
-export default (
-  props: LinkProps,
-) => {
+const Link: React.SFC<LinkProps> = props => {
   return (
     <StyledLink {...props}>
       {props.children}
     </StyledLink>
   )
 };
+
+export default Link;

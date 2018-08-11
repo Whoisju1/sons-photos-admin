@@ -3,7 +3,7 @@ type Query {
   # Information for the current user is provided - Authenication Required
   account: Account
   # All the galleries are provided
-  galleries(sortOrder: SortOrder, SortBy: SortGalleryBy): [Gallery]
+  galleries(sortOrder: SortOrder, sortBy: SortGalleryBy): [Gallery]
   # the gallery for the given `galleryID` is provided
   gallery (galleryID: Int): Gallery
   # The photo for the given 'photoID' is provided

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import Gallery from './Gallery';
+import Galleries from './Galleries';
 
 const SectionElm = styled.section`
 
@@ -9,7 +9,7 @@ const SectionElm = styled.section`
 const Section: React.SFC<{}> = () => {
   return (
     <SectionElm>
-      <Gallery galleryID={11} />
+      <Galleries />
     </SectionElm>
   );
 };

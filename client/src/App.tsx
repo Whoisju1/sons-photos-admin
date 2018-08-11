@@ -20,6 +20,8 @@ injectGlobal`
   }
   body {
     box-sizing: border-box;
+    display: grid;
+    
   }
 `;
 

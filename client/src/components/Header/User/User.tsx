@@ -31,7 +31,7 @@ export default () => (
       ({ data, loading, error }) => {
         if (error) return 'Oops! Something went wrong';
         if (loading) return '...loading';
-        console.log({data});
+        
         if (!data || data === undefined) return null;
         const { username } = data.account;
         return <User>{username}</User>

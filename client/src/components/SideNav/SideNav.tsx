@@ -11,19 +11,19 @@ export default () => (
     <Heading headingType={'secondary'}>
       Side Nav
     </Heading>
-    <hr/>
+
     <Link to={'/account'} >
       Account
     </Link>
-    <hr/>
+
     <Link to={'/company'} >
       Company
     </Link>
-    <hr/>
+
     <Link to={'/galleries'} >
       Galleries
     </Link>
-    <hr/>
+
     <Link to={'/stats'} >
       Stats
     </Link>

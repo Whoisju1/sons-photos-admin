@@ -12,19 +12,19 @@ export default () => (
       Side Nav
     </Heading>
 
-    <Link to={'/account'} >
+    <Link to={'/account'}>
       Account
     </Link>
 
-    <Link to={'/company'} >
+    <Link to={'/company'}>
       Company
     </Link>
 
-    <Link to={'/galleries'} >
+    <Link to={'/galleries'}>
       Galleries
     </Link>
 
-    <Link to={'/stats'} >
+    <Link to={'/stats'}>
       Stats
     </Link>
   </SideNav>

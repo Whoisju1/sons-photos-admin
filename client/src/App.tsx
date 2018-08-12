@@ -22,12 +22,13 @@ injectGlobal`
     font-size: 62.5%;
   }
 
-  body {
+  #root {
     box-sizing: border-box;
     display: grid;
     min-height: 100vh;
     min-width: 100vw;
     font-size: 1.6rem;
+    grid-template-columns: 10rem 1fr repeat(8, minmax(min-content, 14rem)) 1fr;
   }
 `;
 

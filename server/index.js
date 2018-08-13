@@ -1,5 +1,4 @@
 import { ApolloServer } from 'apollo-server-express';
-import logger from 'morgan';
 import bodyParser from 'body-parser';
 import express from 'express';
 import expressJwt from 'express-jwt';
@@ -19,7 +18,6 @@ const { PORT } = process.env;
 
 // ues middleware
 app.use(
-  logger('dev'),
   cors(),
   bodyParser.json(),
   bodyParser.urlencoded({ extended: true }),
@@ -39,6 +37,14 @@ const server = new ApolloServer({
     bcrypt,
     secret,
   }),
+  formatError: (err) => {
+    console.log(err); // eslint-disable-line no-console
+    return err;
+  },
+  formatResponse: (res) => {
+    console.log(res); // eslint-disable-line no-console
+    return res;
+  },
 });
 
 server.applyMiddleware({ app, path });

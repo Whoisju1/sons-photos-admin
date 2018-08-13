@@ -1,8 +1,8 @@
 import requireAuth from '../resolverMiddleware/requireAuth';
 
-const createCompany = async (root, { input }, { request, db }) => {
+const createCompany = async (root, { input }, { req, db }) => {
   try {
-    const { user } = request;
+    const { user } = req;
     const { account_id } = user.sub; // eslint-disable-line
 
     input.account_id = account_id; // eslint-disable-line

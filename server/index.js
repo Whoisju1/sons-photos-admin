@@ -1,13 +1,12 @@
+import { ApolloServer } from 'apollo-server-express';
+import logger from 'morgan';
+import bodyParser from 'body-parser';
 import express from 'express';
 import expressJwt from 'express-jwt';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import cors from 'cors';
-import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
-import { makeExecutableSchema } from 'graphql-tools';
-import fs from 'fs';
-import logger from 'morgan';
-import bodyParser from 'body-parser';
+import typeDefs from '../typeDefs';
 import resolvers from '../resolvers';
 import db from '../db/knex';
 
@@ -15,6 +14,7 @@ require('dotenv').config();
 
 const secret = Buffer.from(process.env.JWT_SECRETE, 'base64');
 const app = express();
+const path = '/graphql';
 const { PORT } = process.env;
 
 // ues middleware
@@ -29,22 +29,18 @@ app.use(
   }),
 );
 
-// get schema from graphql file using fs module
-const typeDefs = fs.readFileSync('schema.graphql', { encoding: 'utf8' });
-const schema = makeExecutableSchema({ typeDefs, resolvers });
-
-// set up graphql endpoint
-app.use('/graphql', graphqlExpress(request => ({
-  schema,
-  context: {
-    request, // get user from the request object
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: ({ req }) => ({
+    req,
     db,
     jwt,
     bcrypt,
     secret,
-  },
-})));
+  }),
+});
 
-app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' })); // use graphiql for testing graphql endpoint
+server.applyMiddleware({ app, path });
 
 app.listen(PORT, () => console.log(`Listening on PORT ${PORT}`)); // eslint-disable-line no-console

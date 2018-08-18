@@ -24,25 +24,9 @@ SELECT
 	url,
 	photo_description AS description,
 	click_count AS "clickCount",
-	gallery_id AS "galleryID",
+	account_id AS "accountID",
 	created_at AS "createdAt"
 FROM photo;
-
--- CREATE VIEW FOR VIEWING COMPANIES
-DROP VIEW IF EXISTS company_view; 
-
-CREATE VIEW company_view AS
-SELECT
-	company_id AS "companyID",
-	company_name AS name,
-	company_logo AS logo,
-	motto,
-	email,
-	phone,
-	company_description AS description,
-	account_id as "accountID"
-FROM company;
-
 
 -- CREATE VIEW FOR VIEWING GALLLERIES
 DROP VIEW IF EXISTS gallery_view; 
@@ -53,6 +37,6 @@ SELECT
 	gallery_title AS "title",
 	gallery_description AS description,
 	click_count AS "clickCount",
-	company_id AS "companyID",
+	account_id AS "accountID",
 	created_at AS "createdAt"
 FROM gallery;

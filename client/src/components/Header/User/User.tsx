@@ -33,6 +33,7 @@ export default () => (
         if (loading) return '...loading';
         
         if (!data || data === undefined) return null;
+        if (!data.account) return 'No user exists';
         const { username } = data.account;
         return <User>{username}</User>
       }

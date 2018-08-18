@@ -5,15 +5,15 @@ export default gql`
 type Query {
   # Information for the current user is provided - Authenication Required
   account: Account
-  # All the galleries are provided
+  "All the galleries are provided"
   galleries(sortOrder: SortOrder, sortBy: SortGalleryBy): [Gallery]
-  # the gallery for the given 'galleryID' is provided
+  "the gallery for the given 'galleryID' is provided"
   gallery (galleryID: Int): Gallery
-  # The photo for the given 'photoID' is provided
+  "The photo for the given 'photoID' is provided"
   photo: Photo
-  # user is logged in and user information is provided
+  "user is logged in and user information is provided"
   login (input: loginInput): Account
-  # This query provides a presigned URL from AWS S3 which is as the address where the file is uploaded
+  "This query provides a presigned URL from AWS S3 which is as the address where the file is uploaded"
   s3PreSignedURL (filename: String!): S3PreSignedURL
 }
 
@@ -101,7 +101,7 @@ input createGalleryInput {
   gallery_id: ID
 }
 
-# different things the gallery list can be sorted by
+"different things the gallery list can be sorted by"
 enum SortGalleryBy {
   galleryID
   title
@@ -111,13 +111,13 @@ enum SortGalleryBy {
 
 # the two directions the the gallery list can be sorted by.
 enum SortOrder {
-  # ascending
+  "ascending"
   asc
-  # descending
+  "descending"
   desc
 }
 
-# the the options of items to delete
+"the the options of items to delete"
 enum itemToDelete {
   photo
   gallery
@@ -125,7 +125,7 @@ enum itemToDelete {
   account
 }
 
-# the various account types
+"the various account types"
 enum Role {
   admin
   manager

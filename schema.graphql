@@ -21,8 +21,6 @@ type Mutation {
   addPhoto (input: photoInput): Photo
   # A photo gallery is created
   createGallery (input: createGalleryInput): Gallery
-  # A company is created
-  createCompany (input: createCompanyInput): Company
   # The `item` argument represents the table name and the `ID` argument represents the row that is to be deleted 
   deleteItem (item: itemToDelete!, ID: Int!): DeleteItem
 }
@@ -35,8 +33,8 @@ type Account {
   username: String!
   email: String
   phone: Float
+  role: Role
   createdAt: String
-  company: [Company]
   token: String
 }
 
@@ -44,6 +42,7 @@ type Photo {
   photoID: ID
   url: String
   description: String
+  addedBy: Account
   clickCount: Float
   createdAt: String
 }
@@ -54,18 +53,8 @@ type Gallery {
   description: String
   clickCount: Float
   createdAt: String
+  createdBy: Account
   photos: [Photo]
-}
-
-type Company {
-  companyID: ID
-  name: String
-  logo: String
-  motto: String
-  email: String
-  phone: Float
-  description: String
-  galleries: [Gallery]
 }
 
 type S3PreSignedURL {
@@ -106,16 +95,7 @@ input photoInput {
 input createGalleryInput {
   gallery_title: String
   gallery_description: String
-  company_id: Int
-}
-
-input createCompanyInput {
-  company_name: String!
-  company_logo: String
-  motto: String
-  email: String
-  phone: String
-  company_description: String
+  gallery_id: ID
 }
 
 # different things the gallery list can be sorted by
@@ -140,4 +120,11 @@ enum itemToDelete {
   gallery
   company
   account
+}
+
+# the various account types
+enum Role {
+  admin
+  manager
+  viewer
 }

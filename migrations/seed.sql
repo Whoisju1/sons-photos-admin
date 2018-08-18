@@ -10,6 +10,7 @@ CREATE TABLE account(
   username VARCHAR(50) UNIQUE NOT NULL,
   password VARCHAR(100) NOT NULL,
   email VARCHAR(50) UNIQUE NOT NULL,
+  account_role VARCHAR(20) NOT NULL,
   phone VARCHAR(20),
   created_at TIMESTAMP DEFAULT NOW()
 );

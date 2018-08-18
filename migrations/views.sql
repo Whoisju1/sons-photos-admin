@@ -8,6 +8,7 @@ SELECT
 	account_id AS "accountID",
 	first_name AS "firstName",
 	last_name AS "lastName",
+	account_role as "accountRole",
 	username,
 	password,
 	email,

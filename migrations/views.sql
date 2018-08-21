@@ -13,6 +13,7 @@ SELECT
 	password,
 	email,
 	phone,
+	role,
 	TO_CHAR(created_at :: DATE, 'Mon dd, yyyy') AS "createdAt"
 FROM account;
 

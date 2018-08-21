@@ -78,7 +78,8 @@ input createAccountInput {
   last_name: String!
   password: String!
   email: String
-  phone: Float
+  phone: String
+  role: Role
 }
 
 input loginInput {

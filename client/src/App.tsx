@@ -5,6 +5,7 @@ import Header from './components/Header/Header';
 import Section from './components/Section';
 import SideNav from './components/SideNav';
 
+import SignUpForm from './components/Forms/SignUpForm';
 import { injectGlobal } from './styled-components';
 
 injectGlobal`
@@ -40,6 +41,7 @@ class App extends React.Component {
         <SideNav />
         <Section />
         <Footer />
+        <SignUpForm />
       </React.Fragment>
     );
   }

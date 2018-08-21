@@ -19,11 +19,19 @@ interface IState {
   password: string;
 }
 
+interface IData {
+  login: {
+    accountID: string;
+    token: string;
+    firstName: string;
+    lastName: string;
+  }
+}
+
 const LOGIN_QUERY = gql`
 query login ($credentials: loginInput) {
 	login (input: $credentials) {
       accountID
-      firstName
       token
     }
   }
@@ -45,12 +53,13 @@ class LoginForm extends React.Component<{}, IState> {
               // tslint:disable-next-line:jsx-no-lambda
               onSubmit={async (e) => {
                 e.preventDefault();
-                const data = await client.query({
+                const userInfo = await client.query<IData>({
                   query: LOGIN_QUERY,
                   variables: { credentials: this.state }
                 });
 
-                console.log(data);
+                const { token } = userInfo.data.login;
+                localStorage.setItem('token', token);
               }}
             >
               <Input
@@ -62,6 +71,7 @@ class LoginForm extends React.Component<{}, IState> {
               <Input
                 name="password"
                 placeholder="Password"
+                type="password"
                 value={this.state.password}
                 onChange={this.handleChange}
               />

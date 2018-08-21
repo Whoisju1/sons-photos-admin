@@ -13,7 +13,7 @@ import registerServiceWorker from './registerServiceWorker';
 const SONS_PHOTOS_URI = '/graphql';
 
 // const token = localStorage.getItem('token');
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOnsiYWNjb3VudF9pZCI6NX0sImlhdCI6MTUzMzk0NjgwMX0.udkOuyyz-6Xrngb_9egSXq2NGGXh4R0MiFxNtN357Ns';
+const token = localStorage.getItem('token');
 
 const headers = token? { authorization: `Bearer ${token}` } : null;
 

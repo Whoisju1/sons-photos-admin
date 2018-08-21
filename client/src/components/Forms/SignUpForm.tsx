@@ -78,8 +78,16 @@ class SignUpForm extends React.Component<{}, IState> {
                               mutation: SIGN_UP_MUTATION,
                               variables: { userInfo: this.state },
                             });
+
+                            if (
+                              !userInfo ||
+                              (userInfo === undefined) ||
+                              !userInfo.data ||
+                              userInfo.data === undefined
+                            ) return;
   
-                            console.log(userInfo);
+                            console.log(userInfo.data.token);
+                            // localStorage.setItem('token', userInfo.data.token);
                           } catch (err) {
                             console.log(err)
                             console.log('------------------');

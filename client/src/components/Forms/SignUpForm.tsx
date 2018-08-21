@@ -153,7 +153,6 @@ class SignUpForm extends React.Component<{}, IState> {
       name,
       value,
     } = e.currentTarget;
-    console.log(this.state);
     this.setState({ [name]: value });
   }
 

@@ -99,7 +99,6 @@ input photoInput {
 input createGalleryInput {
   gallery_title: String
   gallery_description: String
-  gallery_id: ID
 }
 
 "different things the gallery list can be sorted by"

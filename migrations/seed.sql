@@ -18,7 +18,7 @@ CREATE TABLE account(
 CREATE TABLE gallery(
   gallery_id SERIAL UNIQUE,
   gallery_title VARCHAR(50) UNIQUE NOT NULL,
-  gallery_description VARCHAR(50),
+  gallery_description TEXT,
   click_count BIGINT DEFAULT 0,
   account_id INTEGER REFERENCES account (account_id) ON DELETE CASCADE NOT NULL,
   created_at TIMESTAMP DEFAULT NOW()

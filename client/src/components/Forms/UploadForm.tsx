@@ -57,7 +57,6 @@ interface IUploadData {
 
 interface IState {
   file: File | null;
-  photo_description: string;
 }
 
 class ImageUploadForm extends React.Component<{}, IState> {
@@ -104,6 +103,9 @@ class ImageUploadForm extends React.Component<{}, IState> {
                       },
                     });
 
+                    this.inputRef.value = '';
+                    this.setState({ file: null });
+                    
                     console.log({ photoInfo });
                   } catch (err) {
                     console.dir(err);

@@ -59,7 +59,11 @@ interface IState {
   file: File | null;
 }
 
-class ImageUploadForm extends React.Component<{}, IState> {
+interface IProps {
+  galleryID: string;
+} 
+
+class UploadForm extends React.Component<IProps, IState> {
   private inputRef: HTMLInputElement;
 
   constructor(props: any) {
@@ -97,7 +101,7 @@ class ImageUploadForm extends React.Component<{}, IState> {
                       variables: {
                         photoInfo: {
                           url: key,
-                          gallery_id: 3,
+                          gallery_id: this.props.galleryID,
                           photo_description: !!this.inputRef.value.length ? this.inputRef.value : null,
                         },
                       },
@@ -139,4 +143,4 @@ class ImageUploadForm extends React.Component<{}, IState> {
   }
 }
 
-export default ImageUploadForm;
+export default UploadForm;

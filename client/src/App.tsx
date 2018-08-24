@@ -5,7 +5,6 @@ import Header from './components/Header/Header';
 import Section from './components/Section';
 import SideNav from './components/SideNav';
 
-import UploadForm from './components/Forms/UploadForm';
 import { injectGlobal } from './styled-components';
 
 injectGlobal`
@@ -41,7 +40,6 @@ class App extends React.Component {
         <SideNav />
         <Section />
         <Footer />
-        <UploadForm />
       </React.Fragment>
     );
   }

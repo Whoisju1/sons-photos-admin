@@ -2,6 +2,7 @@ import gql from 'graphql-tag';
 import * as React from 'react';
 import { Query } from 'react-apollo';
 import { match } from 'react-router-dom';
+import UploadForm from '../../Forms/UploadForm';
 import Photo from '../../Photo';
 
 const GALLERY_QUERY = gql`
@@ -58,6 +59,7 @@ const Gallery: React.SFC<IProps> = (props) => {
           return (
             <div>
               <h1>{title}</h1>
+              <UploadForm galleryID={id} />
               {
                 !!gallery.photos.length ?
                   photos.map(({ photoID, url }) => <Photo imageType='thumbnail' src={url} key={photoID} />) :

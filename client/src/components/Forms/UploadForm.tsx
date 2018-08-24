@@ -61,7 +61,11 @@ interface IState {
 }
 
 class ImageUploadForm extends React.Component<{}, IState> {
-  private description: HTMLInputElement;
+  private inputRef: HTMLInputElement;
+
+  constructor(props: any) {
+    super(props);
+  }
   
   public render() {
     return (
@@ -94,13 +98,13 @@ class ImageUploadForm extends React.Component<{}, IState> {
                       variables: {
                         photoInfo: {
                           url: key,
-                          gallery_id: 11,
-                          photo_description: 'Some description',
+                          gallery_id: 3,
+                          photo_description: !!this.inputRef.value.length ? this.inputRef.value : null,
                         },
                       },
                     });
 
-                    console.log(photoInfo);
+                    console.log({ photoInfo });
                   } catch (err) {
                     console.dir(err);
                   }
@@ -119,12 +123,9 @@ class ImageUploadForm extends React.Component<{}, IState> {
                 <Input
                   placeholder="Photo Description"
                   // tslint:disable-next-line:jsx-no-lambda
-                  onChange={() => console.log(this.description)}
                   type="text"
                   // tslint:disable-next-line:jsx-no-lambda
-                  innerRef={(x: HTMLInputElement) => this.description = x}
-                />
-                <input type="text"
+                  innerRef={(x: HTMLInputElement) => this.inputRef = x}
                 />
                 <SubmitBtn disabled={!this.state} />
               </Form>

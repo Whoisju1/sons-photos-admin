@@ -25,6 +25,7 @@ SELECT
 	photo_id AS "photoID",
 	url,
 	photo_description AS description,
+	gallery_id AS "galleryID",
 	click_count AS "clickCount",
 	account_id AS "accountID",
 	created_at AS "createdAt"

@@ -6,7 +6,9 @@ import styled from '../../styled-components';
 
 const Form = styled.form``;
 
-const Input = styled.input``;
+const Input = styled.input.attrs({
+  accept: 'image/jpeg',
+})``;
 
 const SubmitBtn = styled.input.attrs({
   value: 'Upload Image',

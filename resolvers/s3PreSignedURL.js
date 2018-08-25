@@ -16,7 +16,7 @@ const s3PreSignedURL = async (root, { filename }) => {
   try {
     filename = filename // eslint-disable-line no-param-reassign
       .toLowerCase()
-      .replace(/ /gi, '_');
+      .replace(/ /gi, '_'); // replace all white-spaces with underscore
 
     const key = `${uuid()}-${filename}`;
 

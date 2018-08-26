@@ -50,3 +50,5 @@ export default () => (
     </Link>
   </SideNav>
 );
+
+SideNav.displayName = 'SideNav';

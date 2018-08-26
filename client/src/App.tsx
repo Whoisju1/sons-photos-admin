@@ -9,7 +9,6 @@ import { injectGlobal } from './styled-components';
 
 injectGlobal`
   ${reset}
-
   *,
   *::after,
   *::before {
@@ -28,7 +27,7 @@ injectGlobal`
     min-height: 100vh;
     min-width: 100vw;
     font-size: 1.6rem;
-    grid-template-columns: 10rem 1fr repeat(8, minmax(min-content, 14rem)) 1fr;
+    grid-template-columns: repeat(12, minmax(min-content, 1fr));
     grid-template-rows: minmax(min-content, 100px) auto minmax(min-content, 100px);
   }
 `;

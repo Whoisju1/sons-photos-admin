@@ -11,11 +11,8 @@ const StyledNav = styled.nav`
   display: grid;
   grid-column: 1/4;
   grid-auto-rows: 10rem;
-  padding-top: 1rem;
-  grid-gap: 1rem;
-  border: .05rem solid green;
+  border-right: .02rem solid green;
   & * {
-    border: .05rem solid gold;
     display: grid;
     align-items: center;
     justify-content: center;

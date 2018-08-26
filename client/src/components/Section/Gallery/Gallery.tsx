@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Query } from 'react-apollo';
 import { match } from 'react-router-dom';
 import UploadForm from '../../Forms/UploadForm';
-import Photo from '../../Photo';
+import { Photo } from '../../GeneralComponents';
 
 const GALLERY_QUERY = gql`
   query getGallery ($galleryID: Int) {

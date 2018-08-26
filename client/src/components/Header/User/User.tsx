@@ -18,7 +18,11 @@ interface IData {
 }
 
 const User = styled.div`
-
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  border: .05rem solid black;
+  grid-column: 10/12;
 `;
 
 class UserQuery extends Query<IData>{};

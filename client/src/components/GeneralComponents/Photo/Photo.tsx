@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled from '../../styled-components';
+import styled from '../../../styled-components';
 
 const Img = styled<IStyleProps, 'img'>('img')`
   max-width: ${ props => (props.imageType === 'full-size') ? '90vw' : '20rem'};

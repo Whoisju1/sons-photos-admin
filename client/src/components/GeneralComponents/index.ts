@@ -1,9 +1,13 @@
 import Heading from './Heading';
 import Link from './Link';
+import NavLink from './NavLink';
+import Photo from './Photo';
 import Text from './Text';
 
 export {
-  Link,
+  NavLink,
   Text,
   Heading,
+  Photo,
+  Link,
 };

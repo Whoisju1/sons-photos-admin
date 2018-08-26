@@ -29,6 +29,7 @@ injectGlobal`
     min-width: 100vw;
     font-size: 1.6rem;
     grid-template-columns: 10rem 1fr repeat(8, minmax(min-content, 14rem)) 1fr;
+    grid-template-rows: minmax(min-content, 100px) auto minmax(min-content, 100px);
   }
 `;
 

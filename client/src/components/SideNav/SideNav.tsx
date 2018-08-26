@@ -7,7 +7,7 @@ const Link = styled(NavLink).attrs({
 })`
 `; 
 
-const SideNav = styled.nav`
+const StyledNav = styled.nav`
   display: grid;
   grid-column: 1/4;
   grid-auto-rows: 10rem;
@@ -31,8 +31,8 @@ const SideNav = styled.nav`
   }
 `;
 
-export default () => (
-  <SideNav>
+const SideNav: React.SFC<{}> =  () => (
+  <StyledNav>
     <Link to={'/account'}>
       Account
     </Link>
@@ -48,7 +48,9 @@ export default () => (
     <Link to={'/stats'}>
       Stats
     </Link>
-  </SideNav>
+  </StyledNav>
 );
 
 SideNav.displayName = 'SideNav';
+
+export default SideNav;

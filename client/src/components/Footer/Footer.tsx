@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from '../../styled-components';
 
-const Footer = styled.footer`
+const StyledFooter = styled.footer`
   display: grid;
   justify-content: center;
   align-items: center;
@@ -14,8 +14,13 @@ const Footer = styled.footer`
 
 const currentYear = new Date().getFullYear();
 
-export default () => (
-  <Footer>
+const Footer: React.SFC<{}> = () => (
+  <StyledFooter>
     Sons Photos - {currentYear}
-  </Footer>
+  </StyledFooter>
 );
+
+
+export default Footer;
+
+Footer.displayName = 'Footer';

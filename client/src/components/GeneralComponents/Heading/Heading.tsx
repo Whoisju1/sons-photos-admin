@@ -18,7 +18,7 @@ interface IProps {
   children: React.ReactChild;
 }
 
-export default (props: IProps) => {
+const Heading: React.SFC<{}> = (props: IProps) => {
   const { children } = props;
   switch (props.headingType) {
     case 'primary':
@@ -31,3 +31,7 @@ export default (props: IProps) => {
       return <HeadingTertiary>{children}</HeadingTertiary>;
   }
 };
+
+export default Heading;
+
+Heading.displayName = 'Heading';

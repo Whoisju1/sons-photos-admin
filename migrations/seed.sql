@@ -26,6 +26,7 @@ CREATE TABLE gallery(
 
 CREATE TABLE photo(
   photo_id SERIAL UNIQUE,
+  filename TEXT UNIQUE NOT NULL,
   url TEXT UNIQUE NOT NULL,
   photo_description TEXT,
   gallery_id INTEGER REFERENCES gallery (gallery_id) ON DELETE CASCADE NOT NULL,

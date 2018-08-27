@@ -8,7 +8,6 @@ SELECT
 	account_id AS "accountID",
 	first_name AS "firstName",
 	last_name AS "lastName",
-	account_role as "accountRole",
 	username,
 	password,
 	email,
@@ -24,6 +23,7 @@ CREATE VIEW photo_view AS
 SELECT
 	photo_id AS "photoID",
 	url,
+	filename,
 	photo_description AS description,
 	gallery_id AS "galleryID",
 	click_count AS "clickCount",

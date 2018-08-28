@@ -8,6 +8,7 @@ import s3PreSignedURL from './s3PreSignedURL';
 import addPhoto from './addPhoto';
 import createGallery from './createGallery';
 import deleteItem from './deleteItem';
+import deletePhoto from './deletePhoto';
 
 const Query = {
   account,
@@ -23,13 +24,14 @@ const Mutation = {
   addPhoto,
   createGallery,
   deleteItem,
+  deletePhoto,
 };
 
 // CREATE RESOLVERS FOR NESTED QUERIES
 const Gallery = {
   photos: async ({ galleryID }, args, { db }) => {
     try {
-      const photosInfo = await db('photo_view')
+      const photosInfo = await db('photo')
         .select()
         .where({ galleryID });
 

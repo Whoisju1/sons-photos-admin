@@ -3,7 +3,7 @@ const login = async (root, { input: { username, password } }, {
 }) => {
   try {
     // fetch user from database
-    const [userInfo] = await db('account_view')
+    const [userInfo] = await db('account')
       .select('*')
       .where({ username });
 
@@ -15,8 +15,8 @@ const login = async (root, { input: { username, password } }, {
     if (!isPasswordCorrect) return new Error('Incorrect password');
 
     // if all is well create token
-    const { accountID: account_id } = userInfo; // eslint-disable-line camelcase
-    userInfo.token = await jwt.sign({ sub: { account_id } }, secret);
+    const { accountID } = userInfo; // eslint-disable-line camelcase
+    userInfo.token = await jwt.sign({ sub: { accountID } }, secret);
 
     // remove password from payload
     delete userInfo.password;

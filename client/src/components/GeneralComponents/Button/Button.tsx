@@ -8,7 +8,7 @@ const backgroundClr = {
   primary: 'blueviolet',
   secondary: 'light-blue',
   info: 'green',
-  danger: 'red',
+  danger: '#e74c3c',
 };
 
 const StyledButton = styled<{btnType: BtnType}, 'button'>('button')`
@@ -28,6 +28,7 @@ interface IProps {
   click: <T>(args?: T) => void;
   btnType: BtnType
   enabled?: boolean;
+  children: React.ReactNode;
 }
 
 const Button: React.SFC<IProps> = ({ click, enabled = true, children, btnType }) => (

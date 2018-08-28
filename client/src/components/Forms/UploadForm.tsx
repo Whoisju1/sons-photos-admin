@@ -42,7 +42,7 @@ const UPLOAD_IMAGE_MUTATION = gql`
     addPhoto (input:$photoInfo) {
       photoID
       url
-      description
+      photoDescription
       createdAt
     }
   }
@@ -52,7 +52,7 @@ interface IUploadData {
   savedPhoto: {
     photoID: string;
     url: string;
-    description: string;
+    photoDescription: string;
     createdAt: string;
   }
 }
@@ -103,8 +103,9 @@ class UploadForm extends React.Component<IProps, IState> {
                       variables: {
                         photoInfo: {
                           url: key,
-                          gallery_id: this.props.galleryID,
-                          photo_description: !!this.inputRef.value.length ? this.inputRef.value : null,
+                          galleryID: this.props.galleryID,
+                          filename: key,
+                          photoDescription: !!this.inputRef.value.length ? this.inputRef.value : null,
                         },
                       },
                     });

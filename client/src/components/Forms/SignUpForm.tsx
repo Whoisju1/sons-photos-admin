@@ -42,8 +42,8 @@ const RoleOption = styled.option`
 
 interface IState {
   // tslint:disable-next-line:variable-name
-  [first_name: string]: string;
-  last_name: string;
+  [firstName: string]: string;
+  lastName: string;
   username: string;
   password: string;
   email: string;
@@ -53,8 +53,8 @@ interface IState {
 
 class SignUpForm extends React.Component<{}, IState> {
   public state = {
-    first_name: '',
-    last_name: '',
+    firstName: '',
+    lastName: '',
     username: '',
     password: '',
     email: '',
@@ -85,9 +85,8 @@ class SignUpForm extends React.Component<{}, IState> {
                               !userInfo.data ||
                               userInfo.data === undefined
                             ) return;
-  
-                            console.log(userInfo.data.token);
-                            // localStorage.setItem('token', userInfo.data.token);
+                            const { token } = userInfo.data.createAccount;
+                            localStorage.setItem('token', token);
                           } catch (err) {
                             console.log(err)
                             console.log('------------------');
@@ -97,16 +96,16 @@ class SignUpForm extends React.Component<{}, IState> {
                       >
                         <Input 
                           placeholder="First Name"
-                          value={this.state.first_name}
+                          value={this.state.firstName}
                           required={true}
-                          name="first_name"
+                          name="firstName"
                           onChange={this.handleChange}
                           />
                         <Input 
                           placeholder="Last Name"
-                          value={this.state.last_name}
+                          value={this.state.lastName}
                           required={true}
-                          name="last_name"
+                          name="lastName"
                           onChange={this.handleChange}
                           />
                         <Input 

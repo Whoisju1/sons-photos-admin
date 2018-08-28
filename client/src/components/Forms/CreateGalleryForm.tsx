@@ -30,14 +30,14 @@ const SubmitBtn = styled.input.attrs({
 
 interface IState {
   // tslint:disable-next-line:variable-name
-  [gallery_title: string]: string;
-  gallery_description: string;
+  [galleryTitle: string]: string;
+  galleryDescription: string;
 }
 
 class CreateGalleryForm extends React.Component<{}, IState> {
   public state = {
-    gallery_title: '',
-    gallery_description: '',
+    galleryTitle: '',
+    galleryDescription: '',
   };
 
   public render() {
@@ -65,15 +65,15 @@ class CreateGalleryForm extends React.Component<{}, IState> {
               >
                 <Input
                   placeholder="Gallery Name"
-                  value={this.state.gallery_title}
+                  value={this.state.galleryTitle}
                   onChange={this.handleChange}
-                  name="gallery_title"
+                  name="galleryTitle"
                 />
                 <Input
                   placeholder="Gallery Description"
-                  value={this.state.gallery_description}
+                  value={this.state.galleryDescription}
                   onChange={this.handleChange}
-                  name="gallery_description"
+                  name="galleryDescription"
                 />
                 <SubmitBtn />
               </Form>

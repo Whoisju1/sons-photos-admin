@@ -1,16 +1,22 @@
 import * as React from 'react';
-import styled from '../../../styled-components';
+import styled, { css } from '../../../styled-components';
+
+const headingStyles = css`
+  justify-content: center;
+  align-items: center;
+`;
 
 const HeadingPrimary = styled.h1`
-
+  grid-column: 1/-1;
+  ${headingStyles}
 `;
 
 const HeadingSecondary = styled.h2`
-
+  ${headingStyles}
 `;
 
 const HeadingTertiary = styled.h3`
-
+  ${headingStyles}
 `; 
 
 interface IProps {
@@ -18,7 +24,7 @@ interface IProps {
   children: React.ReactChild;
 }
 
-const Heading: React.SFC<{}> = (props: IProps) => {
+const Heading: React.SFC<IProps> = (props) => {
   const { children } = props;
   switch (props.headingType) {
     case 'primary':

@@ -37,14 +37,6 @@ const server = new ApolloServer({
     bcrypt,
     secret,
   }),
-  formatError: (err) => {
-    console.log(err); // eslint-disable-line no-console
-    return err;
-  },
-  formatResponse: (res) => {
-    console.log(res); // eslint-disable-line no-console
-    return res;
-  },
 });
 
 server.applyMiddleware({ app, path });

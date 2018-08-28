@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { reset } from 'styled-reset';
 import Footer from './components/Footer';
+import CreateGalleryForm from './components/Forms/CreateGalleryForm'
+import LoginForm from './components/Forms/LoginForm'
+import SignUpForm from './components/Forms/SignUpForm'
 import Header from './components/Header/Header';
 import Section from './components/Section';
 import SideNav from './components/SideNav';
@@ -40,6 +43,9 @@ class App extends React.Component {
         <SideNav />
         <Section />
         <Footer />
+        <SignUpForm />
+        <LoginForm />
+        <CreateGalleryForm />
       </React.Fragment>
     );
   }

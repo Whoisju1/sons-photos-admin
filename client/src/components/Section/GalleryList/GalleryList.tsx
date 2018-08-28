@@ -2,13 +2,12 @@ import gql from 'graphql-tag';
 import * as React from 'react';
 import { Query } from 'react-apollo';
 import { Link } from '../../GeneralComponents';
-// import styled from '../../../styled-components';
 
 const GET_GALLERIES = gql`
   query getGalleries ($sortBy: SortGalleryBy, $sortOrder: SortOrder) {
     galleries (sortBy: $sortBy, sortOrder: $sortOrder) {
       galleryID
-      title
+      galleryTitle
     }
   }
 `;
@@ -16,7 +15,7 @@ const GET_GALLERIES = gql`
 interface IData {
   galleries: Array<{
     galleryID: string;
-    title: string;
+    galleryTitle: string;
   }>
 }
 
@@ -38,17 +37,20 @@ export default ({ sortBy = 'title', sortOrder = 'asc' }: IVariables) => (
     {
       ({ data, loading, error }) => {
         if (error) {
+          console.log({error});
           return 'Oops! Something went wrong.';
         }
+        console.log(data);
         if (loading) return '...loading Galleries';
         if (!data || data === undefined) return null;
         const { galleries } = data;
-        return galleries.map(({ galleryID, title }) => (
+        return galleries.map(({ galleryID, galleryTitle }) => (
           <Link
             to={`/galleries/gallery/${galleryID}`}
             key={galleryID}
           >
-            {title}
+            {galleryTitle}
+            {console.log(galleryTitle)}
           </Link>
           ));
       }

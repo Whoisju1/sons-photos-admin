@@ -1,6 +1,6 @@
 const gallery = async (root, { galleryID }, { db }) => {
   try {
-    const [galleryInfo] = await db('gallery_view')
+    const [galleryInfo] = await db('gallery')
       .select()
       .where({ galleryID });
 

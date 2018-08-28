@@ -1,6 +1,6 @@
 const galleries = async (root, { orderBy = 'galleryID', sortOrder = 'asc' }, { db }) => {
   try {
-    const galleriesList = await db('gallery_view')
+    const galleriesList = await db('gallery')
       .orderBy(orderBy, sortOrder);
 
     return galleriesList;

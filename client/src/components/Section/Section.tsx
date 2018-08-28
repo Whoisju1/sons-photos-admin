@@ -5,7 +5,7 @@ import Gallery from './Gallery';
 import GalleryList from './GalleryList';
 
 const SectionElm = styled.section`
-
+  grid-column: 4/-1;
 `;
 
 const Section: React.SFC<{}> = () => {

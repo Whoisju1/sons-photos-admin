@@ -2,16 +2,12 @@ import requireAuth from '../resolverMiddleware/requireAuth';
 
 const createGallery = async (root, { input }, { db, req }) => {
   try {
-    const { account_id } = req.user.sub; // eslint-disable-line camelcase
+    const { accountID } = req.user.sub; // eslint-disable-line camelcase
 
-    const [galleryID] = await db('gallery')
-      .insert({ ...input, account_id })
-      .where({ account_id })
-      .returning('gallery_id');
-
-    const [gallery] = await db('gallery_view')
-      .select()
-      .where({ galleryID });
+    const [gallery] = await db('gallery')
+      .insert({ ...input, accountID })
+      .where({ accountID })
+      .returning('*');
 
     return gallery;
   } catch (err) {

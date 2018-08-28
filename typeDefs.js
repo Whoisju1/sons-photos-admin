@@ -3,7 +3,7 @@ import { gql } from 'apollo-server-express';
 export default gql`
 # ROOT TYPES
 type Query {
-  # Information for the current user is provided - Authenication Required
+  # Information for the current user is provided - Authentication Required
   account: Account
   "All the galleries are provided"
   galleries(sortOrder: SortOrder, sortBy: SortGalleryBy): [Gallery]
@@ -25,7 +25,9 @@ type Mutation {
   "A photo gallery is created"
   createGallery (input: createGalleryInput): Gallery
   "The 'item' argument represents the table name and the 'ID' argument represents the row that is to be deleted" 
-  deleteItem (item: itemToDelete!, ID: Int!): DeleteItem
+  deleteItem (item: itemToDelete!, ID: ID!): DeleteItem
+  "Photo is deleted from S3 bucket and database"
+  deletePhoto(filenames: [String]!): [Photo]
 }
 
 # TYPES
@@ -44,15 +46,16 @@ type Account {
 type Photo {
   photoID: ID
   url: String
-  description: String
+  photoDescription: String
   addedBy: Account
   clickCount: Float
   createdAt: String
+  filename: String
 }
 
 type Gallery {
   galleryID: ID
-  title: String
+  galleryTitle: String
   description: String
   clickCount: Float
   createdAt: String
@@ -74,8 +77,8 @@ type DeleteItem {
 
 input createAccountInput {
   username: String!
-  first_name: String!
-  last_name: String!
+  firstName: String!
+  lastName: String!
   password: String!
   email: String
   phone: String
@@ -91,14 +94,16 @@ input photoInput {
   "The S3 presigned URL where the photo was uploaded to" 
   url: String!
   "The gallery id of the id the photo should be associated with"
-  gallery_id: Int!
+  galleryID: Int!
   "A description of the photo being added to the gallery"
-  photo_description: String
+  photoDescription: String
+  "filename to be saved in database to reference when deleting photo from AWS bucket"
+  filename: String!
 }
 
 input createGalleryInput {
-  gallery_title: String
-  gallery_description: String
+  galleryTitle: String
+  galleryDescription: String
 }
 
 "different things the gallery list can be sorted by"

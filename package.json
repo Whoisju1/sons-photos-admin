@@ -12,6 +12,8 @@
     "dev": "concurrently \"yarn run serve\" \"yarn run client\""
   },
   "dependencies": {
+    "apollo-link": "^1.2.3",
+    "apollo-link-state": "^0.4.2",
     "apollo-server-express": "2.0.0",
     "aws-sdk": "^2.263.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",

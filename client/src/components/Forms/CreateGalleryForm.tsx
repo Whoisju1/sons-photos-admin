@@ -4,10 +4,10 @@ import { ApolloConsumer } from 'react-apollo';
 import styled from '../../styled-components';
 
 const CREATE_GALLERY_MUTATION = gql`
-  mutation createGllery($galleryInfo: createGalleryInput) {
+  mutation createGallery($galleryInfo: createGalleryInput) {
     createGallery (input: $galleryInfo) {
       galleryID
-      title
+      galleryTitle
       description
       clickCount
       createdAt
@@ -56,7 +56,7 @@ class CreateGalleryForm extends React.Component<{}, IState> {
                       variables: { galleryInfo: this.state }
                     });
 
-                  console.log(newGallery);
+                    console.log(newGallery);
                   } catch (err) {
                     console.dir(err);
                     console.log(err);

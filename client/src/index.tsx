@@ -4,7 +4,9 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloClient } from 'apollo-client';
+import { ApolloLink } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
+import { withClientState } from 'apollo-link-state';
 import { ApolloProvider } from 'react-apollo';
 
 import App from './App';
@@ -24,8 +26,16 @@ const httpLink = new HttpLink({
 
 const cache = new InMemoryCache();
 
+const stateLink = withClientState({
+  cache,
+  defaults: {},
+  resolvers: {}
+});
+
+const link = ApolloLink.from([stateLink, httpLink]);
+
 const client = new ApolloClient({
-  link: httpLink,
+  link,
   cache,
 });
 

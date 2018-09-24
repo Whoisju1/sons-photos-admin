@@ -10,7 +10,7 @@ type Query {
   "the gallery for the given 'galleryID' is provided"
   gallery (galleryID: Int): Gallery
   "The photo for the given 'photoID' is provided"
-  photo: Photo
+  getPhoto(photoID: String): Photo
   "user is logged in and user information is provided"
   login (input: loginInput): Account
   "This query provides a presigned URL from AWS S3 which is as the address where the file is uploaded"

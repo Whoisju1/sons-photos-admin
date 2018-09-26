@@ -84,8 +84,7 @@ const Gallery: React.SFC<IProps> = (props) => {
           };
           if (loading) return 'loading...';
           // do not render anything if there is no data
-          console.log(data);
-          if (!data || data === undefined) return 'there\s nothing';
+          if (!data || data === undefined) return 'there\'s nothing';
           const { gallery } = data;
           // do not return anything if there are no photos
           if (!gallery) return null;
@@ -115,9 +114,6 @@ const Gallery: React.SFC<IProps> = (props) => {
                               })}
                               btnType="danger"
                               >
-                              {
-                                console.log(filename)
-                              }
                               Delete Photo
                             </Button>
                           )

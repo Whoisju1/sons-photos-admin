@@ -32,7 +32,7 @@ DROP TABLE IF EXISTS photo;
 
 CREATE TABLE photo(
   "photoID" SERIAL UNIQUE,
-  filename TEXT UNIQUE NOT NULL,
+  filename TEXT NOT NULL,
   url TEXT UNIQUE NOT NULL,
   "photoDescription" TEXT,
   "galleryID" INTEGER REFERENCES gallery ("galleryID") ON DELETE CASCADE NOT NULL,

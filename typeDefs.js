@@ -8,7 +8,7 @@ type Query {
   "All the galleries are provided"
   galleries(sortOrder: SortOrder, sortBy: SortGalleryBy): [Gallery]
   "the gallery for the given 'galleryID' is provided"
-  gallery (galleryID: Int): Gallery
+  gallery (galleryID: ID): Gallery
   "The photo for the given 'photoID' is provided"
   getPhoto(photoID: String): Photo
   "user is logged in and user information is provided"
@@ -51,6 +51,7 @@ type Photo {
   clickCount: Float
   createdAt: String
   filename: String
+  gallery: Gallery
 }
 
 type Gallery {

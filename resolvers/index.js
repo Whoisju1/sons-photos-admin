@@ -42,8 +42,23 @@ const Gallery = {
   },
 };
 
+const Photo = {
+  gallery: async ({ galleryID }, args, { db }) => {
+    try {
+      const [foundGallery] = await db('gallery')
+        .select()
+        .where({ galleryID });
+
+      return foundGallery;
+    } catch (error) {
+      return error;
+    }
+  },
+};
+
 export default {
   Query,
   Mutation,
   Gallery,
+  Photo,
 };

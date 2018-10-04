@@ -95,7 +95,7 @@ input photoInput {
   "The S3 presigned URL where the photo was uploaded to" 
   url: String!
   "The gallery id of the id the photo should be associated with"
-  galleryID: Int!
+  galleryID: ID!
   "A description of the photo being added to the gallery"
   photoDescription: String
   "filename to be saved in database to reference when deleting photo from AWS bucket"

@@ -26,7 +26,7 @@ const GalleryContainer = styled.div`
 GalleryContainer.displayName = 'GalleryContainer';
 
 const GALLERY_QUERY = gql`
-  query getGallery ($galleryID: Int) {
+  query getGallery ($galleryID: ID) {
     gallery (galleryID: $galleryID) {
       galleryTitle
       photos {
@@ -58,7 +58,7 @@ interface IData {
 }
 
 interface IVariables {
-  galleryID: number;
+  galleryID: string;
 }
 
 interface IProps {
@@ -68,8 +68,7 @@ interface IProps {
 class GalleryQuery extends Query<IData, IVariables>{};
 
 const Gallery: React.SFC<IProps> = (props) => {
-  const { galleryID: id } = props.match.params;
-  const galleryID = parseFloat(id);
+  const { galleryID } = props.match.params;
 
   return (
     <GalleryQuery
@@ -92,7 +91,7 @@ const Gallery: React.SFC<IProps> = (props) => {
           return (
             <GalleryContainer>
               <Heading headingType="secondary">{galleryTitle}</Heading>
-              <UploadForm galleryID={id} />
+              <UploadForm galleryID={galleryID} />
               {
                 !!gallery.photos.length ?
                   photos.map(({ photoID, url, filename }) =>  (

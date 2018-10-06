@@ -3,10 +3,12 @@ import gql from 'graphql-tag';
 export interface IPhotoIDs {
 	photoIDs: string[],
 	galleryID: string,
+	__typename: string;
 }
 
 export interface IPhotoIDCache {
 	photoIDCache: IPhotoIDs[],
+	__typename: string;
 }
 
 export const GET_ALL_PHOTO_IDS = gql`

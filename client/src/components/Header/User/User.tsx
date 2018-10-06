@@ -1,15 +1,7 @@
-import gql from 'graphql-tag';
 import * as React from 'react';
 import { Query } from 'react-apollo';
 import styled from 'styled-components';
-
-const  GET_USER = gql`
-  query getAccount {
-    account {
-      username
-    }
-  }
-`;
+import { GET_USER } from '../../../graphql/queries/User';
 
 interface IData {
   account: {

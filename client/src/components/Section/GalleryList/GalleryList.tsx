@@ -40,7 +40,6 @@ export default ({ sortBy = 'title', sortOrder = 'asc' }: IVariables) => (
           console.log({error});
           return 'Oops! Something went wrong.';
         }
-        console.log(data);
         if (loading) return '...loading Galleries';
         if (!data || data === undefined) return null;
         const { galleries } = data;
@@ -50,7 +49,6 @@ export default ({ sortBy = 'title', sortOrder = 'asc' }: IVariables) => (
             key={galleryID}
           >
             {galleryTitle}
-            {console.log(galleryTitle)}
           </Link>
           ));
       }

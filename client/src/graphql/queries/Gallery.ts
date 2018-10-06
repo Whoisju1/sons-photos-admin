@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { PHOTO_FRAGMENT } from '../fragments/photos';
+import { PHOTO_FRAGMENT } from '../fragments';
 
 export const GALLERY_QUERY = gql`
   query getGallery {

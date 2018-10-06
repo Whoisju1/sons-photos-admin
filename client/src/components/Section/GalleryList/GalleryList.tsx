@@ -1,16 +1,7 @@
-import gql from 'graphql-tag';
 import * as React from 'react';
 import { Query } from 'react-apollo';
+import { GALLERIES_QUERY } from '../../../graphql/queries/Gallery';
 import { Link } from '../../GeneralComponents';
-
-const GET_GALLERIES = gql`
-  query getGalleries ($sortBy: SortGalleryBy, $sortOrder: SortOrder) {
-    galleries (sortBy: $sortBy, sortOrder: $sortOrder) {
-      galleryID
-      galleryTitle
-    }
-  }
-`;
 
 interface IData {
   galleries: Array<{
@@ -31,7 +22,7 @@ class GalleriesQuery extends Query<IData, IVariables>{};
 
 export default ({ sortBy = 'title', sortOrder = 'asc' }: IVariables) => (
   <GalleriesQuery
-    query={GET_GALLERIES}
+    query={GALLERIES_QUERY}
     variables={{ sortBy, sortOrder }}
   >
     {

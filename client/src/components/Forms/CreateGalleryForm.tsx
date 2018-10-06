@@ -1,19 +1,7 @@
-import gql from 'graphql-tag';
 import * as React from 'react';
 import { ApolloConsumer } from 'react-apollo';
+import { CREATE_GALLERY_MUTATION } from '../../graphql/mutations/Gallery';
 import styled from '../../styled-components';
-
-const CREATE_GALLERY_MUTATION = gql`
-  mutation createGallery($galleryInfo: createGalleryInput) {
-    createGallery (input: $galleryInfo) {
-      galleryID
-      galleryTitle
-      description
-      clickCount
-      createdAt
-    }
-  }
-`;
 
 const Form = styled.form`
 

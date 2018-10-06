@@ -1,7 +1,7 @@
 import axios from 'axios';
-import gql from 'graphql-tag';
 import * as React from 'react';
 import { ApolloConsumer } from 'react-apollo';
+import { GET_PRESIGNED_URL, UPLOAD_IMAGE_MUTATION } from '../../graphql/mutations/Photo';
 import styled from '../../styled-components';
 
 const Form = styled.form``;
@@ -17,15 +17,6 @@ const SubmitBtn = styled.input.attrs({
 
 `;
 
-const GET_PRESIGNED_URL = gql`
-  query getPresignedURL($filename: String!) {
-    s3PreSignedURL(filename: $filename) {
-      url
-      key
-    }
-  }
-`;
-
 interface IPreSignedData {
   s3PreSignedURL: {
     url: string;
@@ -36,18 +27,6 @@ interface IPreSignedData {
 interface IPreVariable {
   filename: string;
 }
-
-const UPLOAD_IMAGE_MUTATION = gql`
-  mutation savedPhoto ($photoInfo:photoInput) {
-    addPhoto (input:$photoInfo) {
-      photoID
-      url
-      photoDescription
-      createdAt
-    }
-  }
-`;
-
 interface IUploadData {
   savedPhoto: {
     photoID: string;
@@ -86,7 +65,8 @@ class UploadForm extends React.Component<IProps, IState> {
                     const { file } = this.state;
                     if (!file) return;
                     const preSignedURL = await client.query<IPreSignedData, IPreVariable>({
-                      query: GET_PRESIGNED_URL,
+                      query: GET_PRESIGNED_URL
+                      ,
                       variables: { filename: file.name }
                     });
 

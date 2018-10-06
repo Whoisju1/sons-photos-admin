@@ -1,7 +1,8 @@
-import gql from 'graphql-tag';
 import * as React from 'react';
 import { ApolloConsumer } from 'react-apollo';
 import styled from '../../styled-components';
+
+import { LOGIN_QUERY } from '../../graphql/queries/User';
 
 const Form = styled.form``;
 
@@ -27,16 +28,6 @@ interface IData {
     lastName: string;
   }
 }
-
-const LOGIN_QUERY = gql`
-query login ($credentials: loginInput) {
-	login (input: $credentials) {
-      accountID
-      token
-    }
-  }
-`;
-
 class LoginForm extends React.Component<{}, IState> {
   public state = {
     username: '',

@@ -7,3 +7,23 @@ export const DELETE_PHOTO = gql`
 		}
 	}
 `;
+
+export const UPLOAD_IMAGE_MUTATION = gql`
+mutation savedPhoto ($photoInfo:photoInput) {
+	addPhoto (input:$photoInfo) {
+		photoID
+		url
+		photoDescription
+		createdAt
+	}
+}
+`;
+
+export const GET_PRESIGNED_URL = gql`
+query getPresignedURL($filename: String!) {
+	s3PreSignedURL(filename: $filename) {
+		url
+		key
+	}
+}
+`;

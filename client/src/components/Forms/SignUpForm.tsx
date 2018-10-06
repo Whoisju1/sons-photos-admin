@@ -1,18 +1,7 @@
-import gql from 'graphql-tag';
 import * as React from 'react';
 import { ApolloConsumer } from 'react-apollo';
+import { SIGN_UP_MUTATION } from '../../graphql/mutations/User';
 import styled from '../../styled-components';
-
-const SIGN_UP_MUTATION = gql`
-  mutation signUp ($userInfo: createAccountInput) {
-    createAccount (input: $userInfo) {
-      firstName
-      accountID
-      lastName
-      token
-    }
-  }
-`;
 
 const Form = styled.form`
 

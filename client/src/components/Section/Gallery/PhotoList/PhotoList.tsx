@@ -1,6 +1,6 @@
-import gql from 'graphql-tag';
 import * as React from 'react';
 import { ApolloConsumer } from 'react-apollo';
+import { DELETE_PHOTO } from '../../../../graphql/mutations/Photo';
 import styled from '../../../../styled-components';
 import Button from '../../../GeneralComponents/Button/Button';
 import Photo from '../../../GeneralComponents/Photo/Photo';
@@ -15,15 +15,6 @@ interface IPhoto {
 	photoID: string,
 	filename: string,
 }
-
-const DELETE_PHOTO = gql`
-	mutation deletePhoto($filenames: [String]!) {
-		deletePhoto(filenames: $filenames) {
-			photoID
-		}
-	}
-`;
-
 export interface IProps {
 	photos: IPhoto[],
 }

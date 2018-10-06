@@ -1,7 +1,7 @@
-import gql from 'graphql-tag';
 import * as React from 'react';
 import { Query } from 'react-apollo';
 import { match } from 'react-router-dom';
+import { GALLERY_QUERY } from '../../../graphql/queries/Gallery';
 import styled from '../../../styled-components';
 import UploadForm from '../../Forms/UploadForm';
 import { Heading } from '../../GeneralComponents';
@@ -24,19 +24,6 @@ const GalleryContainer = styled.div`
 `;
 
 GalleryContainer.displayName = 'GalleryContainer';
-
-const GALLERY_QUERY = gql`
-  query getGallery ($galleryID: ID) {
-    gallery (galleryID: $galleryID) {
-      galleryTitle
-      photos {
-        url
-        photoID
-        filename
-      }
-    }
-  }
-`;
 
 interface IData {
   [gallery: string]: {

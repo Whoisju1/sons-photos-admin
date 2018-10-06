@@ -1,32 +1,22 @@
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
+export interface IPhoto {
+  url: string;
+  filename: string;
+  photoID: string;
+  __typename: string;
+}
+
 export default {
   Mutation: {
-    addPhotoIDs: async (
+    storeGallery: (
       _: any,
-      { ids, galleryID }: { ids : string, galleryID: string[] },
-      { cache }: { cache: InMemoryCache }) => {
-        console.log({ cache });
-        console.log({ ids });
-        console.log({ galleryID });
-        
-      // const { getPhotoIDs: { ids } } = cache.readQuery({
-      //   query: 
-      // });
-
-      // combine cached photoIDs with a new one
-      return null;
-    },
-    removePhotoID: () => {
-      // ...
-    },
-  },
-  Query: {
-    getPhotoIDs: () => {
-      return null;
-    },
-    getAllPhotoIDs: () => {
-      console.log('inside getAllPhotoIDs');
+      { photos, galleryID }: { photos : string, galleryID: IPhoto[] },
+      { cache }: { cache: InMemoryCache }
+    ) => {
+      console.log(photos);
+      console.log(galleryID);
+      console.log(cache);
       return null;
     }
   }

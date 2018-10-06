@@ -1,11 +1,11 @@
 import gql from 'graphql-tag';
 import * as React from 'react';
-import { ApolloConsumer, Query } from 'react-apollo';
+import { Query } from 'react-apollo';
 import { match } from 'react-router-dom';
 import styled from '../../../styled-components';
 import UploadForm from '../../Forms/UploadForm';
-import { Button, Photo } from '../../GeneralComponents';
 import { Heading } from '../../GeneralComponents';
+import PhotoList from './PhotoList/PhotoList';
 
 const PhotoContainer = styled.div`
   border: .05rem solid gray;
@@ -38,14 +38,6 @@ const GALLERY_QUERY = gql`
   }
 `;
 
-const DELETE_PHOTO = gql`
-  mutation deletePhoto ($filenames: [String]!) {
-    deletePhoto (filenames: $filenames) {
-      photoID
-    }
-  }
-`;
-
 interface IData {
   [gallery: string]: {
     galleryTitle: string;
@@ -67,6 +59,7 @@ interface IProps {
 
 class GalleryQuery extends Query<IData, IVariables>{};
 
+// tslint:disable-next-line:max-classes-per-file
 const Gallery: React.SFC<IProps> = (props) => {
   const { galleryID } = props.match.params;
 
@@ -94,35 +87,10 @@ const Gallery: React.SFC<IProps> = (props) => {
               <UploadForm galleryID={galleryID} />
               {
                 !!gallery.photos.length ?
-                  photos.map(({ photoID, url, filename }) =>  (
-                    <PhotoContainer key={photoID}>
-                      <Photo 
-                        imageType='thumbnail'
-                        src={url}
-                        />
-                      <ApolloConsumer key={url}>
-                        {
-                          client => (
-                            <Button
-                            // tslint:disable-next-line:jsx-no-lambda
-                            click={() => client.mutate({
-                              mutation: DELETE_PHOTO,
-                              variables: {
-                                  filenames: [filename],
-                                },
-                              })}
-                              btnType="danger"
-                              >
-                              Delete Photo
-                            </Button>
-                          )
-                        }
-                      </ApolloConsumer>
-                    </PhotoContainer>
-                  )) :
-                  `There are no photos in the '${galleryTitle}' Gallery`
+                <PhotoList photos={photos} /> :
+                `There are no photos in the '${galleryTitle}' Gallery`
               }
-            </GalleryContainer>
+              </GalleryContainer>
           )
         }
       }

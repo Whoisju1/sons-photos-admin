@@ -67,6 +67,7 @@ class LoginForm extends React.Component<{}, IState> {
                 placeholder="Username"
                 value={this.state.username}
                 onChange={this.handleChange}
+                autoComplete="username"
               />
               <Input
                 name="password"
@@ -74,6 +75,7 @@ class LoginForm extends React.Component<{}, IState> {
                 type="password"
                 value={this.state.password}
                 onChange={this.handleChange}
+                autoComplete="current-password"
               />
               <SubmitBtn />
             </Form>

@@ -120,12 +120,14 @@ class SignUpForm extends React.Component<{}, IState> {
                           value={this.state.phone}
                           name="phone"
                           onChange={this.handleChange}
+                          autoComplete="phone"
                           />
                         <Input 
                           placeholder="Email Address"
                           type="email"
                           value={this.state.email}
                           required={true}
+                          autoComplete="email"
                           name="email"
                           onChange={this.handleChange}
                           />
@@ -134,6 +136,7 @@ class SignUpForm extends React.Component<{}, IState> {
                           type="password"
                           value={this.state.password}
                           required={true}
+                          autoComplete="current-password"
                           name="password"
                           onChange={this.handleChange}
                           />

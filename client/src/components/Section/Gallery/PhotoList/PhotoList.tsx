@@ -19,31 +19,38 @@ export interface IProps {
 	photos: IPhoto[],
 }
 
-const PhotoList: React.SFC<IProps> = ({ photos }) => (
-	<React.Fragment>
-		{photos.map(({ photoID, url, filename }) => (
-			<PhotoContainer key={photoID}>
-				<Photo imageType="thumbnail" src={url} />
-				<ApolloConsumer key={url}>
-					{client => (
-						<Button
-							// tslint:disable-next-line:jsx-no-lambda
-							click={() =>
-								client.mutate({
-									mutation  : DELETE_PHOTO,
-									variables : {
-										filenames : [ filename ],
-									},
-								})}
-							btnType="danger"
-						>
-							Delete Photo
-						</Button>
-					)}
-				</ApolloConsumer>
-			</PhotoContainer>
-		))}
-	</React.Fragment>
-);
+const PhotoList: React.SFC<IProps> = ({ photos }) => {
+	if (!photos) {
+		console.log('no photos');
+		return null;
+	};
+	if (!photos.length) return null;
+	return (
+		<React.Fragment>
+			{photos.map(({ photoID, url, filename }) => (
+				<PhotoContainer key={photoID}>
+					<Photo imageType="thumbnail" src={url} />
+					<ApolloConsumer key={url}>
+						{client => (
+							<Button
+								// tslint:disable-next-line:jsx-no-lambda
+								click={() =>
+									client.mutate({
+										mutation  : DELETE_PHOTO,
+										variables : {
+											filenames : [ filename ],
+										},
+									})}
+								btnType="danger"
+							>
+								Delete Photo
+							</Button>
+						)}
+					</ApolloConsumer>
+				</PhotoContainer>
+			))}
+		</React.Fragment>
+	);
+};
 
 export default PhotoList;

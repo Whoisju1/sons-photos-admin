@@ -1,14 +1,31 @@
 export default `
-  type PhotoCacheID {
-    galleryID: ID
-    photoIDs: [String]
+  input photoInput {
+    url: String
+    filename: String
+    photoID: String
   }
 
-  type Query {
-    getPhotoIDs (galleryID: ID): PhotoCacheID
+  input galleryInput {
+    galleryID: String
+    photos: [photoInput]
+  }
+
+  type Photo {
+    url: String
+    filename: String
+    photoID: String
+  }
+
+  type Gallery {
+    galleryID: String
+    photos: [Photo]
   }
 
   type Mutation {
-    addPhotoID (galleryID: ID, ids: [String]): PhotoCacheID
+    cacheGallery (gallery: galleryInput): [Gallery]
+  }
+
+  type Query {
+    getCachedGalleries(gallery: galleryInput): [Gallery]
   }
 `;

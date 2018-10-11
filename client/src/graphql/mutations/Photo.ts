@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import { PHOTO_FRAGMENT } from '../fragments';
 
 export const DELETE_PHOTO = gql`
 	mutation deletePhoto($filenames: [String]!) {
@@ -11,12 +12,10 @@ export const DELETE_PHOTO = gql`
 export const UPLOAD_IMAGE_MUTATION = gql`
 mutation savedPhoto ($photoInfo:photoInput) {
 	addPhoto (input:$photoInfo) {
-		photoID
-		url
-		photoDescription
-		createdAt
+		...photos
 	}
 }
+${PHOTO_FRAGMENT}
 `;
 
 export const GET_PRESIGNED_URL = gql`

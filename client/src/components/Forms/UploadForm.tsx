@@ -2,6 +2,8 @@ import axios from 'axios';
 import * as React from 'react';
 import { ApolloConsumer } from 'react-apollo';
 import { GET_PRESIGNED_URL, UPLOAD_IMAGE_MUTATION } from '../../graphql/mutations/Photo';
+import { CACHE_GALLERY, GALLERY_QUERY } from '../../graphql/queries/Gallery';
+import { IGalleryData, IPhoto } from '../../graphql/resolvers/index';
 import styled from '../../styled-components';
 
 const Form = styled.form``;
@@ -31,8 +33,7 @@ interface IUploadData {
   savedPhoto: {
     photoID: string;
     url: string;
-    photoDescription: string;
-    createdAt: string;
+    filename: string;
   }
 }
 
@@ -42,7 +43,7 @@ interface IState {
 
 interface IProps {
   galleryID: string;
-} 
+}
 
 class UploadForm extends React.Component<IProps, IState> {
   private inputRef: HTMLInputElement;
@@ -50,7 +51,7 @@ class UploadForm extends React.Component<IProps, IState> {
   constructor(props: any) {
     super(props);
   }
-  
+
   public render() {
     return (
       <ApolloConsumer>
@@ -78,7 +79,7 @@ class UploadForm extends React.Component<IProps, IState> {
                       },
                     });
 
-                    const photoInfo = await client.mutate<IUploadData>({
+                    await client.mutate<IUploadData>({
                       mutation: UPLOAD_IMAGE_MUTATION,
                       variables: {
                         photoInfo: {
@@ -88,12 +89,37 @@ class UploadForm extends React.Component<IProps, IState> {
                           photoDescription: !!this.inputRef.value.length ? this.inputRef.value : null,
                         },
                       },
+                      update: async (proxy, { data: { addPhoto: photo } }: {data: { addPhoto: IPhoto}}) => {
+                        const { galleryID } = this.props;
+                        const { gallery: data }: { gallery: IGalleryData } = proxy.readQuery({
+                          query: GALLERY_QUERY,
+                          variables: { galleryID }
+                        }) || { gallery: { galleryID, photos: [], __typename: 'Gallery' } };
+
+                        const variables = {
+                          gallery: {
+                            galleryID,
+                            photos: [photo],
+                            __typename: 'Gallery',
+                          }
+                        };
+
+                        proxy.writeQuery({
+                          query: GALLERY_QUERY,
+                          variables: { galleryID },
+                          data: { gallery: variables.gallery },
+                        })
+                        // push photo into gallery cache
+                        data.photos.push(photo);
+                        await client.mutate({
+                          mutation: CACHE_GALLERY,
+                          variables,
+                        });
+                      }
                     });
 
                     this.inputRef.value = '';
                     this.setState({ file: null });
-                    
-                    console.log({ photoInfo });
                   } catch (err) {
                     console.dir(err);
                   }

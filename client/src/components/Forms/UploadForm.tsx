@@ -113,6 +113,7 @@ class UploadForm extends React.Component<IProps, IState> {
                         })
                         // push photo into gallery cache
                         data.photos.push(photo);
+                        // execute mutation
                         await client.mutate({
                           mutation: CACHE_GALLERY,
                           variables,

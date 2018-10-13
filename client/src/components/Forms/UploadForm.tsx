@@ -43,6 +43,7 @@ interface IState {
 
 interface IProps {
   galleryID: string;
+  galleryTitle: string;
 }
 
 class UploadForm extends React.Component<IProps, IState> {
@@ -90,15 +91,16 @@ class UploadForm extends React.Component<IProps, IState> {
                         },
                       },
                       update: async (proxy, { data: { addPhoto: photo } }: {data: { addPhoto: IPhoto}}) => {
-                        const { galleryID } = this.props;
+                        const { galleryID, galleryTitle } = this.props;
                         const { gallery: data }: { gallery: IGalleryData } = proxy.readQuery({
                           query: GALLERY_QUERY,
                           variables: { galleryID }
-                        }) || { gallery: { galleryID, photos: [], __typename: 'Gallery' } };
+                        }) || { gallery: { galleryID, galleryTitle ,photos: [], __typename: 'Gallery' } };
 
                         const variables = {
                           gallery: {
                             galleryID,
+                            galleryTitle,
                             photos: [photo],
                             __typename: 'Gallery',
                           }

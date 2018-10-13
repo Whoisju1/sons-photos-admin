@@ -104,7 +104,7 @@ const Gallery: React.SFC<IProps> = props => {
               return (
                 <GalleryContainer>
                   <Heading headingType="secondary">{galleryTitle}</Heading>
-                  <UploadForm galleryID={galleryID} />
+                  <UploadForm galleryID={galleryID} galleryTitle={galleryTitle} />
                   {!!gallery.photos.length ? (
                     <SingleGalleryQuery query={GALLERY_CACHE_SINGLE} variables={{ galleryID }}>
                       {({ data: cachedData, loading: cacheLoading, error: err }) => {
@@ -115,7 +115,7 @@ const Gallery: React.SFC<IProps> = props => {
                         if (cacheLoading) return '...loading';
                         if (!cachedData) return 'no data received';
                         if (!cachedData.getCachedGallery) return 'no data received';
-                        return <PhotoList photos={cachedData.getCachedGallery.photos} />;
+                        return <PhotoList photos={cachedData.getCachedGallery.photos} galleryID={galleryID} />;
                       }}
                     </SingleGalleryQuery>
                   ) : (

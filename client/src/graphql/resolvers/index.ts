@@ -10,6 +10,7 @@ export interface IPhoto {
 
 export interface IGalleryData {
   galleryID: string;
+  galleryTitle: string;
   photos: IPhoto[];
   __typename: string;
 }
@@ -19,6 +20,7 @@ export default {
     cacheGallery: (
       _: any,
       { gallery: {
+        galleryTitle,
         galleryID,
         photos,
       } }: { gallery: IGalleryData },
@@ -32,6 +34,7 @@ export default {
       const relevantGallery: IGalleryData = allGalleries.find(item => item.galleryID === galleryID) ||
       {
         galleryID,
+        galleryTitle,
         photos: [],
         __typename: 'Gallery'
       };

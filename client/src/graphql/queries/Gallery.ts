@@ -2,8 +2,8 @@ import gql from 'graphql-tag';
 import { PHOTO_FRAGMENT } from '../fragments';
 
 export const GALLERY_QUERY = gql`
-  query getGallery {
-    gallery (galleryID: 2) {
+  query getGallery ($galleryID: ID) {
+    gallery (galleryID: $galleryID) {
       galleryTitle
       galleryID
       photos {

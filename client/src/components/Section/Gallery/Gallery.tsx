@@ -68,7 +68,7 @@ const Gallery: React.SFC<IProps> = props => {
             <UploadForm galleryID={galleryID} galleryTitle={galleryTitle} />
             {
               !!gallery.photos.length ?
-              <PhotoList photos={gallery.photos} /> :
+              <PhotoList photos={gallery.photos} galleryID={galleryID} /> :
               `There are no photos in the '${galleryTitle}' Gallery`
             }
           </GalleryContainer>

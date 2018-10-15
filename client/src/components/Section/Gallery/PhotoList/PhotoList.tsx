@@ -9,15 +9,16 @@ const PhotoContainer = styled.div`
 `;
 
 interface IPhoto {
-	url: string,
-	photoID: string,
-	filename: string,
+	url: string;
+	photoID: string;
+	filename: string;
 }
 export interface IProps {
-	photos: IPhoto[],
+	photos: IPhoto[];
+	galleryID: string;
 }
 
-const PhotoList: React.SFC<IProps> = ({ photos }) => {
+const PhotoList: React.SFC<IProps> = ({ photos, galleryID }) => {
 	if (!photos) {
 		console.log('no photos');
 		return null;
@@ -28,7 +29,7 @@ const PhotoList: React.SFC<IProps> = ({ photos }) => {
 			{photos.map(({ photoID, url, filename }) => (
 				<PhotoContainer key={photoID}>
 					<Photo imageType="thumbnail" src={url} />
-					<PhotoDeleteBtn filename={filename} />
+					<PhotoDeleteBtn filename={filename} galleryID={galleryID} />
 				</PhotoContainer>
 			))}
 		</React.Fragment>

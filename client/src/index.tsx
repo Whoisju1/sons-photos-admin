@@ -2,15 +2,12 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import {  InMemoryCache } from 'apollo-cache-inmemory';
+import {  defaultDataIdFromObject, InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloClient, /*ApolloError*/ } from 'apollo-client';
 import { ApolloLink } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
 import { withClientState } from 'apollo-link-state';
 import { ApolloProvider } from 'react-apollo';
-
-import resolvers from './graphql/resolvers';
-import typeDefs from './graphql/typeDefs';
 
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
@@ -27,16 +24,20 @@ const httpLink = new HttpLink({
   headers,
 });
 
-const cache = new InMemoryCache();
-
-const stateLink = withClientState({
-  defaults: {
-    getCachedGalleries: [],
-  },
-  cache,
-  typeDefs,
-  resolvers,
+const cache = new InMemoryCache({
+  dataIdFromObject: (object: any) => {
+    switch (object.__typename) {
+      case 'Photo':
+        return object.photoID;
+      case 'Gallery':
+        return object.galleryID;
+      default:
+        return defaultDataIdFromObject(object);
+    }
+  }
 });
+
+const stateLink = withClientState();
 
 const link = ApolloLink.from([stateLink, httpLink]);
 

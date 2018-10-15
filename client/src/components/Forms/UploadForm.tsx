@@ -1,9 +1,8 @@
 import axios from 'axios';
 import * as React from 'react';
-import { ApolloConsumer } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import { GET_PRESIGNED_URL, UPLOAD_IMAGE_MUTATION } from '../../graphql/mutations/Photo';
-import { CACHE_GALLERY, GALLERY_QUERY } from '../../graphql/queries/Gallery';
-import { IGalleryData, IPhoto } from '../../graphql/resolvers/index';
+import { GALLERY_QUERY } from '../../graphql/queries/Gallery';
 import styled from '../../styled-components';
 
 const Form = styled.form``;
@@ -29,13 +28,6 @@ interface IPreSignedData {
 interface IPreVariable {
   filename: string;
 }
-interface IUploadData {
-  savedPhoto: {
-    photoID: string;
-    url: string;
-    filename: string;
-  }
-}
 
 interface IState {
   file: File | null;
@@ -55,9 +47,9 @@ class UploadForm extends React.Component<IProps, IState> {
 
   public render() {
     return (
-      <ApolloConsumer>
+      <Mutation mutation={UPLOAD_IMAGE_MUTATION}>
         {
-          client => {
+          (uploadPicture, { data, error, loading, client }) => {
             return (
               <Form
                 // tslint:disable-next-line:jsx-no-lambda
@@ -66,22 +58,21 @@ class UploadForm extends React.Component<IProps, IState> {
                     e.preventDefault();
                     const { file } = this.state;
                     if (!file) return;
+
                     const preSignedURL = await client.query<IPreSignedData, IPreVariable>({
                       query: GET_PRESIGNED_URL
                       ,
                       variables: { filename: file.name }
                     });
-
                     const { url, key } = preSignedURL.data.s3PreSignedURL;
-
+                    // upload photo to S3 bucket
                     await axios.put(url, file, {
                       headers: {
                         'Content-Type': file.type,
                       },
                     });
 
-                    await client.mutate<IUploadData>({
-                      mutation: UPLOAD_IMAGE_MUTATION,
+                    uploadPicture({
                       variables: {
                         photoInfo: {
                           url: key,
@@ -90,35 +81,12 @@ class UploadForm extends React.Component<IProps, IState> {
                           photoDescription: !!this.inputRef.value.length ? this.inputRef.value : null,
                         },
                       },
-                      update: async (proxy, { data: { addPhoto: photo } }: {data: { addPhoto: IPhoto}}) => {
-                        const { galleryID, galleryTitle } = this.props;
-                        const { gallery: data }: { gallery: IGalleryData } = proxy.readQuery({
+                      refetchQueries: [
+                        {
                           query: GALLERY_QUERY,
-                          variables: { galleryID }
-                        }) || { gallery: { galleryID, galleryTitle ,photos: [], __typename: 'Gallery' } };
-
-                        const variables = {
-                          gallery: {
-                            galleryID,
-                            galleryTitle,
-                            photos: [photo],
-                            __typename: 'Gallery',
-                          }
-                        };
-
-                        proxy.writeQuery({
-                          query: GALLERY_QUERY,
-                          variables: { galleryID },
-                          data: { gallery: variables.gallery },
-                        })
-                        // push photo into gallery cache
-                        data.photos.push(photo);
-                        // execute mutation
-                        await client.mutate({
-                          mutation: CACHE_GALLERY,
-                          variables,
-                        });
-                      }
+                          variables: { galleryID: this.props.galleryID }
+                        }
+                      ]
                     });
 
                     this.inputRef.value = '';
@@ -150,7 +118,7 @@ class UploadForm extends React.Component<IProps, IState> {
             );
           }
         }
-      </ApolloConsumer>
+      </Mutation>
     )
   }
 }

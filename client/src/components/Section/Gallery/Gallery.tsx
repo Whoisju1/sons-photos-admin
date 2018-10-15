@@ -115,7 +115,7 @@ const Gallery: React.SFC<IProps> = props => {
                         if (cacheLoading) return '...loading';
                         if (!cachedData) return 'no data received';
                         if (!cachedData.getCachedGallery) return 'no data received';
-                        return <PhotoList photos={cachedData.getCachedGallery.photos} galleryID={galleryID} />;
+                        return <PhotoList photos={cachedData.getCachedGallery.photos} />;
                       }}
                     </SingleGalleryQuery>
                   ) : (

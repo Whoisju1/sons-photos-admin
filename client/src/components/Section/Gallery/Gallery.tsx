@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Query } from 'react-apollo';
 import { match } from 'react-router-dom';
 import { GALLERY_QUERY } from '../../../graphql/queries/Gallery';
-import { IGalleryData } from '../../../graphql/resolvers';
 import styled from '../../../styled-components';
 import UploadForm from '../../Forms/UploadForm';
 import { Heading } from '../../GeneralComponents';
@@ -27,7 +26,7 @@ const GalleryContainer = styled.div`
 GalleryContainer.displayName = 'GalleryContainer';
 
 interface IData {
-	[gallery: string]: {
+	gallery: {
 		galleryTitle: string,
 		photos: Array<{
 			photoID: string,
@@ -36,15 +35,9 @@ interface IData {
 		}>,
 	},
 }
-
-export interface ICacheVariable {
-  gallery: IGalleryData;
-}
-
 interface IVariables {
 	galleryID: string,
 }
-
 interface IProps {
 	match: match<{ galleryID: string }>,
 }

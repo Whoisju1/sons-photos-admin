@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { Mutation, Query } from 'react-apollo';
+import { Query } from 'react-apollo';
 import { match } from 'react-router-dom';
-import { CACHE_GALLERY, GALLERY_CACHE_SINGLE, GALLERY_QUERY  } from '../../../graphql/queries/Gallery';
+import { GALLERY_QUERY } from '../../../graphql/queries/Gallery';
 import { IGalleryData } from '../../../graphql/resolvers';
 import styled from '../../../styled-components';
 import UploadForm from '../../Forms/UploadForm';
@@ -50,11 +50,6 @@ interface IProps {
 }
 
 class GalleryQuery extends Query<IData, IVariables> {}
-// tslint:disable-next-line:max-classes-per-file
-class SingleGalleryQuery extends Query<{getCachedGallery: IGalleryData}, { galleryID: string }> {}
-
-// tslint:disable-next-line:max-classes-per-file
-class CacheGalleryMutation extends Mutation<IGalleryData, ICacheVariable> {};
 
 // tslint:disable-next-line:max-classes-per-file
 const Gallery: React.SFC<IProps> = props => {
@@ -62,7 +57,7 @@ const Gallery: React.SFC<IProps> = props => {
 
 	return (
 		<GalleryQuery query={GALLERY_QUERY} variables={{ galleryID }}>
-			{({ data, loading, error, client }) => {
+			{({ data, loading, error }) => {
 				if (error) {
 					console.log({ error });
 					return 'Oops! Something went wrong!';
@@ -74,58 +69,17 @@ const Gallery: React.SFC<IProps> = props => {
 				// do not return anything if there are no photos
 				if (!gallery) return null;
         const { galleryTitle } = gallery;
-
-        const receivedPhotos = gallery.photos.map((photo) => ({ ...photo, __typename: 'Photo'}))
-
-        const receivedGallery = {
-          galleryID,
-          __typename: 'Gallery',
-          photos: receivedPhotos,
-        };
-
-        client.mutate({
-          mutation: CACHE_GALLERY,
-          variables: { gallery: receivedGallery },
-          update: ( store,  { data: { cacheGallery } }: { data: { cacheGallery: IGalleryData} }) => {
-            store.writeQuery({
-              query: GALLERY_CACHE_SINGLE,
-              data: { getCachedGallery : cacheGallery },
-              variables: { galleryID: cacheGallery.galleryID }
-            });
-          },
-        });
-
 				return (
-          // add data to cache
-					<CacheGalleryMutation
-            mutation={CACHE_GALLERY}
-          >
-						{() => {
-              return (
-                <GalleryContainer>
-                  <Heading headingType="secondary">{galleryTitle}</Heading>
-                  <UploadForm galleryID={galleryID} galleryTitle={galleryTitle} />
-                  {!!gallery.photos.length ? (
-                    <SingleGalleryQuery query={GALLERY_CACHE_SINGLE} variables={{ galleryID }}>
-                      {({ data: cachedData, loading: cacheLoading, error: err }) => {
-                        if (err) {
-                          console.dir(err);
-                          return 'Oh oh! Something is wrong!';
-                        }
-                        if (cacheLoading) return '...loading';
-                        if (!cachedData) return 'no data received';
-                        if (!cachedData.getCachedGallery) return 'no data received';
-                        return <PhotoList photos={cachedData.getCachedGallery.photos} />;
-                      }}
-                    </SingleGalleryQuery>
-                  ) : (
-                    `There are no photos in the '${galleryTitle}' Gallery`
-                  )}
-                </GalleryContainer>
-              )
-            }}
-					</CacheGalleryMutation>
-				);
+          <GalleryContainer>
+            <Heading headingType="secondary">{galleryTitle}</Heading>
+            <UploadForm galleryID={galleryID} galleryTitle={galleryTitle} />
+            {
+              !!gallery.photos.length ?
+              <PhotoList photos={gallery.photos} /> :
+              `There are no photos in the '${galleryTitle}' Gallery`
+            }
+          </GalleryContainer>
+        )
 			}}
 		</GalleryQuery>
 	);

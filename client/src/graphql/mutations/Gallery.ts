@@ -11,17 +11,3 @@ mutation createGallery($galleryInfo: createGalleryInput) {
   }
 }
 `;
-
-// CLIENT STORE
-export const CACHE_GALLERY = gql`
-  mutation CacheGallery ($gallery: galleryInput) {
-    cacheGallery(gallery: $gallery) @client {
-      galleryID
-      photos {
-        url
-        filename
-        photoID
-      }
-    }
-  }
-`;

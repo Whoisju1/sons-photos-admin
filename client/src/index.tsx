@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import {  defaultDataIdFromObject, InMemoryCache } from 'apollo-cache-inmemory';
-import { ApolloClient, /*ApolloError*/ } from 'apollo-client';
+import { ApolloClient } from 'apollo-client';
 import { ApolloLink } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
 import { withClientState } from 'apollo-link-state';

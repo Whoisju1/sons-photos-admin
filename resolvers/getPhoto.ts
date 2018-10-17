@@ -1,4 +1,5 @@
-const getPhoto = async (root, { photoID }, { db }) => {
+import { ResolverFn } from 'apollo-server-express';
+const getPhoto: ResolverFn = async (root: any, { photoID }: { photoID: string }, { db }) => {
   try {
     const [photo] = await db
       .select()

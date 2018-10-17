@@ -1,6 +1,7 @@
 import requireAuth from '../resolverMiddleware/requireAuth';
+import { ResolverFn } from 'apollo-server-express';
 
-const account = async (root, args, { db, req: { user } }) => {
+const account: ResolverFn = async (root, args, { db, req: { user } }) => {
   try {
     // get user id
     const { accountID } = user.sub; // eslint-disable-line camelcase

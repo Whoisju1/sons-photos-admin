@@ -1,13 +1,14 @@
 import AWS from 'aws-sdk';
 import requireAuth from '../resolverMiddleware/requireAuth';
+import { ResolverFn } from 'apollo-server-express';
 
 const { ACCESS_KEY_ID } = process.env;
 const { BUCKET_NAME } = process.env;
 const { SECRETE_ACCESS_KEY } = process.env;
 
-const deletePhoto = async (
-  root,
-  { filenames }, // eslint-disable-line camelcase
+const deletePhoto: ResolverFn = async (
+  root: any,
+  { filenames }: { filenames: string[] }, // eslint-disable-line camelcase
   { db },
 ) => {
   try {
@@ -29,7 +30,7 @@ const deletePhoto = async (
       .deleteObjects(params)
       .promise();
 
-    const deletedPhotos = await Deleted.map(({ Key: filename }) => db('photo')
+    const deletedPhotos = await Deleted.map(({ Key: filename }: { Key: string }) => db('photo')
       .where({ filename })
       .del()
       .returning('*'));

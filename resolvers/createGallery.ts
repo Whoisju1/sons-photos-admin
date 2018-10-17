@@ -1,6 +1,7 @@
 import requireAuth from '../resolverMiddleware/requireAuth';
+import { ResolverFn } from 'apollo-server-express';
 
-const createGallery = async (root, { input }, { db, req }) => {
+const createGallery: ResolverFn = async (root, { input }, { db, req }) => {
   try {
     const { accountID } = req.user.sub; // eslint-disable-line camelcase
 

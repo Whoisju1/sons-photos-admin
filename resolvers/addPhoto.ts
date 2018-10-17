@@ -1,6 +1,7 @@
 import requireAuth from '../resolverMiddleware/requireAuth';
+import { ResolverFn } from 'apollo-server-express';
 
-const addPhoto = async (root, { input }, { db, req }) => {
+const addPhoto: ResolverFn = async (root, { input }, { db, req }) => {
   try {
     /* ** store photo and retrieve the photo id ** */
     // get user id from token

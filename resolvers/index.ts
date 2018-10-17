@@ -9,6 +9,7 @@ import gallery from './gallery';
 import getPhoto from './getPhoto';
 import login from './login';
 import s3PreSignedURL from './s3PreSignedURL';
+import { ResolverFn } from 'apollo-server-express';
 
 const Query = {
   account,
@@ -29,7 +30,7 @@ const Mutation = {
 
 // CREATE RESOLVERS FOR NESTED QUERIES
 const Gallery = {
-  photos: async ({ galleryID }, args, { db }) => {
+  photos: async ({ galleryID }: { galleryID: string }, args: any, { db }) => {
     try {
       const photosInfo = await db('photo')
         .select()
@@ -43,7 +44,7 @@ const Gallery = {
 };
 
 const Photo = {
-  gallery: async ({ galleryID }, args, { db }) => {
+  gallery: async ({ galleryID }: { galleryID: string }, args: any, { db }) => {
     try {
       const [foundGallery] = await db('gallery')
         .select()

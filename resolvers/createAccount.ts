@@ -1,4 +1,6 @@
-const createAccount = async (root, { input: accountInfo }, {
+import { ResolverFn } from 'apollo-server-express';
+
+const createAccount: ResolverFn = async (root, { input: accountInfo }, {
   bcrypt, db, jwt, secret,
 }) => {
   try {

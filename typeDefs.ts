@@ -1,5 +1,40 @@
 import { gql } from 'apollo-server-express';
 
+export interface IGallery {
+  galleryID: string;
+  galleryTitle: string;
+  description: string;
+  clickCount: number;
+  createdAt: string;
+  createdBy: IAccount;
+  photos: IPhoto;
+}
+
+export interface IPhoto {
+  photoID: string;
+  url: string;
+  photoDescription: string;
+  addedBy: IAccount;
+  clickCount: number;
+  createdAt: string;
+  filename: string;
+  gallery: IGallery;
+}
+
+export interface IAccount {
+  accountID: string;
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  phone: string;
+  role: Role;
+  createdAt: string;
+  token: string;
+}
+
+export type Role = 'admin' | 'manager' | 'viewer';
+
 export default gql`
 # ROOT TYPES
 type Query {

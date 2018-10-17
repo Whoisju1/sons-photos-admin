@@ -1,4 +1,4 @@
-import { skip, combineResolvers } from 'graphql-resolvers';
+import { combineResolvers, skip } from 'graphql-resolvers';
 import db from '../db/knex';
 
 const isAuthenticated = async (root, args, { req: { user = null } }) => {

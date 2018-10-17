@@ -1,14 +1,14 @@
 import account from './account';
-import galleries from './galleries';
-import gallery from './gallery';
-import getPhoto from './getPhoto';
-import createAccount from './createAccount';
-import login from './login';
-import s3PreSignedURL from './s3PreSignedURL';
 import addPhoto from './addPhoto';
+import createAccount from './createAccount';
 import createGallery from './createGallery';
 import deleteItem from './deleteItem';
 import deletePhoto from './deletePhoto';
+import galleries from './galleries';
+import gallery from './gallery';
+import getPhoto from './getPhoto';
+import login from './login';
+import s3PreSignedURL from './s3PreSignedURL';
 
 const Query = {
   account,

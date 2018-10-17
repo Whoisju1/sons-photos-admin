@@ -24,7 +24,7 @@ type Mutation {
   addPhoto (input: photoInput): Photo
   "A photo gallery is created"
   createGallery (input: createGalleryInput): Gallery
-  "The 'item' argument represents the table name and the 'ID' argument represents the row that is to be deleted" 
+  "The 'item' argument represents the table name and the 'ID' argument represents the row that is to be deleted"
   deleteItem (item: itemToDelete!, ID: ID!): DeleteItem
   "Photo is deleted from S3 bucket and database"
   deletePhoto(filenames: [String]!): [Photo]
@@ -92,7 +92,7 @@ input loginInput {
 }
 
 input photoInput {
-  "The S3 presigned URL where the photo was uploaded to" 
+  "The S3 presigned URL where the photo was uploaded to"
   url: String!
   "The gallery id of the id the photo should be associated with"
   galleryID: ID!

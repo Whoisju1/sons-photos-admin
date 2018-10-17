@@ -1,13 +1,13 @@
 import { ApolloServer } from 'apollo-server-express';
+import bcrypt from 'bcrypt';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import express from 'express';
 import expressJwt from 'express-jwt';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
-import cors from 'cors';
-import typeDefs from '../typeDefs';
-import resolvers from '../resolvers';
 import db from '../db/knex';
+import resolvers from '../resolvers';
+import typeDefs from '../typeDefs';
 
 require('dotenv').config();
 
@@ -30,7 +30,7 @@ app.use(
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req }) => ({
+  context: ({ req }: { req: any }) => ({
     req,
     db,
     jwt,

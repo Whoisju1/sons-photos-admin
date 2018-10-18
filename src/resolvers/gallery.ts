@@ -1,7 +1,6 @@
-import { AnyAaaaRecord } from 'dns';
 import { ResolverFn } from 'apollo-server-express';
 
-const gallery: ResolverFn = async (root: AnyAaaaRecord, { galleryID }: { galleryID: string } , { db }) => {
+const gallery: ResolverFn = async (root, { galleryID }: { galleryID: string } , { db }) => {
   try {
     const [galleryInfo] = await db('gallery')
       .select()

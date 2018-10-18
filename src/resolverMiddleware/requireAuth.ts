@@ -1,7 +1,8 @@
 import { combineResolvers, skip } from 'graphql-resolvers';
 import db from '../db/knex';
+import { ResolverFn } from 'graphql-subscriptions';
 
-const isAuthenticated = async (root, args, { req: { user = null } }) => {
+const isAuthenticated: ResolverFn = async (root, args, { req: { user = null } }) => {
   try {
     if (!user) return new Error('Unauthorized!');
 
@@ -22,7 +23,7 @@ const isAuthenticated = async (root, args, { req: { user = null } }) => {
   }
 };
 
-export default resolver => combineResolvers(
+export default (resolver: ResolverFn) => combineResolvers(
   isAuthenticated,
   resolver,
 );

@@ -9,7 +9,7 @@ import gallery from './gallery';
 import getPhoto from './getPhoto';
 import login from './login';
 import s3PreSignedURL from './s3PreSignedURL';
-import { ResolverFn } from 'apollo-server-express';
+import { ResolverFn, IResolvers } from 'apollo-server-express';
 
 const Query = {
   account,
@@ -29,7 +29,7 @@ const Mutation = {
 };
 
 // CREATE RESOLVERS FOR NESTED QUERIES
-const Gallery = {
+const Gallery: { photos: ResolverFn } = {
   photos: async ({ galleryID }: { galleryID: string }, args: any, { db }) => {
     try {
       const photosInfo = await db('photo')
@@ -43,7 +43,7 @@ const Gallery = {
   },
 };
 
-const Photo = {
+const Photo: { gallery: ResolverFn } = {
   gallery: async ({ galleryID }: { galleryID: string }, args: any, { db }) => {
     try {
       const [foundGallery] = await db('gallery')
@@ -62,4 +62,4 @@ export default {
   Mutation,
   Gallery,
   Photo,
-};
+} as IResolvers;

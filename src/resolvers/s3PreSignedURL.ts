@@ -1,6 +1,7 @@
 import AWS from 'aws-sdk';
 import uuid from 'uuid/v1';
 import requireAuth from '../resolverMiddleware/requireAuth';
+import { ResolverFn } from 'apollo-server-express';
 
 require('dotenv').config();
 
@@ -12,7 +13,7 @@ const s3 = new AWS.S3({
   secretAccessKey: SECRETE_ACCESS_KEY,
 });
 
-const s3PreSignedURL = async (root, { filename }) => {
+const s3PreSignedURL: ResolverFn = async (root, { filename }) => {
   try {
     filename = filename // eslint-disable-line no-param-reassign
       .toLowerCase()

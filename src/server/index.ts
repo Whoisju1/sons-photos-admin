@@ -11,7 +11,7 @@ import typeDefs from '../typeDefs';
 
 require('dotenv').config();
 
-const secret = Buffer.from(process.env.JWT_SECRETE, 'base64');
+const secret = Buffer.from(process.env.JWT_SECRETE || '', 'base64');
 const app = express();
 const path = '/graphql';
 const { PORT } = process.env;

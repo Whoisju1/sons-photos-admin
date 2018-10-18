@@ -20,7 +20,7 @@ const deletePhoto: ResolverFn = async (
     const files = filenames.map(filename => ({ Key: filename }));
 
     const params = {
-      Bucket: BUCKET_NAME,
+      Bucket: (BUCKET_NAME as string),
       Delete: {
         Objects: files,
       },
@@ -30,7 +30,9 @@ const deletePhoto: ResolverFn = async (
       .deleteObjects(params)
       .promise();
 
-    const deletedPhotos = await Deleted.map(({ Key: filename }: { Key: string }) => db('photo')
+    if (!Deleted) return new Error('Photo does not exist.');
+
+    const deletedPhotos = await Deleted.map(({ Key: filename }) => db('photo')
       .where({ filename })
       .del()
       .returning('*'));

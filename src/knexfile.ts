@@ -1,5 +1,11 @@
 // Update with your config settings.
 
+import { Config } from 'knex';
+
+interface IKnexConfig {
+  [x: string]: Config;
+}
+
 export default {
 
   development: {
@@ -44,4 +50,4 @@ export default {
     },
   },
 
-};
+} as IKnexConfig;

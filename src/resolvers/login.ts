@@ -1,4 +1,6 @@
-const login = async (root, { input: { username, password } }, {
+import { ResolverFn } from 'apollo-server-express';
+
+const login: ResolverFn = async (root, { input: { username, password } }, {
   db, bcrypt, jwt, secret,
 }) => {
   try {

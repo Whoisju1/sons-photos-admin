@@ -9,7 +9,8 @@
     "start": "node --require dotenv/config server/index.js",
     "serve": "nodemon",
     "client": "cd client/ && yarn run start",
-    "dev": "concurrently \"yarn run serve\" \"yarn run client\""
+    "dev": "concurrently \"yarn run serve\" \"yarn run client\"",
+    "build": "tsc"
   },
   "dependencies": {
     "apollo-link": "^1.2.3",

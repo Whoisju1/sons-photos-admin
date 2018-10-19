@@ -9,6 +9,7 @@ import gallery from './gallery';
 import getPhoto from './getPhoto';
 import login from './login';
 import s3PreSignedURL from './s3PreSignedURL';
+import deleteGallery from './deleteGallery';
 import { ResolverFn, IResolvers } from 'apollo-server-express';
 
 const Query = {
@@ -26,6 +27,7 @@ const Mutation = {
   createGallery,
   deleteItem,
   deletePhoto,
+  deleteGallery,
 };
 
 // CREATE RESOLVERS FOR NESTED QUERIES

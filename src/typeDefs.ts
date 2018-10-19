@@ -33,6 +33,10 @@ export interface IAccount {
   token: string;
 }
 
+export interface IDeletedGallery {
+  galleryID: string;
+}
+
 export type Role = 'admin' | 'manager' | 'viewer';
 
 export default gql`
@@ -63,6 +67,8 @@ type Mutation {
   deleteItem (item: itemToDelete!, ID: ID!): DeleteItem
   "Photo is deleted from S3 bucket and database"
   deletePhoto(filenames: [String]!): [Photo]
+  "Deletes the selected gallery and all the photos inside of it"
+  deleteGallery(galleryID: ID!): DeletedGallery
 }
 
 # TYPES
@@ -109,6 +115,10 @@ type S3PreSignedURL {
 type DeleteItem {
   "The number of items that was deleted. If 0 is returned then the item may not have existed in the first place"
   quantityDeleted: Int
+}
+
+type DeletedGallery {
+  galleryID: String
 }
 
 input createAccountInput {

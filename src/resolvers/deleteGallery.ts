@@ -1,6 +1,6 @@
 import { ResolverFn } from 'apollo-server-express';
 import AWS from 'aws-sdk';
-import { IGallery } from '../typeDefs';
+import requireAuth from '../resolverMiddleware/requireAuth';
 
 const { ACCESS_KEY_ID } = process.env;
 const { BUCKET_NAME } = process.env;
@@ -66,4 +66,4 @@ const deleteGallery: ResolverFn = async (
   }
 };
 
-export default deleteGallery;
+export default requireAuth(deleteGallery);

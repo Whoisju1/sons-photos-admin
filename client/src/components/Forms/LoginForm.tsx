@@ -20,6 +20,10 @@ interface IState {
   password: string;
 }
 
+interface IProps {
+  onSubmit?: () => void;
+}
+
 interface IData {
   login: {
     accountID: string;
@@ -28,7 +32,7 @@ interface IData {
     lastName: string;
   }
 }
-class LoginForm extends React.Component<{}, IState> {
+class LoginForm extends React.Component<IProps, IState> {
   public state = {
     username: '',
     password: '',
@@ -48,9 +52,12 @@ class LoginForm extends React.Component<{}, IState> {
                   query: LOGIN_QUERY,
                   variables: { credentials: this.state }
                 });
-
+                // set
                 const { token } = userInfo.data.login;
                 localStorage.setItem('token', token);
+                client.writeData({ data: { isLoggedIn: !!token } });
+                // If onSubmit function exists execute it otherwise do nothing
+                this.props.onSubmit && this.props.onSubmit();
               }}
             >
               <Input
@@ -59,7 +66,9 @@ class LoginForm extends React.Component<{}, IState> {
                 value={this.state.username}
                 onChange={this.handleChange}
                 autoComplete="username"
-              />
+                required={true}
+                pattern="^\w+$"
+                />
               <Input
                 name="password"
                 placeholder="Password"
@@ -67,6 +76,7 @@ class LoginForm extends React.Component<{}, IState> {
                 value={this.state.password}
                 onChange={this.handleChange}
                 autoComplete="current-password"
+                required={true}
               />
               <SubmitBtn />
             </Form>

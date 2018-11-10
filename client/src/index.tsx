@@ -37,7 +37,17 @@ const cache = new InMemoryCache({
   }
 });
 
-const stateLink = withClientState();
+const stateLink = withClientState({
+  defaults: {
+    isLoggedIn: !!localStorage.getItem('token'),
+  },
+  cache,
+  resolvers: {
+    Query: {
+      isLoggedIn: () =>  !!localStorage.getItem('token'),
+    }
+  }
+});
 
 const link = ApolloLink.from([stateLink, httpLink]);
 

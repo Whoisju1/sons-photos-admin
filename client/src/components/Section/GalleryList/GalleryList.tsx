@@ -20,7 +20,7 @@ interface IVariables {
 
 class GalleriesQuery extends Query<IData, IVariables>{};
 
-export default ({ sortBy = 'title', sortOrder = 'asc' }: IVariables) => (
+const GalleryList = ({ sortBy = 'title', sortOrder = 'asc' }: IVariables) => (
   <GalleriesQuery
     query={GALLERIES_QUERY}
     variables={{ sortBy, sortOrder }}
@@ -45,4 +45,6 @@ export default ({ sortBy = 'title', sortOrder = 'asc' }: IVariables) => (
       }
     }
   </GalleriesQuery>
-)
+);
+
+export default GalleryList;

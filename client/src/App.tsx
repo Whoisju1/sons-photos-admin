@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { reset } from 'styled-reset';
+
 import Footer from './components/Footer';
-import CreateGalleryForm from './components/Forms/CreateGalleryForm'
-import LoginForm from './components/Forms/LoginForm'
-import SignUpForm from './components/Forms/SignUpForm'
 import Header from './components/Header/Header';
 import Section from './components/Section';
 import SideNav from './components/SideNav';
 
+import { Route } from 'react-router';
+import Auth from './Auth';
+import LoginPage from './components/Section/LoginPage';
 import { injectGlobal } from './styled-components';
 
 injectGlobal`
@@ -40,12 +41,12 @@ class App extends React.Component {
     return (
       <React.Fragment>
         <Header />
-        <SideNav />
-        <Section />
+        <Auth>
+          <SideNav />
+          <Section />
+        </Auth>
+        <Route path='/login' component={LoginPage}/>
         <Footer />
-        <SignUpForm />
-        <LoginForm />
-        <CreateGalleryForm />
       </React.Fragment>
     );
   }

@@ -162,10 +162,10 @@
   resolved "https://registry.yarnpkg.com/@types/graphql/-/graphql-0.12.6.tgz#3d619198585fcabe5f4e1adfb5cf5f3388c66c13"
   integrity sha512-wXAVyLfkG1UMkKOdMijVWFky39+OD/41KftzqfX1Oejd0Gm6dOIKjCihSVECg6X7PHjftxXmfOKA/d1H79ZfvQ==
 
-"@types/jsonwebtoken@^7.2.8":
-  version "7.2.8"
-  resolved "https://registry.yarnpkg.com/@types/jsonwebtoken/-/jsonwebtoken-7.2.8.tgz#8d199dab4ddb5bba3234f8311b804d2027af2b3a"
-  integrity sha512-XENN3YzEB8D6TiUww0O8SRznzy1v+77lH7UmuN54xq/IHIsyWjWOzZuFFTtoiRuaE782uAoRwBe/wwow+vQXZw==
+"@types/jsonwebtoken@^8.3.0":
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/@types/jsonwebtoken/-/jsonwebtoken-8.3.0.tgz#1fe79489df97b49273401ac3c8019cbf1dae4578"
+  integrity sha512-YKnUTR4VxwljbPORPrRon9E3uel1aD8nUdvzqArCCdMTWPvo0gnI2UZkwIHN2QATdj6HYXV/Iq3/KcecAO42Ww==
   dependencies:
     "@types/node" "*"
 
@@ -2789,7 +2789,7 @@ json-stringify-safe@~5.0.1:
   resolved "https://registry.yarnpkg.com/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
   integrity sha1-Epai1Y/UXxmg9s4B1lcB4sc1tus=
 
-jsonwebtoken@^8.1.0, jsonwebtoken@^8.2.2:
+jsonwebtoken@^8.1.0:
   version "8.2.2"
   resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-8.2.2.tgz#76d7993fda79660d71bd0f933109e1f133734b20"
   integrity sha512-rFFq7ow/JpPzwgaz4IyRL9cp7f4ptjW92eZgsQyqkysLBmDjSSBhnKfQESoq0GU+qJXK/CQ0o4shgwbUPiFCdw==
@@ -2804,6 +2804,21 @@ jsonwebtoken@^8.1.0, jsonwebtoken@^8.2.2:
     lodash.once "^4.0.0"
     ms "^2.1.1"
     xtend "^4.0.1"
+
+jsonwebtoken@^8.3.0:
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-8.3.0.tgz#056c90eee9a65ed6e6c72ddb0a1d325109aaf643"
+  integrity sha512-oge/hvlmeJCH+iIz1DwcO7vKPkNGJHhgkspk8OH3VKlw+mbi42WtD4ig1+VXRln765vxptAv+xT26Fd3cteqag==
+  dependencies:
+    jws "^3.1.5"
+    lodash.includes "^4.3.0"
+    lodash.isboolean "^3.0.3"
+    lodash.isinteger "^4.0.4"
+    lodash.isnumber "^3.0.3"
+    lodash.isplainobject "^4.0.6"
+    lodash.isstring "^4.0.1"
+    lodash.once "^4.0.0"
+    ms "^2.1.1"
 
 jsprim@^1.2.2:
   version "1.4.1"

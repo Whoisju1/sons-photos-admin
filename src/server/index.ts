@@ -41,4 +41,4 @@ const server = new ApolloServer({
 
 server.applyMiddleware({ app, path });
 
-app.listen(PORT, () => console.log(`Listening on PORT ${PORT}`)); // eslint-disable-line no-console
+app.listen(PORT, () => console.log(`Server ready on http://localhost:${PORT}`)); // eslint-disable-line no-console

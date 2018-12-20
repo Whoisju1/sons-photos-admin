@@ -1,5 +1,5 @@
 import axios from 'axios';
-import * as React from 'react';
+import React from 'react';
 import { Mutation } from 'react-apollo';
 import { GET_PRESIGNED_URL, UPLOAD_IMAGE_MUTATION } from '../../graphql/mutations/Photo';
 import { GALLERY_QUERY } from '../../graphql/queries/Gallery';
@@ -22,7 +22,7 @@ interface IPreSignedData {
   s3PreSignedURL: {
     url: string;
     key: string;
-  }
+  };
 }
 
 interface IPreVariable {
@@ -39,10 +39,11 @@ interface IProps {
 }
 
 class UploadForm extends React.Component<IProps, IState> {
-  private inputRef: HTMLInputElement;
+  private inputRef: React.RefObject<HTMLInputElement>;
 
   constructor(props: any) {
     super(props);
+    this.inputRef = React.createRef();
   }
 
   public render() {
@@ -62,7 +63,7 @@ class UploadForm extends React.Component<IProps, IState> {
                     const preSignedURL = await client.query<IPreSignedData, IPreVariable>({
                       query: GET_PRESIGNED_URL
                       ,
-                      variables: { filename: file.name }
+                      variables: { filename: file.name },
                     });
                     const { url, key } = preSignedURL.data.s3PreSignedURL;
                     // upload photo to S3 bucket
@@ -78,18 +79,19 @@ class UploadForm extends React.Component<IProps, IState> {
                           url: key,
                           galleryID: this.props.galleryID,
                           filename: key,
-                          photoDescription: !!this.inputRef.value.length ? this.inputRef.value : null,
+                          photoDescription: !!(this.inputRef.current as HTMLInputElement).value
+                          ? (this.inputRef.current as HTMLInputElement).value : null,
                         },
                       },
                       refetchQueries: [
                         {
                           query: GALLERY_QUERY,
-                          variables: { galleryID: this.props.galleryID }
-                        }
-                      ]
+                          variables: { galleryID: this.props.galleryID },
+                        },
+                      ],
                     });
 
-                    this.inputRef.value = '';
+                    (this.inputRef.current as HTMLInputElement).value = '';
                     this.setState({ file: null });
                   } catch (err) {
                     console.dir(err);
@@ -97,21 +99,19 @@ class UploadForm extends React.Component<IProps, IState> {
                 }}
               >
                 <Input
-                  type="file"
+                  type='file'
                   // tslint:disable-next-line:jsx-no-lambda
                   onChange={(e) => {
                     if (!e.currentTarget.files) return;
                     const file: File =  e.currentTarget.files[0];
-                    this.setState({ file })
+                    this.setState({ file });
                   }}
                 />
 
                 <Input
-                  placeholder="Photo Description"
-                  // tslint:disable-next-line:jsx-no-lambda
-                  type="text"
-                  // tslint:disable-next-line:jsx-no-lambda
-                  innerRef={(x: HTMLInputElement) => this.inputRef = x}
+                  placeholder='Photo Description'
+                  type='text'
+                  ref={this.inputRef}
                 />
                 <SubmitBtn disabled={!this.state} />
               </Form>
@@ -119,7 +119,7 @@ class UploadForm extends React.Component<IProps, IState> {
           }
         }
       </Mutation>
-    )
+    );
   }
 }
 

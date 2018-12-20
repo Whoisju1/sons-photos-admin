@@ -1,7 +1,13 @@
-import * as React from 'react';
+import React from 'react';
 import { ApolloConsumer } from 'react-apollo';
-import { SIGN_UP_MUTATION } from '../../graphql/mutations/User';
+import { SIGN_UP_MUTATION, ISignUp } from '../../graphql/mutations/User';
 import styled from '../../styled-components';
+
+interface IData {
+  data: {
+    createAccount: ISignUp;
+  };
+}
 
 const Form = styled.form`
 
@@ -50,7 +56,7 @@ class SignUpForm extends React.Component<{}, IState> {
     phone: '',
     role: 'admin',
   };
-  
+
   public render() {
     return (
       <ApolloConsumer>
@@ -58,7 +64,6 @@ class SignUpForm extends React.Component<{}, IState> {
           client => {
             return (
                       <Form
-                        // tslint:disable-next-line:jsx-no-lambda
                         onSubmit={async (e) => {
                           try {
                             e.preventDefault();
@@ -66,7 +71,7 @@ class SignUpForm extends React.Component<{}, IState> {
                             const userInfo = await client.mutate({
                               mutation: SIGN_UP_MUTATION,
                               variables: { userInfo: this.state },
-                            });
+                            }) as unknown as any;
 
                             if (
                               !userInfo ||
@@ -74,73 +79,73 @@ class SignUpForm extends React.Component<{}, IState> {
                               !userInfo.data ||
                               userInfo.data === undefined
                             ) return;
-                            const { token } = userInfo.data.createAccount;
+
+                            const { token } = (userInfo.data.createAccount);
                             localStorage.setItem('token', token);
                           } catch (err) {
-                            console.log(err)
+                            console.log(err);
                             console.log('------------------');
                             console.dir(err);
                           }
                         }}
                       >
-                        <Input 
-                          placeholder="First Name"
+                        <Input
+                          placeholder='First Name'
                           value={this.state.firstName}
                           required={true}
-                          name="firstName"
+                          name='firstName'
                           onChange={this.handleChange}
                           />
-                        <Input 
-                          placeholder="Last Name"
+                        <Input
+                          placeholder='Last Name'
                           value={this.state.lastName}
                           required={true}
-                          name="lastName"
+                          name='lastName'
                           onChange={this.handleChange}
                           />
-                        <Input 
-                          placeholder="Username"
+                        <Input
+                          placeholder='Username'
                           value={this.state.username}
                           required={true}
-                          name="username"
+                          name='username'
                           onChange={this.handleChange}
                           />
-                        <Input 
-                          placeholder="Phone"
+                        <Input
+                          placeholder='Phone'
                           value={this.state.phone}
-                          name="phone"
+                          name='phone'
                           onChange={this.handleChange}
-                          autoComplete="phone"
+                          autoComplete='phone'
                           />
-                        <Input 
-                          placeholder="Email Address"
-                          type="email"
+                        <Input
+                          placeholder='Email Address'
+                          type='email'
                           value={this.state.email}
                           required={true}
-                          autoComplete="email"
-                          name="email"
+                          autoComplete='email'
+                          name='email'
                           onChange={this.handleChange}
                           />
-                        <Input 
-                          placeholder="Password"
-                          type="password"
+                        <Input
+                          placeholder='Password'
+                          type='password'
                           value={this.state.password}
                           required={true}
-                          autoComplete="current-password"
-                          name="password"
+                          autoComplete='current-password'
+                          name='password'
                           onChange={this.handleChange}
                           />
                         <RoleSelection
-                          value={this.state.role}
-                          // onChange={this.handleChange}
+                          // value={this.state.role}
                           onChange={this.handleSelect}
                         >
-                          <RoleOption value="admin">Admin</RoleOption>
-                          <RoleOption value="manager">Manger</RoleOption>
-                          <RoleOption value="viewer">Viewer</RoleOption>
+                          <RoleOption value='admin'>Admin</RoleOption>
+                          <RoleOption value='manager'>Manger</RoleOption>
+                          <RoleOption value='viewer'>Viewer</RoleOption>
                         </RoleSelection>
                           <SubmitBtn />
                       </Form>
-            )
+            );
           }
         }
       </ApolloConsumer>

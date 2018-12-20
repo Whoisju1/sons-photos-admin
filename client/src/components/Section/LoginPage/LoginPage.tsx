@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
 import styled from '../../../styled-components';
 import LoginForm from '../../Forms/LoginForm';
@@ -19,7 +19,7 @@ interface IProps {
     state: {
       from: string;
     };
-  }
+  };
 }
 
 const LoginPage: React.SFC<IProps> = (props) => {
@@ -33,7 +33,7 @@ const LoginPage: React.SFC<IProps> = (props) => {
         onSubmit={() => props.history.push(returnRoute)}
       />
     </StyledSection>
-  )
+  );
 };
 
 export default withRouter<any>(LoginPage);

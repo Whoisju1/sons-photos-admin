@@ -1,23 +1,22 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import {  defaultDataIdFromObject, InMemoryCache } from 'apollo-cache-inmemory';
+import { defaultDataIdFromObject, InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloClient } from 'apollo-client';
 import { ApolloLink } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
 import { withClientState } from 'apollo-link-state';
 import { ApolloProvider } from 'react-apollo';
 
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
-
 const SONS_PHOTOS_URI = '/graphql';
 
 // const token = localStorage.getItem('token');
 const token = localStorage.getItem('token');
 
-const headers = token? { authorization: `Bearer ${token}` } : null;
+const headers = token ? { authorization: `Bearer ${token}` } : null;
 
 const httpLink = new HttpLink({
   uri: SONS_PHOTOS_URI,
@@ -34,7 +33,7 @@ const cache = new InMemoryCache({
       default:
         return defaultDataIdFromObject(object);
     }
-  }
+  },
 });
 
 const stateLink = withClientState({
@@ -45,8 +44,8 @@ const stateLink = withClientState({
   resolvers: {
     Query: {
       isLoggedIn: () =>  !!localStorage.getItem('token'),
-    }
-  }
+    },
+  },
 });
 
 const link = ApolloLink.from([stateLink, httpLink]);
@@ -61,7 +60,10 @@ ReactDOM.render(
     <Router>
       <App />
     </Router>
-  </ApolloProvider>,
-  document.getElementById('root') as HTMLElement
-);
-registerServiceWorker();
+  </ApolloProvider>
+  , document.getElementById('root'));
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: http://bit.ly/CRA-PWA
+serviceWorker.unregister();

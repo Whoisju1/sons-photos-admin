@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { reset } from 'styled-reset';
 
 import Footer from './components/Footer';
@@ -9,9 +9,9 @@ import SideNav from './components/SideNav';
 import { Route } from 'react-router';
 import Auth from './Auth';
 import LoginPage from './components/Section/LoginPage';
-import { injectGlobal } from './styled-components';
+import { createGlobalStyle } from './styled-components';
 
-injectGlobal`
+const GlobalStyle = createGlobalStyle`
   ${reset}
   *,
   *::after,
@@ -40,6 +40,7 @@ class App extends React.Component {
   public render() {
     return (
       <React.Fragment>
+        <GlobalStyle />
         <Header />
         <Auth>
           <SideNav />

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import styled from '../../../styled-components';
 
 type BtnType = 'primary' | 'secondary' | 'info' | 'danger';
@@ -11,7 +11,7 @@ const backgroundClr = {
   danger: '#e74c3c',
 };
 
-const StyledButton = styled<{btnType: BtnType}, 'button'>('button')`
+const StyledButton = styled('button')<{btnType: BtnType}>`
   color: #ffff;
   background-color: ${({ btnType }) => backgroundClr[btnType]};
   &:disabled {
@@ -26,7 +26,7 @@ const StyledButton = styled<{btnType: BtnType}, 'button'>('button')`
 
 interface IProps {
   click: <T>(args?: T) => void;
-  btnType: BtnType
+  btnType: BtnType;
   enabled?: boolean;
   children: React.ReactNode;
 }

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Query } from 'react-apollo';
 import { GALLERIES_QUERY } from '../../../graphql/queries/Gallery';
 import { Link } from '../../GeneralComponents';
@@ -7,7 +7,7 @@ interface IData {
   galleries: Array<{
     galleryID: string;
     galleryTitle: string;
-  }>
+  }>;
 }
 
 type SortGalleryBy = 'galleryID' | 'title' | 'clickCount' | 'createdAt';
@@ -18,7 +18,7 @@ interface IVariables {
   sortOrder?: SortOrder;
 }
 
-class GalleriesQuery extends Query<IData, IVariables>{};
+class GalleriesQuery extends Query<IData, IVariables> {}
 
 const GalleryList = ({ sortBy = 'title', sortOrder = 'asc' }: IVariables) => (
   <GalleriesQuery

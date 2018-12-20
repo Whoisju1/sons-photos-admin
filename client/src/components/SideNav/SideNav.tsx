@@ -1,11 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 import styled from '../../styled-components';
 import { NavLink } from '../GeneralComponents';
 
 const Link = styled(NavLink).attrs({
-  activeClassName: 'active'
+  activeClassName: 'active',
 })`
-`; 
+`;
 
 const StyledNav = styled.nav`
   display: grid;

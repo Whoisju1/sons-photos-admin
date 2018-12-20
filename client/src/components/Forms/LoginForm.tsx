@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { ApolloConsumer } from 'react-apollo';
 import styled from '../../styled-components';
 
@@ -30,13 +30,13 @@ interface IData {
     token: string;
     firstName: string;
     lastName: string;
-  }
+  };
 }
 class LoginForm extends React.Component<IProps, IState> {
   public state = {
     username: '',
     password: '',
-  }
+  };
 
   public render() {
     return (
@@ -50,32 +50,33 @@ class LoginForm extends React.Component<IProps, IState> {
                 e.preventDefault();
                 const userInfo = await client.query<IData>({
                   query: LOGIN_QUERY,
-                  variables: { credentials: this.state }
+                  variables: { credentials: this.state },
                 });
                 // set
                 const { token } = userInfo.data.login;
                 localStorage.setItem('token', token);
                 client.writeData({ data: { isLoggedIn: !!token } });
                 // If onSubmit function exists execute it otherwise do nothing
+                // tslint:disable-next-line:no-unused-expression
                 this.props.onSubmit && this.props.onSubmit();
               }}
             >
               <Input
-                name="username"
-                placeholder="Username"
+                name='username'
+                placeholder='Username'
                 value={this.state.username}
                 onChange={this.handleChange}
-                autoComplete="username"
+                autoComplete='username'
                 required={true}
-                pattern="^\w+$"
+                pattern='^\w+$'
                 />
               <Input
-                name="password"
-                placeholder="Password"
-                type="password"
+                name='password'
+                placeholder='Password'
+                type='password'
                 value={this.state.password}
                 onChange={this.handleChange}
-                autoComplete="current-password"
+                autoComplete='current-password'
                 required={true}
               />
               <SubmitBtn />

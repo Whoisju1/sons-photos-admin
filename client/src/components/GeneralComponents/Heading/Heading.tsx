@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import styled, { css } from '../../../styled-components';
 
 const headingStyles = css`
@@ -17,7 +17,7 @@ const HeadingSecondary = styled.h2`
 
 const HeadingTertiary = styled.h3`
   ${headingStyles}
-`; 
+`;
 
 interface IProps {
   headingType: 'primary' | 'secondary' | 'tertiary';
@@ -29,7 +29,7 @@ const Heading: React.SFC<IProps> = (props) => {
   switch (props.headingType) {
     case 'primary':
       return <HeadingPrimary>{children}</HeadingPrimary>;
-      
+
     case 'secondary':
       return <HeadingSecondary>{children}</HeadingSecondary>;
 

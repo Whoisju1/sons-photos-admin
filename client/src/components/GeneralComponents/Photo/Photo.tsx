@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import styled from '../../../styled-components';
 
-const Img = styled<IStyleProps, 'img'>('img')`
+const Img = styled('img')<IStyleProps>`
   max-width: ${ props => (props.imageType === 'full-size') ? '90vw' : '20rem'};
   height: auto;
 `;
@@ -15,6 +15,7 @@ interface IProps {
   imageType: 'thumbnail' | 'full-size';
 }
 
-const Photo: React.SFC<IProps> = ({ src, imageType }) => <Img src={`https://sons-photos-bucket.s3.amazonaws.com/${src}`} imageType={imageType} />;
+const Photo: React.SFC<IProps> = ({ src, imageType }) => <Img
+  src={`https://sons-photos-bucket.s3.amazonaws.com/${src}`} imageType={imageType} />;
 
 export default Photo;

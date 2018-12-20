@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import * as React from 'react';
+import React from 'react';
 import { Query } from 'react-apollo';
 import { Redirect } from 'react-router-dom';
 
@@ -18,7 +18,7 @@ const GET_AUTH_STATUS = gql`
   }
 `;
 
-class Authorization extends Query<IData>{}
+class Authorization extends Query<IData> {}
 
 const Auth: React.SFC<IProps> = (props) => (
       <Authorization
@@ -39,13 +39,13 @@ const Auth: React.SFC<IProps> = (props) => (
                     to={
                       {
                         pathname: redirectRoute,
-                        state: { from: location.pathname }
+                        state: { from: location.pathname },
                       }
                     }
                   />
                 }
               </>
-            )
+            );
           }
         }
       </Authorization>

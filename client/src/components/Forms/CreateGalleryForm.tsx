@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { ApolloConsumer } from 'react-apollo';
 import { CREATE_GALLERY_MUTATION } from '../../graphql/mutations/Gallery';
 import styled from '../../styled-components';
@@ -41,7 +41,7 @@ class CreateGalleryForm extends React.Component<{}, IState> {
                     e.preventDefault();
                     const newGallery = await client.mutate({
                       mutation: CREATE_GALLERY_MUTATION,
-                      variables: { galleryInfo: this.state }
+                      variables: { galleryInfo: this.state },
                     });
 
                     console.log(newGallery);
@@ -52,20 +52,20 @@ class CreateGalleryForm extends React.Component<{}, IState> {
                 }}
               >
                 <Input
-                  placeholder="Gallery Name"
+                  placeholder='Gallery Name'
                   value={this.state.galleryTitle}
                   onChange={this.handleChange}
-                  name="galleryTitle"
+                  name='galleryTitle'
                 />
                 <Input
-                  placeholder="Gallery Description"
+                  placeholder='Gallery Description'
                   value={this.state.galleryDescription}
                   onChange={this.handleChange}
-                  name="galleryDescription"
+                  name='galleryDescription'
                 />
                 <SubmitBtn />
               </Form>
-            )
+            );
           }
         }
       </ApolloConsumer>

@@ -1,3 +1,4 @@
+require('dotenv').config();
 import AWS from 'aws-sdk';
 import requireAuth from '../resolverMiddleware/requireAuth';
 import { ResolverFn } from 'apollo-server-express';

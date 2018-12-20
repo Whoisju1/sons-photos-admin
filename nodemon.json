@@ -2,5 +2,5 @@
   "watch": ["src"],
   "ext": "ts",
   "ignore": ["src/**/*.spec.ts"],
-  "exec": "./node_modules/.bin/ts-node ./src/server/index.ts"
+  "exec": "npx babel-node ./src/server/index.ts --extensions \".ts\""
 }

@@ -20,6 +20,9 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.2.0",
     "@babel/preset-env": "^7.2.0",
     "@babel/preset-typescript": "^7.1.0",
+    "@types/nodemailer": "^4.6.5",
+    "@types/nodemailer-direct-transport": "^1.0.31",
+    "@types/nodemailer-smtp-transport": "^2.7.4",
     "apollo-link": "^1.2.3",
     "apollo-link-state": "^0.4.2",
     "apollo-server-express": "2.0.0",
@@ -34,6 +37,7 @@
     "graphql-resolvers": "^0.2.2",
     "jsonwebtoken": "^8.3.0",
     "knex": "^0.14.6",
+    "nodemailer": "^4.7.0",
     "pg": "^7.4.3",
     "ts-node": "^7.0.1",
     "uuid": "^3.3.2"

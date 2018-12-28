@@ -1,11 +1,7 @@
-require('dotenv').config();
 import AWS from 'aws-sdk';
 import requireAuth from '../resolverMiddleware/requireAuth';
 import { ResolverFn } from 'apollo-server-express';
-
-const { ACCESS_KEY_ID } = process.env;
-const { BUCKET_NAME } = process.env;
-const { SECRETE_ACCESS_KEY } = process.env;
+import * as config from '../config';
 
 const deletePhoto: ResolverFn = async (
   root: any,
@@ -14,14 +10,14 @@ const deletePhoto: ResolverFn = async (
 ) => {
   try {
     const s3 = new AWS.S3({
-      accessKeyId: ACCESS_KEY_ID,
-      secretAccessKey: SECRETE_ACCESS_KEY,
+      accessKeyId: config.ACCESS_KEY_ID,
+      secretAccessKey: config.SECRETE_ACCESS_KEY,
     });
 
     const files = filenames.map(filename => ({ Key: filename }));
 
     const params = {
-      Bucket: (BUCKET_NAME as string),
+      Bucket: config.BUCKET_NAME,
       Delete: {
         Objects: files,
       },

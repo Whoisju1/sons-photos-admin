@@ -1,10 +1,7 @@
 import { ResolverFn } from 'apollo-server-express';
 import AWS from 'aws-sdk';
 import requireAuth from '../resolverMiddleware/requireAuth';
-
-const { ACCESS_KEY_ID } = process.env;
-const { BUCKET_NAME } = process.env;
-const { SECRETE_ACCESS_KEY } = process.env;
+import * as config from '../config';
 
 const deleteGallery: ResolverFn = async (
   _,
@@ -12,13 +9,13 @@ const deleteGallery: ResolverFn = async (
   { db }: { db: any},
 ) => {
   try {
-      // check to see how many photos are in specified gallery
+  // check to see how many photos are in specified gallery
   const [photoQuantity] = await db('photo')
   .where({ galleryID })
   .count();
   const photoCount: number = parseInt(photoQuantity.count, 10);
 
-// if there are photos delete all from S3
+  // if there are photos delete all from S3
   if (photoCount) {
   // get photoIDs
   const photos: Array<{ filename: string }> = await db.select('filename')
@@ -27,14 +24,14 @@ const deleteGallery: ResolverFn = async (
   const filenames = photos.map(({ filename }) => filename);
 
   const s3 = new AWS.S3({
-      accessKeyId: ACCESS_KEY_ID,
-      secretAccessKey: SECRETE_ACCESS_KEY,
+      accessKeyId: config.ACCESS_KEY_ID,
+      secretAccessKey: config.SECRETE_ACCESS_KEY,
     });
 
   const files = filenames.map(filename => ({ Key: filename }));
 
   const params = {
-      Bucket: (BUCKET_NAME as string),
+      Bucket: config.BUCKET_NAME,
       Delete: {
         Objects: files,
       },

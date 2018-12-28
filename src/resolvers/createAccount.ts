@@ -1,19 +1,9 @@
 import { ResolverFn } from 'apollo-server-express';
+import { createAccount as saveAccount, IAccountInput } from '../services/accountCreation';
 
-const createAccount: ResolverFn = async (root, { input: accountInfo }, {
-  bcrypt, db, jwt, secret,
-}) => {
+const createAccount: ResolverFn = async (root, { input: accountInfo }: { input: IAccountInput }) => {
   try {
-    accountInfo.password = await bcrypt.hash(accountInfo.password, 10); // eslint-disable-line
-    const [newAccount] = await db
-      .returning('*')
-      .insert(accountInfo)
-      .into('account');
-
-    const { accountID } = newAccount;
-    newAccount.token = jwt.sign({ sub: { accountID } }, secret);
-
-    return newAccount;
+    return await saveAccount(accountInfo);
   } catch (err) {
     return err;
   }

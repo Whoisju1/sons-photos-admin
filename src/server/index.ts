@@ -8,15 +8,13 @@ import jwt from 'jsonwebtoken';
 import db from '../db/knex';
 import resolvers from '../resolvers';
 import typeDefs from '../typeDefs';
+import { EmailService } from '../services/emailService';
+import * as config from '../config';
 
-require('dotenv').config();
-
-const secret = Buffer.from(process.env.JWT_SECRETE || '', 'base64');
+const secret = Buffer.from(config.JWT_SECRETE, 'base64');
 const app = express();
 const path = '/graphql';
-const { PORT } = process.env;
 
-// ues middleware
 app.use(
   cors(),
   bodyParser.json(),
@@ -36,9 +34,13 @@ const server = new ApolloServer({
     jwt,
     bcrypt,
     secret,
+    emailService: new EmailService({
+      SmtpFromAddress: config.EMAIL_FROM,
+      SmtpServerConnectionString: config.EMAIL_CONNECTION_STRING,
+    }),
   }),
 });
 
 server.applyMiddleware({ app, path });
 
-app.listen(PORT, () => console.log(`Server ready on http://localhost:${PORT}`)); // eslint-disable-line no-console
+app.listen(config.PORT, () => console.log(`Server ready on http://localhost:${config.PORT}`));

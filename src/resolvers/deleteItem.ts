@@ -1,7 +1,5 @@
-import requireAuth from '../resolverMiddleware/requireAuth';
 import { ResolverFn } from 'apollo-server-express';
 
-/* eslint-disable camelcase */
 const deleteItem: ResolverFn = async (root, { item, ID }, { db }) => {
   try {
     const itemID = `${item}_id`;
@@ -16,4 +14,4 @@ const deleteItem: ResolverFn = async (root, { item, ID }, { db }) => {
   }
 };
 
-export default requireAuth(deleteItem);
+export default deleteItem;

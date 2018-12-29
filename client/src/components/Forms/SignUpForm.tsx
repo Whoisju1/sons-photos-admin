@@ -35,6 +35,12 @@ const RoleOption = styled.option`
 
 `;
 
+enum Role {
+  superAdmin= 'SUPER_ADMIN',
+  admin= 'ADMIN',
+  user= 'USER',
+}
+
 interface IState {
   // tslint:disable-next-line:variable-name
   [firstName: string]: string;
@@ -43,7 +49,7 @@ interface IState {
   password: string;
   email: string;
   phone: string;
-  role: string;
+  role: Role;
 }
 
 class SignUpForm extends React.Component<{}, IState> {
@@ -54,7 +60,7 @@ class SignUpForm extends React.Component<{}, IState> {
     password: '',
     email: '',
     phone: '',
-    role: 'admin',
+    role: Role.admin,
   };
 
   public render() {
@@ -139,11 +145,11 @@ class SignUpForm extends React.Component<{}, IState> {
                           // value={this.state.role}
                           onChange={this.handleSelect}
                         >
-                          <RoleOption value='admin'>Admin</RoleOption>
-                          <RoleOption value='manager'>Manger</RoleOption>
-                          <RoleOption value='viewer'>Viewer</RoleOption>
+                          <RoleOption value={Role.superAdmin}>SUPER ADMIN</RoleOption>
+                          <RoleOption value={Role.admin}>ADMIN</RoleOption>
+                          <RoleOption value={Role.user}>USER</RoleOption>
                         </RoleSelection>
-                          <SubmitBtn />
+                        <SubmitBtn />
                       </Form>
             );
           }
@@ -161,7 +167,7 @@ class SignUpForm extends React.Component<{}, IState> {
   }
 
   private handleSelect = (e: React.FormEvent<HTMLSelectElement>) => {
-    this.setState({ role: e.currentTarget.value });
+    this.setState({ role: (e.currentTarget.value as Role) });
   }
 }
 

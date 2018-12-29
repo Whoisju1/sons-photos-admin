@@ -1,11 +1,10 @@
-import requireAuth from '../resolverMiddleware/requireAuth';
 import { ResolverFn } from 'apollo-server-express';
 
-const addPhoto: ResolverFn = async (root, { input }, { db, req }) => {
+const addPhoto: ResolverFn = async (root, { input }, { db, user }) => {
   try {
     /* ** store photo and retrieve the photo id ** */
     // get user id from token
-    const { accountID } = req.user.sub; // eslint-disable-line camelcase
+    const { accountID } = user.sub; // eslint-disable-line camelcase
     // add user id to data to be stored in database
     const newInput = { ...input, accountID };
     const [photo] = await db('photo')
@@ -18,4 +17,4 @@ const addPhoto: ResolverFn = async (root, { input }, { db, req }) => {
   }
 };
 
-export default requireAuth(addPhoto);
+export default addPhoto;

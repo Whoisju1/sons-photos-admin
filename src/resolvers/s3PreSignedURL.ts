@@ -1,6 +1,5 @@
 import AWS from 'aws-sdk';
 import uuid from 'uuid/v1';
-import requireAuth from '../resolverMiddleware/requireAuth';
 import { ResolverFn } from 'apollo-server-express';
 import * as config from '../config';
 
@@ -30,4 +29,4 @@ const s3PreSignedURL: ResolverFn = async (root, { filename }) => {
   }
 };
 
-export default requireAuth(s3PreSignedURL);
+export default s3PreSignedURL;

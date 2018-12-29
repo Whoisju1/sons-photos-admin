@@ -2,16 +2,15 @@ import { ApolloServer } from 'apollo-server-express';
 import bcrypt from 'bcrypt';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import express from 'express';
-import expressJwt from 'express-jwt';
+import express, { Request } from 'express';
 import jwt from 'jsonwebtoken';
 import db from '../db/knex';
 import resolvers from '../resolvers';
 import typeDefs from '../typeDefs';
 import { EmailService } from '../services/emailService';
 import * as config from '../config';
+import { AuthorizationDirective } from '../directiveResolvers/AuthorizationDirective';
 
-const secret = Buffer.from(config.JWT_SECRETE, 'base64');
 const app = express();
 const path = '/graphql';
 
@@ -19,21 +18,27 @@ app.use(
   cors(),
   bodyParser.json(),
   bodyParser.urlencoded({ extended: true }),
-  expressJwt({
-    secret,
-    credentialsRequired: false,
-  }),
 );
+
+const getToken = (req: Request) => req.headers.authorization
+? req.headers.authorization.split(' ')[1]
+: null;
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req }: { req: any }) => ({
+  schemaDirectives: {
+    authorization: AuthorizationDirective,
+  },
+  context: ({ req }: { req: Request }) => ({
     req,
     db,
     jwt,
     bcrypt,
-    secret,
+    token: getToken(req),
+    user: getToken(req)
+      ? jwt.decode(getToken(req) as string)
+      : null,
     emailService: new EmailService({
       SmtpFromAddress: config.EMAIL_FROM,
       SmtpServerConnectionString: config.EMAIL_CONNECTION_STRING,
@@ -43,4 +48,7 @@ const server = new ApolloServer({
 
 server.applyMiddleware({ app, path });
 
-app.listen(config.PORT, () => console.log(`Server ready on http://localhost:${config.PORT}`));
+app.listen(config.PORT, () => {
+  console.log(`🚀  Server ready at http://localhost:${config.PORT}`);
+  console.log(`🚀  GraphQL endpoint: http://localhost:${config.PORT}${server.graphqlPath}`);
+});

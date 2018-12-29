@@ -11,7 +11,7 @@ import login from './login';
 import s3PreSignedURL from './s3PreSignedURL';
 import deleteGallery from './deleteGallery';
 // import { sendEmail } from './sendEmail';
-import { ResolverFn, IResolvers } from 'apollo-server-express';
+import { ResolverFn, IResolvers } from 'apollo-server';
 
 const Query = {
   account,

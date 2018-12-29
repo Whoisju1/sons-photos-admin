@@ -37,13 +37,15 @@ export interface IDeletedGallery {
   galleryID: string;
 }
 
-export type Role = 'admin' | 'manager' | 'viewer';
+export type Role = 'SUPER_ADMIN' | 'ADMIN' | 'USER';
 
 export default gql`
+  directive @authorization (scope: [Role]) on FIELD_DEFINITION
+
 # ROOT TYPES
   type Query {
     # Information for the current user is provided - Authentication Required
-    account: Account
+    account: Account @authorization(scope: [SUPER_ADMIN, ADMIN])
     "All the galleries are provided"
     galleries(sortOrder: SortOrder, sortBy: SortGalleryBy): [Gallery]
     "the gallery for the given 'galleryID' is provided"
@@ -60,24 +62,24 @@ export default gql`
     "User is signed up and user information is provided"
     createAccount(input: createAccountInput): Account
     "A Photo is added to the gallery of choice"
-    addPhoto (input: photoInput): Photo
+    addPhoto (input: photoInput): Photo @authorization(scope: [SUPER_ADMIN, ADMIN])
     "A photo gallery is created"
-    createGallery (input: createGalleryInput): Gallery
+    createGallery (input: createGalleryInput): Gallery @authorization(scope: [SUPER_ADMIN, ADMIN])
     "The 'item' argument represents the table name and the 'ID' argument represents the row that is to be deleted"
-    deleteItem (item: itemToDelete!, ID: ID!): DeleteItem
+    deleteItem (item: itemToDelete!, ID: ID!): DeleteItem @authorization(scope: [SUPER_ADMIN, ADMIN])
     "Photo is deleted from S3 bucket and database"
-    deletePhoto(filenames: [String]!): [Photo]
+    deletePhoto(filenames: [String]!): [Photo] @authorization(scope: [SUPER_ADMIN, ADMIN])
     "Deletes the selected gallery and all the photos inside of it"
-    deleteGallery(galleryID: ID!): DeletedGallery
+    deleteGallery(galleryID: ID!): DeletedGallery @authorization(scope: [SUPER_ADMIN, ADMIN])
     # sendEmail(input: emailInput!): Email
   }
 
   # TYPES
   type Account {
-    accountID: ID!
-    firstName: String!
-    lastName: String!
-    username: String!
+    accountID: ID
+    firstName: String
+    lastName: String
+    username: String
     email: String
     phone: Float
     role: Role
@@ -89,8 +91,8 @@ export default gql`
     photoID: ID
     url: String
     photoDescription: String
-    addedBy: Account
-    clickCount: Float
+    addedBy: Account @authorization(scope: [SUPER_ADMIN, ADMIN])
+    clickCount: Float @authorization(scope: [SUPER_ADMIN, ADMIN])
     createdAt: String
     filename: String
     gallery: Gallery
@@ -100,9 +102,9 @@ export default gql`
     galleryID: ID
     galleryTitle: String
     description: String
-    clickCount: Float
+    clickCount: Float @authorization(scope: [SUPER_ADMIN, ADMIN])
     createdAt: String
-    createdBy: Account
+    createdBy: Account @authorization(scope: [SUPER_ADMIN, ADMIN])
     photos: [Photo]
   }
 
@@ -149,9 +151,9 @@ export default gql`
     firstName: String!
     lastName: String!
     password: String!
-    email: String
+    email: String!
     phone: String
-    role: Role
+    role: Role!
   }
 
   input loginInput {
@@ -201,8 +203,8 @@ export default gql`
 
   "the various account types"
   enum Role {
-    superAdmin
-    admin
-    user
+    SUPER_ADMIN
+    ADMIN
+    USER
   }
 `;

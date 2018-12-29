@@ -1,11 +1,10 @@
 import AWS from 'aws-sdk';
-import requireAuth from '../resolverMiddleware/requireAuth';
 import { ResolverFn } from 'apollo-server-express';
 import * as config from '../config';
 
 const deletePhoto: ResolverFn = async (
   root: any,
-  { filenames }: { filenames: string[] }, // eslint-disable-line camelcase
+  { filenames }: { filenames: string[] },
   { db },
 ) => {
   try {
@@ -42,4 +41,4 @@ const deletePhoto: ResolverFn = async (
   }
 };
 
-export default requireAuth(deletePhoto);
+export default deletePhoto;

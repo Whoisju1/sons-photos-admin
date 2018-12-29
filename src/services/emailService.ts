@@ -29,7 +29,6 @@ export class EmailService {
     this._transporter = nodemailer.createTransport(this._settings.SmtpServerConnectionString);
     this._transporter.verify((error, success) => {
       if (error) return console.error(error);
-      if (success) console.log('Server ready to take our messages.');
     });
   }
 

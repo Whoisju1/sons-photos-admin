@@ -1,8 +1,7 @@
 import bcrypt from 'bcrypt';
 import db from '../db/knex';
-import { generateToken } from './tokenCreation';
-
-export type Role = 'superAdmin' | 'admin' | 'user';
+import { generateToken } from './userTokenGenerator';
+import { Role } from '../typeDefs';
 
 export interface IAccountInput {
   username: string;
@@ -15,7 +14,7 @@ export interface IAccountInput {
 }
 
 export interface IAccountInfo {
-  accountID: string;
+  accountID: number;
   firstName: string;
   lastName: string;
   username: string;

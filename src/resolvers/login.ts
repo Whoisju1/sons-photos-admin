@@ -1,8 +1,7 @@
 import { ResolverFn } from 'apollo-server-express';
+import { generateToken } from '../services/userTokenGenerator';
 
-const login: ResolverFn = async (root, { input: { username, password } }, {
-  db, bcrypt, jwt, secret,
-}) => {
+const login: ResolverFn = async (root, { input: { username, password } }, { db, bcrypt }) => {
   try {
     // fetch user from database
     const [userInfo] = await db('account')
@@ -17,8 +16,8 @@ const login: ResolverFn = async (root, { input: { username, password } }, {
     if (!isPasswordCorrect) return new Error('Incorrect password');
 
     // if all is well create token
-    const { accountID } = userInfo; // eslint-disable-line camelcase
-    userInfo.token = await jwt.sign({ sub: { accountID } }, secret);
+    const { accountID, role } = userInfo; // eslint-disable-line camelcase
+    userInfo.token = generateToken({ accountID, role });
 
     // remove password from payload
     delete userInfo.password;

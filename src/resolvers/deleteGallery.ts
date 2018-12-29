@@ -1,6 +1,5 @@
 import { ResolverFn } from 'apollo-server-express';
 import AWS from 'aws-sdk';
-import requireAuth from '../resolverMiddleware/requireAuth';
 import * as config from '../config';
 
 const deleteGallery: ResolverFn = async (
@@ -63,4 +62,4 @@ const deleteGallery: ResolverFn = async (
   }
 };
 
-export default requireAuth(deleteGallery);
+export default deleteGallery;

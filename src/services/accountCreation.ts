@@ -30,12 +30,12 @@ export const createAccount = async (accountInfo: IAccountInput): Promise<IAccoun
   try {
     accountInfo.password = await bcrypt.hash(accountInfo.password, 10);
     const [newAccount]: IAccountInfo[] = await db
-      .returning('*')
+      .returning(['accountID', 'role'])
       .insert(accountInfo)
       .into('account');
 
-    const { accountID } = newAccount;
-    newAccount.token = generateToken(accountID);
+    const { accountID, role } = newAccount;
+    newAccount.token = generateToken({ accountID, role });
 
     return newAccount;
   } catch (err) {

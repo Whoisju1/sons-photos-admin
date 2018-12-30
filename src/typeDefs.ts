@@ -77,6 +77,8 @@ export default gql`
     # sendEmail(input: emailInput!): Email
     "Change password"
     changePassword(password: Password): Account @authorization(scope: [SUPER_ADMIN, ADMIN, USER])
+    "Edit Own User Information"
+    editOwnAccount(input: editUserInput!): Account @authorization(scope: [SUPER_ADMIN, ADMIN, USER])
   }
 
   # TYPES
@@ -150,6 +152,13 @@ export default gql`
   #   content: String!
   #   subject: String!
   # }
+  input editUserInput {
+    firstName: String
+    lastName: String
+    email: String
+    phone: String
+    role: Role
+  }
 
   input createAccountInput {
     username: String!

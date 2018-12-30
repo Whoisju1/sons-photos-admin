@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 import { PHOTO_FRAGMENT } from '../fragments';
 
 export const GALLERY_QUERY = gql`
-  query getGallery ($galleryID: ID) {
+  query getGallery ($galleryID: ID!) {
     gallery (galleryID: $galleryID) {
       galleryTitle
       galleryID

@@ -10,7 +10,7 @@ export const DELETE_PHOTO = gql`
 `;
 
 export const UPLOAD_IMAGE_MUTATION = gql`
-mutation savedPhoto ($photoInfo:photoInput) {
+mutation savedPhoto ($photoInfo:photoInput!) {
 	addPhoto (input:$photoInfo) {
 		...photos
 	}

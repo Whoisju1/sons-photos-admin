@@ -40,8 +40,7 @@ export interface IDeletedGallery {
 export type Role = 'SUPER_ADMIN' | 'ADMIN' | 'USER';
 
 export default gql`
-  directive @authorization (scope: [Role]) on FIELD_DEFINITION
-
+  directive @authorization (scope: [Role]) on OBJECT | FIELD_DEFINITION
 # ROOT TYPES
   type Query {
     # Information for the current user is provided - Authentication Required
@@ -49,22 +48,22 @@ export default gql`
     "All the galleries are provided"
     galleries(sortOrder: SortOrder, sortBy: SortGalleryBy): [Gallery]
     "the gallery for the given 'galleryID' is provided"
-    gallery (galleryID: ID): Gallery
+    gallery (galleryID: ID!): Gallery
     "The photo for the given 'photoID' is provided"
-    getPhoto(photoID: String): Photo
+    getPhoto(photoID: String!): Photo
     "user is logged in and user information is provided"
-    login (input: loginInput): Account
+    login (input: loginInput!): Account
     "This query provides a presigned URL from AWS S3 which is as the address where the file is uploaded"
     s3PreSignedURL (filename: String!): S3PreSignedURL
   }
 
   type Mutation {
     "User is signed up and user information is provided"
-    createAccount(input: createAccountInput): Account
+    createAccount(input: createAccountInput!): Account
     "A Photo is added to the gallery of choice"
-    addPhoto (input: photoInput): Photo @authorization(scope: [SUPER_ADMIN, ADMIN])
+    addPhoto (input: photoInput!): Photo @authorization(scope: [SUPER_ADMIN, ADMIN])
     "A photo gallery is created"
-    createGallery (input: createGalleryInput): Gallery @authorization(scope: [SUPER_ADMIN, ADMIN])
+    createGallery (input: createGalleryInput!): Gallery @authorization(scope: [SUPER_ADMIN, ADMIN])
     "The 'item' argument represents the table name and the 'ID' argument represents the row that is to be deleted"
     deleteItem (item: itemToDelete!, ID: ID!): DeleteItem @authorization(scope: [SUPER_ADMIN, ADMIN])
     "Photo is deleted from S3 bucket and database"
@@ -108,7 +107,7 @@ export default gql`
     photos: [Photo]
   }
 
-  type S3PreSignedURL {
+  type S3PreSignedURL @authorization(scope: [SUPER_ADMIN, ADMIN]) {
     "The url address where the photo will be uploaded"
     url: String
     "This the determined filename"
@@ -131,12 +130,12 @@ export default gql`
 #     messageId: ID
 # }
 
-  type DeleteItem {
+  type DeleteItem @authorization(scope: [SUPER_ADMIN, ADMIN]) {
     "The number of items that was deleted. If 0 is returned then the item may not have existed in the first place"
     quantityDeleted: Int
   }
 
-  type DeletedGallery {
+  type DeletedGallery @authorization(scope: [SUPER_ADMIN, ADMIN]) {
     galleryID: String
   }
 

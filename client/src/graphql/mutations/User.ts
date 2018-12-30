@@ -8,7 +8,7 @@ export interface ISignUp {
 }
 
 export const SIGN_UP_MUTATION = gql`
-mutation signUp ($userInfo: createAccountInput) {
+mutation signUp ($userInfo: createAccountInput!) {
   createAccount (input: $userInfo) {
     firstName
     accountID

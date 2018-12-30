@@ -6,6 +6,8 @@ import Header from './components/Header/Header';
 import Section from './components/Section';
 import SideNav from './components/SideNav';
 import SignUpForm from './components/Forms/SignUpForm';
+import LoginForm from './components/Forms/LoginForm';
+import CreateGalleryForm from './components/Forms/CreateGalleryForm';
 
 import { Route } from 'react-router';
 import Auth from './Auth';
@@ -49,6 +51,8 @@ class App extends React.Component {
         </Auth>
         <Route path='/login' component={LoginPage}/>
         <SignUpForm />
+        <LoginForm />
+        <CreateGalleryForm />
         <Footer />
       </React.Fragment>
     );

@@ -9,7 +9,7 @@ query getAccount {
 `;
 
 export const LOGIN_QUERY = gql`
-query login ($credentials: loginInput) {
+query login ($credentials: loginInput!) {
 	login (input: $credentials) {
       accountID
       token

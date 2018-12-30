@@ -8,9 +8,6 @@ interface IUserInfo {
 }
 
 export const generateToken = (sub: IUserInfo) => {
-  console.log({ sub });
   const token = jwt.sign({ sub }, secrete);
-  console.log({ token });
-  console.log({ decoded: jwt.decode(token)} );
   return token;
 };

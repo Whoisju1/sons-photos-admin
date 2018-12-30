@@ -40,8 +40,12 @@ export interface IDeletedGallery {
 export type Role = 'SUPER_ADMIN' | 'ADMIN' | 'USER';
 
 export default gql`
+  # DIRECTIVES
   directive @authorization (scope: [Role]) on OBJECT | FIELD_DEFINITION
-# ROOT TYPES
+
+  #  SCALAR CUSTOM TYPES
+  scalar Password
+  # ROOT TYPES
   type Query {
     # Information for the current user is provided - Authentication Required
     account: Account @authorization(scope: [SUPER_ADMIN, ADMIN])
@@ -71,6 +75,8 @@ export default gql`
     "Deletes the selected gallery and all the photos inside of it"
     deleteGallery(galleryID: ID!): DeletedGallery @authorization(scope: [SUPER_ADMIN, ADMIN])
     # sendEmail(input: emailInput!): Email
+    "Change password"
+    changePassword(password: Password): Account @authorization(scope: [SUPER_ADMIN, ADMIN, USER])
   }
 
   # TYPES

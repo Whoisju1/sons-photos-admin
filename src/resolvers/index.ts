@@ -10,6 +10,7 @@ import getPhoto from './getPhoto';
 import login from './login';
 import s3PreSignedURL from './s3PreSignedURL';
 import deleteGallery from './deleteGallery';
+import changePassword from './changePassword';
 // import { sendEmail } from './sendEmail';
 import { ResolverFn, IResolvers } from 'apollo-server';
 
@@ -24,6 +25,7 @@ const Query = {
 
 const Mutation = {
   createAccount,
+  changePassword,
   // sendEmail,
   addPhoto,
   createGallery,

@@ -1,0 +1,9 @@
+FROM node:10.14.2
+WORKDIR /api
+EXPOSE 8000
+
+COPY ./package.json ./
+RUN yarn
+
+COPY ./ ./
+CMD ["yarn", "serve"]

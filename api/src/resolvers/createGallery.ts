@@ -5,7 +5,7 @@ const createGallery: ResolverFn = async (root, { input }, { db, user }) => {
     const { id } = user.sub;
 
     const [gallery] = await db('gallery')
-      .insert({ ...input, id })
+      .insert({ ...input, accountID: id })
       .where({ id })
       .returning('*');
 

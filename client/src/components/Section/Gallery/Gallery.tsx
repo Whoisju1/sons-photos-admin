@@ -27,7 +27,7 @@ GalleryContainer.displayName = 'GalleryContainer';
 
 interface IData {
   gallery: {
-    galleryTitle: string,
+    title: string,
     photos: Array<{
       photoID: string,
       url: string,
@@ -61,15 +61,15 @@ const Gallery: React.SFC<IProps> = props => {
         const { gallery } = data;
         // do not return anything if there are no photos
         if (!gallery) return null;
-        const { galleryTitle } = gallery;
+        const { title } = gallery;
         return (
           <GalleryContainer>
-            <Heading headingType='secondary'>{galleryTitle}</Heading>
-            <UploadForm galleryID={galleryID} galleryTitle={galleryTitle} />
+            <Heading headingType='secondary'>{title}</Heading>
+            <UploadForm galleryID={galleryID} title={title} />
             {
               !!gallery.photos.length ?
               <PhotoList photos={gallery.photos} galleryID={galleryID} /> :
-              `There are no photos in the '${galleryTitle}' Gallery`
+              `There are no photos in the '${title}' Gallery`
             }
           </GalleryContainer>
         );

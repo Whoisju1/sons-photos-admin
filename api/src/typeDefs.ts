@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express';
 
 export interface IGallery {
   id: string;
-  galleryTitle: string;
+  title: string;
   description: string;
   clickCount: number;
   createdAt: string;
@@ -13,7 +13,7 @@ export interface IGallery {
 export interface IPhoto {
   id: string;
   url: string;
-  photoDescription: string;
+  description: string;
   addedBy: IAccount;
   clickCount: number;
   createdAt: string;
@@ -97,7 +97,7 @@ export default gql`
   type Photo {
     id: ID!
     url: String
-    photoDescription: String
+    description: String
     addedBy: Account @authorization(scope: [SUPER_ADMIN, ADMIN])
     clickCount: Float @authorization(scope: [SUPER_ADMIN, ADMIN])
     createdAt: String
@@ -107,7 +107,7 @@ export default gql`
 
   type Gallery {
     id: ID!
-    galleryTitle: String
+    title: String
     description: String
     clickCount: Float @authorization(scope: [SUPER_ADMIN, ADMIN])
     createdAt: String
@@ -181,13 +181,13 @@ export default gql`
     "The gallery id of the id the photo should be associated with"
     id: ID!
     "A description of the photo being added to the gallery"
-    photoDescription: String
+    description: String
     "filename to be saved in database to reference when deleting photo from AWS bucket"
     filename: String!
   }
 
   input createGalleryInput {
-    galleryTitle: String
+    title: String
     galleryDescription: String
   }
 

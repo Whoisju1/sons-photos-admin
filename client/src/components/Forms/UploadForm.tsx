@@ -35,7 +35,7 @@ interface IState {
 
 interface IProps {
   galleryID: string;
-  galleryTitle: string;
+  title: string;
 }
 
 class UploadForm extends React.Component<IProps, IState> {
@@ -79,7 +79,7 @@ class UploadForm extends React.Component<IProps, IState> {
                           url: key,
                           galleryID: this.props.galleryID,
                           filename: key,
-                          photoDescription: !!(this.inputRef.current as HTMLInputElement).value
+                          description: !!(this.inputRef.current as HTMLInputElement).value
                           ? (this.inputRef.current as HTMLInputElement).value : null,
                         },
                       },

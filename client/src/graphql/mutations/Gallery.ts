@@ -4,7 +4,7 @@ export const CREATE_GALLERY_MUTATION = gql`
 mutation createGallery($galleryInfo: createGalleryInput!) {
   createGallery (input: $galleryInfo) {
     galleryID
-    galleryTitle
+    title
     description
     clickCount
     createdAt

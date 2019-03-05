@@ -21,7 +21,7 @@ export interface IPhoto {
 interface IGalleryData {
   gallery: {
     galleryID: string;
-    galleryTitle: string;
+    title: string;
     photos: IPhoto[];
     __typename: string;
   };

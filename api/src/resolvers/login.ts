@@ -16,8 +16,8 @@ const login: ResolverFn = async (root, { input: { username, password } }, { db, 
     if (!isPasswordCorrect) return new Error('Incorrect password');
 
     // if all is well create token
-    const { accountID, role } = userInfo; // eslint-disable-line camelcase
-    userInfo.token = generateToken({ accountID, role });
+    const { id, role } = userInfo; // eslint-disable-line camelcase
+    userInfo.token = generateToken({ id, role });
 
     // remove password from payload
     delete userInfo.password;

@@ -6,7 +6,7 @@ import { Link } from '../../GeneralComponents';
 interface IData {
   galleries: Array<{
     galleryID: string;
-    galleryTitle: string;
+    title: string;
   }>;
 }
 
@@ -34,12 +34,12 @@ const GalleryList = ({ sortBy = 'title', sortOrder = 'asc' }: IVariables) => (
         if (loading) return '...loading Galleries';
         if (!data || data === undefined) return null;
         const { galleries } = data;
-        return galleries.map(({ galleryID, galleryTitle }) => (
+        return galleries.map(({ galleryID, title }) => (
           <Link
             to={`/galleries/gallery/${galleryID}`}
             key={galleryID}
           >
-            {galleryTitle}
+            {title}
           </Link>
           ));
       }

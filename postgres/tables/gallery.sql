@@ -1,6 +1,6 @@
 BEGIN TRANSACTION;
 
-CREATE TABLE gallery(
+CREATE TABLE IF NOT EXISTS gallery (
 
   \c sons_photos
 

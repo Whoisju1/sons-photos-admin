@@ -2,7 +2,7 @@ BEGIN TRANSACTION;
 
 \c sons_photos
 
-CREATE TABLE photo(
+CREATE TABLE IF NOT EXISTS photo (
   id SERIAL UNIQUE,
   filename TEXT NOT NULL,
   url TEXT UNIQUE NOT NULL,

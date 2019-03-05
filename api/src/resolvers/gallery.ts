@@ -1,10 +1,10 @@
 import { ResolverFn } from 'apollo-server-express';
 
-const gallery: ResolverFn = async (root, { galleryID }: { galleryID: string } , { db }) => {
+const gallery: ResolverFn = async (root, { id }: { id: string } , { db }) => {
   try {
     const [galleryInfo] = await db('gallery')
       .select()
-      .where({ galleryID });
+      .where({ id });
 
     return galleryInfo;
   } catch (err) {

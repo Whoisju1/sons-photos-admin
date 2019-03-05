@@ -4,9 +4,9 @@ const addPhoto: ResolverFn = async (root, { input }, { db, user }) => {
   try {
     /* ** store photo and retrieve the photo id ** */
     // get user id from token
-    const { accountID } = user.sub; // eslint-disable-line camelcase
+    const { id } = user.sub; // eslint-disable-line camelcase
     // add user id to data to be stored in database
-    const newInput = { ...input, accountID };
+    const newInput = { ...input, id };
     const [photo] = await db('photo')
       .insert(newInput)
       .returning('*');

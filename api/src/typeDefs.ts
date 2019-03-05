@@ -1,7 +1,7 @@
 import { gql } from 'apollo-server-express';
 
 export interface IGallery {
-  galleryID: string;
+  id: string;
   galleryTitle: string;
   description: string;
   clickCount: number;
@@ -11,7 +11,7 @@ export interface IGallery {
 }
 
 export interface IPhoto {
-  photoID: string;
+  id: string;
   url: string;
   photoDescription: string;
   addedBy: IAccount;
@@ -22,7 +22,7 @@ export interface IPhoto {
 }
 
 export interface IAccount {
-  accountID: string;
+  id: string;
   firstName: string;
   lastName: string;
   username: string;
@@ -34,7 +34,7 @@ export interface IAccount {
 }
 
 export interface IDeletedGallery {
-  galleryID: string;
+  id: string;
 }
 
 export type Role = 'SUPER_ADMIN' | 'ADMIN' | 'USER';
@@ -51,10 +51,10 @@ export default gql`
     account: Account @authorization(scope: [SUPER_ADMIN, ADMIN])
     "All the galleries are provided"
     galleries(sortOrder: SortOrder, sortBy: SortGalleryBy): [Gallery]
-    "the gallery for the given 'galleryID' is provided"
-    gallery (galleryID: ID!): Gallery
-    "The photo for the given 'photoID' is provided"
-    getPhoto(photoID: String!): Photo
+    "the gallery for the given 'id' is provided"
+    gallery (id: ID!): Gallery
+    "The photo for the given 'id' is provided"
+    getPhoto(id: String!): Photo
     "user is logged in and user information is provided"
     login (input: loginInput!): Account
     "This query provides a presigned URL from AWS S3 which is as the address where the file is uploaded"
@@ -73,7 +73,7 @@ export default gql`
     "Photo is deleted from S3 bucket and database"
     deletePhoto(filenames: [String]!): [Photo] @authorization(scope: [SUPER_ADMIN, ADMIN])
     "Deletes the selected gallery and all the photos inside of it"
-    deleteGallery(galleryID: ID!): DeletedGallery @authorization(scope: [SUPER_ADMIN, ADMIN])
+    deleteGallery(id: ID!): DeletedGallery @authorization(scope: [SUPER_ADMIN, ADMIN])
     # sendEmail(input: emailInput!): Email
     "Change password"
     changePassword(password: Password): Account @authorization(scope: [SUPER_ADMIN, ADMIN, USER])
@@ -83,7 +83,7 @@ export default gql`
 
   # TYPES
   type Account {
-    accountID: ID
+    id: ID!
     firstName: String
     lastName: String
     username: String
@@ -95,7 +95,7 @@ export default gql`
   }
 
   type Photo {
-    photoID: ID
+    id: ID!
     url: String
     photoDescription: String
     addedBy: Account @authorization(scope: [SUPER_ADMIN, ADMIN])
@@ -106,7 +106,7 @@ export default gql`
   }
 
   type Gallery {
-    galleryID: ID
+    id: ID!
     galleryTitle: String
     description: String
     clickCount: Float @authorization(scope: [SUPER_ADMIN, ADMIN])
@@ -144,7 +144,7 @@ export default gql`
   }
 
   type DeletedGallery @authorization(scope: [SUPER_ADMIN, ADMIN]) {
-    galleryID: String
+    id: String
   }
 
   # input emailInput {
@@ -179,7 +179,7 @@ export default gql`
     "The S3 presigned URL where the photo was uploaded to"
     url: String!
     "The gallery id of the id the photo should be associated with"
-    galleryID: ID!
+    id: ID!
     "A description of the photo being added to the gallery"
     photoDescription: String
     "filename to be saved in database to reference when deleting photo from AWS bucket"
@@ -193,7 +193,7 @@ export default gql`
 
   "different things the gallery list can be sorted by"
   enum SortGalleryBy {
-    galleryID
+    id
     title
     clickCount
     createdAt

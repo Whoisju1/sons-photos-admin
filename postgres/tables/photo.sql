@@ -1,0 +1,16 @@
+BEGIN TRANSACTION;
+
+\c sons_photos
+
+CREATE TABLE photo(
+  id SERIAL UNIQUE,
+  filename TEXT NOT NULL,
+  url TEXT UNIQUE NOT NULL,
+  "photoDescription" TEXT,
+  "galleryID" INTEGER REFERENCES gallery (id) ON DELETE CASCADE NOT NULL,
+  "accountID" INTEGER REFERENCES account (id) ON DELETE CASCADE NOT NULL,
+  "clickCount" BIGINT DEFAULT 0,
+  "createdAt" TIMESTAMP DEFAULT NOW()
+);
+
+COMMIT;

@@ -3,7 +3,7 @@ import { Role } from '../typeDefs';
 import jwt from 'jsonwebtoken';
 
 interface IUserInfo {
-  accountID: number;
+  id: number;
   role: Role;
 }
 

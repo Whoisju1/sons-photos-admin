@@ -42,7 +42,7 @@ const GlobalStyle = createGlobalStyle`
 class App extends React.Component {
   public render() {
     return (
-      <React.Fragment>
+      <>
         <GlobalStyle />
         <Header />
         <Auth>
@@ -54,7 +54,7 @@ class App extends React.Component {
         <LoginForm />
         <CreateGalleryForm />
         <Footer />
-      </React.Fragment>
+      </>
     );
   }
 }

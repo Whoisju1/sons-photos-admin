@@ -9,6 +9,16 @@ services:
     volumes:
       - ./api:/api
       - /api/node_modules
+    depends_on:
+      - postgres
+    links:
+      - postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: sons_photos
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5431
   client:
     build:
       context: ./client
@@ -19,4 +29,9 @@ services:
       - ./client:/client
       - /client/node_modules
   postgres:
-    image: postgres
+    build:
+      context: ./postgres
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5431:5432"
+    env_file: ./postgres/postgres.env

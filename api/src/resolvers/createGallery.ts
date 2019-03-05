@@ -2,11 +2,11 @@ import { ResolverFn } from 'apollo-server-express';
 
 const createGallery: ResolverFn = async (root, { input }, { db, user }) => {
   try {
-    const { accountID } = user.sub;
+    const { id } = user.sub;
 
     const [gallery] = await db('gallery')
-      .insert({ ...input, accountID })
-      .where({ accountID })
+      .insert({ ...input, id })
+      .where({ id })
       .returning('*');
 
     return gallery;

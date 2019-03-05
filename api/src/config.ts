@@ -6,7 +6,6 @@ interface IProcessEnv {
 
 const {
   PORT,
-  PG_PASS,
   JWT_SECRETE,
   BUCKET_NAME,
   ACCESS_KEY_ID,
@@ -18,7 +17,6 @@ const {
 
 export {
   PORT,
-  PG_PASS,
   JWT_SECRETE,
   BUCKET_NAME,
   ACCESS_KEY_ID,

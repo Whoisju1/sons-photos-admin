@@ -8,7 +8,7 @@ const changePassword: ResolverFn = async (root, { password }, { user }) => {
 
     const [editedUser] = await db('account')
       .update({ password: hashedPassword })
-      .where({ accountID: user.sub.accountID })
+      .where({ id: user.sub.id })
       .returning('*');
 
     return editedUser;

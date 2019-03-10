@@ -1,0 +1,10 @@
+schema: http://localhost:4000/graphql
+documents: 'src/**/*.graphql'
+generates:
+  ./src/backend_schema.tsx:
+    config:
+      noNamespaces: true
+    plugins:
+      - typescript-common
+      - typescript-client
+      - typescript-react-apollo

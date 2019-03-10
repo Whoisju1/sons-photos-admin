@@ -1,45 +1,3 @@
-import { gql } from 'apollo-server-express';
-
-export interface IGallery {
-  id: string;
-  title: string;
-  description: string;
-  clickCount: number;
-  createdAt: string;
-  createdBy: IAccount;
-  photos: IPhoto;
-}
-
-export interface IPhoto {
-  id: string;
-  url: string;
-  description: string;
-  addedBy: IAccount;
-  clickCount: number;
-  createdAt: string;
-  filename: string;
-  gallery: IGallery;
-}
-
-export interface IAccount {
-  id: string;
-  firstName: string;
-  lastName: string;
-  username: string;
-  email: string;
-  phone: string;
-  role: Role;
-  createdAt: string;
-  token: string;
-}
-
-export interface IDeletedGallery {
-  id: string;
-}
-
-export type Role = 'SUPER_ADMIN' | 'ADMIN' | 'USER';
-
-export default gql`
   # DIRECTIVES
   directive @authorization (scope: [Role]) on OBJECT | FIELD_DEFINITION
 
@@ -47,38 +5,48 @@ export default gql`
   scalar Password
   # ROOT TYPES
   type Query {
-    # Information for the current user is provided - Authentication Required
-    account: Account @authorization(scope: [SUPER_ADMIN, ADMIN])
-    "All the galleries are provided"
-    galleries(sortOrder: SortOrder, sortBy: SortGalleryBy): [Gallery]
-    "the gallery for the given 'id' is provided"
-    gallery (id: ID!): Gallery
-    "The photo for the given 'id' is provided"
-    getPhoto(id: String!): Photo
+    # Account
+    getAccount: Account @authorization(scope: [SUPER_ADMIN, ADMIN])
     "user is logged in and user information is provided"
     login (input: loginInput!): Account
+
+    # Gallery
+    "All the galleries are provided"
+    getGalleries(sortOrder: SortOrder, sortBy: SortGalleryBy): [Gallery]
+    "the gallery for the given 'id' is provided"
+    getGallery (id: ID!): Gallery
+    "The photo for the given 'id' is provided"
+    getPhoto(id: String!): Photo
+
     "This query provides a presigned URL from AWS S3 which is as the address where the file is uploaded"
     s3PreSignedURL (filename: String!): S3PreSignedURL
   }
 
   type Mutation {
+    # Account
     "User is signed up and user information is provided"
     createAccount(input: createAccountInput!): Account
+    "Edit Own User Information"
+    editAccountOwn(input: editUserInput!): Account @authorization(scope: [SUPER_ADMIN, ADMIN, USER])
+    # editAccountOther(input: editUserInput!): Account @authorization(scope: [SUPER_ADMIN])
+
+    # Photo
     "A Photo is added to the gallery of choice"
     addPhoto (input: photoInput!): Photo @authorization(scope: [SUPER_ADMIN, ADMIN])
     "A photo gallery is created"
     createGallery (input: createGalleryInput!): Gallery @authorization(scope: [SUPER_ADMIN, ADMIN])
-    "The 'item' argument represents the table name and the 'ID' argument represents the row that is to be deleted"
-    deleteItem (item: itemToDelete!, ID: ID!): DeleteItem @authorization(scope: [SUPER_ADMIN, ADMIN])
     "Photo is deleted from S3 bucket and database"
-    deletePhoto(filenames: [String]!): [Photo] @authorization(scope: [SUPER_ADMIN, ADMIN])
+    deletePhoto(filenames: [String!]!): [Photo] @authorization(scope: [SUPER_ADMIN, ADMIN])
+
+    # Gallery
     "Deletes the selected gallery and all the photos inside of it"
     deleteGallery(id: ID!): DeletedGallery @authorization(scope: [SUPER_ADMIN, ADMIN])
+
+    "The 'item' argument represents the table name and the 'ID' argument represents the row that is to be deleted"
+    deleteItem (item: itemToDelete!, ID: ID!): DeleteItem @authorization(scope: [SUPER_ADMIN, ADMIN])
     # sendEmail(input: emailInput!): Email
     "Change password"
     changePassword(password: Password): Account @authorization(scope: [SUPER_ADMIN, ADMIN, USER])
-    "Edit Own User Information"
-    editOwnAccount(input: editUserInput!): Account @authorization(scope: [SUPER_ADMIN, ADMIN, USER])
   }
 
   # TYPES
@@ -221,4 +189,3 @@ export default gql`
     ADMIN
     USER
   }
-`;

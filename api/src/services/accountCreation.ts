@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import db from '../db/knex';
 import { generateToken } from './userTokenGenerator';
-import { Role } from '../typeDefs';
+import { Role } from '../resolver-types';
 
 export interface IAccountInput {
   username: string;
@@ -9,7 +9,7 @@ export interface IAccountInput {
   lastName: string;
   password: string;
   email: string;
-  phone: string;
+  phone?: string | null | undefined;
   role: Role;
 }
 
@@ -19,7 +19,7 @@ export interface IAccountInfo {
   lastName: string;
   username: string;
   email: string;
-  phone: string;
+  phone?: string | null | undefined;
   role: Role;
   createdAt: string;
   token: string;

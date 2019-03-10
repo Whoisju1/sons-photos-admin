@@ -12,6 +12,7 @@ const {
   SECRETE_ACCESS_KEY,
   EMAIL_CONNECTION_STRING,
   EMAIL_FROM,
+  ENGINE_API_KEY,
 
 } = process.env as IProcessEnv;
 
@@ -23,4 +24,5 @@ export {
   SECRETE_ACCESS_KEY,
   EMAIL_CONNECTION_STRING,
   EMAIL_FROM,
+  ENGINE_API_KEY,
 };

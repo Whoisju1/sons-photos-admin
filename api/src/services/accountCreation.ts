@@ -29,7 +29,7 @@ export const createAccount = async (accountInfo: IAccountInput): Promise<IAccoun
   try {
     accountInfo.password = await bcrypt.hash(accountInfo.password, 10);
     const [newAccount]: IAccountInfo[] = await db
-      .returning(['id', 'role'])
+      .returning('*')
       .insert(accountInfo)
       .into('account');
 

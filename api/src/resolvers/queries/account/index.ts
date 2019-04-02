@@ -2,6 +2,7 @@ import { generateToken } from '../../../services/userTokenGenerator';
 import { QueryGetAccountResolver, Role, QueryLoginResolver } from '../../../resolver-types';
 import Knex from 'knex';
 import bcrypt from 'bcrypt';
+import { ApolloError, UserInputError } from 'apollo-server-express';
 
 interface IUser {
   sub: {
@@ -36,11 +37,15 @@ export const login: QueryLoginResolver<{}, {}, { db: Knex }>
       .where({ username });
 
     // check if user exits
-    if (!userInfo) return new Error('User not found');
+    if (!userInfo) return new UserInputError('User not found', {
+      inputField: 'username',
+    });
 
     // check if password is correct
     const isPasswordCorrect = await bcrypt.compare(password, userInfo.password);
-    if (!isPasswordCorrect) return new Error('Incorrect password');
+    if (!isPasswordCorrect) return new UserInputError('Incorrect password', {
+      inputField: 'password',
+    });
 
     // if all is well create token
     const { id, role } = userInfo; // eslint-disable-line camelcase

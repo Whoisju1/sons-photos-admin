@@ -1,7 +1,8 @@
 import Knex from 'knex';
 import AWS from 'aws-sdk';
+import { ApolloError } from 'apollo-server-express';
 import * as config from '../../../config';
-import { MutationDeleteGalleryResolver } from '../../../resolver-types';
+import { MutationDeleteGalleryResolver, MutationCreateGalleryResolver } from '../../../resolver-types';
 
 export const deleteGallery: MutationDeleteGalleryResolver<{}, {}, { db: Knex }> = async (
   _,
@@ -43,10 +44,18 @@ export const deleteGallery: MutationDeleteGalleryResolver<{}, {}, { db: Knex }> 
     // delete the gallery for the corresponding id
     const [ foundID ]: string[] = await db('gallery').where({ id: galleryID }).del().returning('id');
     // throw an error if the gallery doesn't exist
-    if (!foundID) return new Error('Gallery does not exist');
+    if (!foundID) return new ApolloError('Gallery does not exist');
     // return the gallery ID
     return { id: foundID };
   } catch (e) {
     return e;
   }
 };
+
+export const createGallery: MutationCreateGalleryResolver<{}, {}, { db: Knex }> = async (root, args, ctx) => {
+  try {
+    const { input } = args;
+  } catch (e) {
+    return e;
+  }
+}

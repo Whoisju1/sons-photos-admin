@@ -1,7 +1,7 @@
-import { SchemaDirectiveVisitor } from 'apollo-server';
+import { SchemaDirectiveVisitor, AuthenticationError } from 'apollo-server';
 import { defaultFieldResolver, GraphQLField, GraphQLObjectType } from 'graphql';
 import db from '../db/knex';
-import { Role } from '../typeDefs';
+import { Role } from '../resolver-types';
 
 interface IExtendedType extends GraphQLObjectType {
   _requiredAuthRole: string[];
@@ -31,18 +31,18 @@ export class AuthorizationDirective extends SchemaDirectiveVisitor {
     field.resolve = async (root, args, ctx, info) => {
       try {
         const { user = null }: { user: IUser | null } = ctx;
-        if (!user) return new Error('Unauthorized!');
+        if (!user) return new AuthenticationError('Unauthorized!');
         const { accountID, role } = user.sub;
 
         const foundUser = await this.getUser(accountID);
         // user doesn't exist in database return an error of Unauthorized
-        if (!foundUser) return new Error('User not found');
+        if (!foundUser) return new AuthenticationError('User not found');
         const isPermitted = (this.args.scope as Role[]).includes(role);
 
         if (isPermitted) {
           return await resolve.apply(this, [root, args, ctx, info]);
         } else {
-          return new Error('Unauthorized!');
+          return new AuthenticationError('Unauthorized!');
         }
       } catch (err) {
         return err;
@@ -73,7 +73,7 @@ export class AuthorizationDirective extends SchemaDirectiveVisitor {
 
         const user = await this.getUser(context.user.sub.accountID);
         if (! user.hasRole(requiredRole)) {
-          throw new Error('not authorized');
+          throw new AuthenticationError('not authorized');
         }
 
         return resolve.apply(this, [root, args, context, info]);

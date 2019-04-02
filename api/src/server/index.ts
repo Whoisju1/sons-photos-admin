@@ -30,6 +30,7 @@ const getToken = (req: Request) => req.headers.authorization
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  debug: true,
   schemaDirectives: {
     authorization: AuthorizationDirective,
   },

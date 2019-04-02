@@ -1,4 +1,3 @@
-/* tslint:disable */
 export type Maybe<T> = T | null;
 
 export interface LoginInput {
@@ -47,15 +46,17 @@ export interface PhotoInput {
 }
 
 export interface CreateGalleryInput {
-  title?: Maybe<string>;
+  title: string;
 
   galleryDescription?: Maybe<string>;
+
+  thumbnail?: Maybe<string>;
 }
 /** the various account types */
 export enum Role {
   SuperAdmin = "SUPER_ADMIN",
   Admin = "ADMIN",
-  User = "USER"
+  Viewer = "VIEWER"
 }
 
 export enum SortOrder {
@@ -137,6 +138,8 @@ export interface Gallery {
   description?: Maybe<string>;
 
   clickCount?: Maybe<number>;
+
+  thumbnail?: Maybe<string>;
 
   createdAt?: Maybe<string>;
 
@@ -232,7 +235,7 @@ export interface CreateGalleryMutationArgs {
   input: CreateGalleryInput;
 }
 export interface DeletePhotoMutationArgs {
-  filenames: (Maybe<string>)[];
+  filenames: string[];
 }
 export interface DeleteGalleryMutationArgs {
   id: string;
@@ -450,6 +453,8 @@ export interface GalleryResolvers<TContext = {}, TypeParent = Gallery> {
 
   clickCount?: GalleryClickCountResolver<Maybe<number>, TypeParent, TContext>;
 
+  thumbnail?: GalleryThumbnailResolver<Maybe<string>, TypeParent, TContext>;
+
   createdAt?: GalleryCreatedAtResolver<Maybe<string>, TypeParent, TContext>;
 
   createdBy?: GalleryCreatedByResolver<Maybe<Account>, TypeParent, TContext>;
@@ -474,6 +479,11 @@ export type GalleryDescriptionResolver<
 > = Resolver<R, Parent, TContext>;
 export type GalleryClickCountResolver<
   R = Maybe<number>,
+  Parent = Gallery,
+  TContext = {}
+> = Resolver<R, Parent, TContext>;
+export type GalleryThumbnailResolver<
+  R = Maybe<string>,
   Parent = Gallery,
   TContext = {}
 > = Resolver<R, Parent, TContext>;
@@ -662,7 +672,7 @@ export type MutationDeletePhotoResolver<
   TContext = {}
 > = Resolver<R, Parent, TContext, MutationDeletePhotoArgs>;
 export interface MutationDeletePhotoArgs {
-  filenames: (Maybe<string>)[];
+  filenames: string[];
 }
 
 export type MutationDeleteGalleryResolver<

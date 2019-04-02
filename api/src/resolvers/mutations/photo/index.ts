@@ -6,6 +6,7 @@ import {
 import Knex from 'knex';
 import AWS from 'aws-sdk';
 import * as config from '../../../config';
+import { ApolloError } from 'apollo-server-express';
 
 interface IUserInfo {
     sub: {
@@ -57,7 +58,7 @@ export const deletePhoto: MutationDeletePhotoResolver<{}, {}, { db: Knex }>
       .deleteObjects(params)
       .promise();
 
-    if (!Deleted) return new Error('Photo does not exist.');
+    if (!Deleted) return new ApolloError('Photo does not exist.');
 
     const deletedPhotos = await Deleted.map(({ Key: filename }) => db('photo')
       .where({ filename })

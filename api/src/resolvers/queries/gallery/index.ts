@@ -1,5 +1,4 @@
 import Knex from 'knex';
-import { ResolverFn } from 'apollo-server-express';
 import { QueryGetGalleryResolver, QueryGetGalleriesResolver } from '../../../resolver-types';
 
 export const getGallery: QueryGetGalleryResolver<{}, {}, { db: Knex }>
@@ -16,13 +15,13 @@ export const getGallery: QueryGetGalleryResolver<{}, {}, { db: Knex }>
 };
 
 export const getGalleries: QueryGetGalleriesResolver<{}, {}, { db: Knex }>
-= async (root: any, { sortBy, sortOrder }, { db }) => {
+= async (root: any, { sortBy = 'id', sortOrder = 'asc' }, { db }) => {
   try {
     const galleriesList = await db('gallery')
-      .orderBy(sortOrder || 'asc', sortBy || 'id');
-
+      .orderBy(sortBy, sortOrder);
     return galleriesList;
   } catch (err) {
+    console.log(err);
     return err;
   }
 };

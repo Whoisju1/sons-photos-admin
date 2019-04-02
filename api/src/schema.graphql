@@ -8,7 +8,7 @@
     # Account
     getAccount: Account @authorization(scope: [SUPER_ADMIN, ADMIN])
     "user is logged in and user information is provided"
-    login (input: loginInput!): Account
+    login (input: LoginInput!): Account
 
     # Gallery
     "All the galleries are provided"
@@ -25,9 +25,9 @@
   type Mutation {
     # Account
     "User is signed up and user information is provided"
-    createAccount(input: createAccountInput!): Account
+    createAccount(input: createAccountInput!): Account @authorization(scope: [SUPER_ADMIN])
     "Edit Own User Information"
-    editAccountOwn(input: editUserInput!): Account @authorization(scope: [SUPER_ADMIN, ADMIN, USER])
+    editAccountOwn(input: editUserInput!): Account @authorization(scope: [SUPER_ADMIN, ADMIN, VIEWER])
     # editAccountOther(input: editUserInput!): Account @authorization(scope: [SUPER_ADMIN])
 
     # Photo
@@ -46,7 +46,7 @@
     deleteItem (item: itemToDelete!, ID: ID!): DeleteItem @authorization(scope: [SUPER_ADMIN, ADMIN])
     # sendEmail(input: emailInput!): Email
     "Change password"
-    changePassword(password: Password): Account @authorization(scope: [SUPER_ADMIN, ADMIN, USER])
+    changePassword(password: Password): Account @authorization(scope: [SUPER_ADMIN, ADMIN, VIEWER])
   }
 
   # TYPES
@@ -78,6 +78,7 @@
     title: String
     description: String
     clickCount: Float @authorization(scope: [SUPER_ADMIN, ADMIN])
+    thumbnail: String
     createdAt: String
     createdBy: Account @authorization(scope: [SUPER_ADMIN, ADMIN])
     photos: [Photo]
@@ -138,7 +139,7 @@
     role: Role!
   }
 
-  input loginInput {
+  input LoginInput {
     username: String!
     password: String!
   }
@@ -155,8 +156,9 @@
   }
 
   input createGalleryInput {
-    title: String
+    title: String!
     galleryDescription: String
+    thumbnail: String
   }
 
   "different things the gallery list can be sorted by"
@@ -187,5 +189,5 @@
   enum Role {
     SUPER_ADMIN
     ADMIN
-    USER
+    VIEWER
   }

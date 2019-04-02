@@ -22,7 +22,7 @@ export const createAccount: MutationCreateAccountResolver =
   async (root, args) => {
   try {
     const { input } = args;
-    return await saveAccount({ ...input, phone: input.phone || null });
+    return await saveAccount({ ...input });
   } catch (err) {
     return err;
   }

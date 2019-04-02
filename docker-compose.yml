@@ -5,7 +5,7 @@ services:
       context: ./api
       dockerfile: Dockerfile.dev
     ports:
-      - "8000:8000"
+      - "4000:4000"
     volumes:
       - ./api:/api
       - /api/node_modules
@@ -34,4 +34,10 @@ services:
       dockerfile: Dockerfile.dev
     ports:
       - "5431:5432"
+    volumes:
+      - postgres_database:/var/lib/postgresql/data:Z
     env_file: ./postgres/postgres.env
+# run this command to create volume: "docker volume create postgres_database"
+volumes:
+    postgres_database:
+        external: true

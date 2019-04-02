@@ -15,10 +15,10 @@ export const getGallery: QueryGetGalleryResolver<{}, {}, { db: Knex }>
 };
 
 export const getGalleries: QueryGetGalleriesResolver<{}, {}, { db: Knex }>
-= async (root: any, { sortBy = 'id', sortOrder = 'asc' }, { db }) => {
+= async (root, { sortBy, sortOrder }, { db }) => {
   try {
     const galleriesList = await db('gallery')
-      .orderBy(sortBy, sortOrder);
+      .orderBy(sortBy || 'id', sortOrder || 'ASC');
     return galleriesList;
   } catch (err) {
     console.log(err);

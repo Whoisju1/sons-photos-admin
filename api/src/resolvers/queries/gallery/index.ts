@@ -21,7 +21,6 @@ export const getGalleries: QueryGetGalleriesResolver<{}, {}, { db: Knex }>
       .orderBy(sortBy || 'id', sortOrder || 'ASC');
     return galleriesList;
   } catch (err) {
-    console.log(err);
     return err;
   }
 };

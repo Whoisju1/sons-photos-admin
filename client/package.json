@@ -47,6 +47,7 @@
     "@graphql-codegen/cli": "^1.0.7",
     "@graphql-codegen/fragment-matcher": "^1.0.7",
     "@graphql-codegen/typescript-operations": "^1.0.7",
-    "@graphql-codegen/typescript-react-apollo": "^1.0.7"
+    "@graphql-codegen/typescript-react-apollo": "^1.0.7",
+    "ts-node": "^8.1.0"
   }
 }

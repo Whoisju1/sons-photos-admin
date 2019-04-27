@@ -4,8 +4,8 @@ import { css } from './styled-components';
 
 export default interface ThemeInterface {
   inputValidation: {
-    valid:  FlattenSimpleInterpolation;
-    invalid:  FlattenSimpleInterpolation;
+    valid: FlattenSimpleInterpolation;
+    invalid: FlattenSimpleInterpolation;
   };
   colors: {
     softRed: string;
@@ -26,14 +26,14 @@ export default interface ThemeInterface {
 
 const inputValidation = {
   valid: css`
-    border: .5px solid #27ae60;
-    box-shadow: 0px 0px 10px rgba(39, 174, 96, .3);
+    border: 0.5px solid #27ae60;
+    box-shadow: 0px 0px 10px rgba(39, 174, 96, 0.3);
     outline-color: #27ae60;
   `,
   invalid: css`
-    border: .5px solid red;
-    box-shadow: 0px 0px 10px rgba(231, 76, 60, .3);
-    outline-color: rgba(231, 76, 60, .3);
+    border: 0.5px solid red;
+    box-shadow: 0px 0px 10px rgba(231, 76, 60, 0.3);
+    outline-color: rgba(231, 76, 60, 0.3);
   `,
 };
 

@@ -72,7 +72,7 @@ export type EditUserInput = {
 
 export type Gallery = {
   id: Scalars["ID"];
-  title?: Maybe<Scalars["String"]>;
+  title: Scalars["String"];
   description?: Maybe<Scalars["String"]>;
   clickCount?: Maybe<Scalars["Float"]>;
   thumbnail?: Maybe<Scalars["String"]>;
@@ -163,7 +163,7 @@ export type Query = {
   /** user is logged in and user information is provided */
   login: Account;
   /** All the galleries are provided */
-  getGalleries?: Maybe<Array<Maybe<Gallery>>>;
+  getGalleries: Array<Gallery>;
   /** the gallery for the given 'id' is provided */
   getGallery: Gallery;
   /** The photo for the given 'id' is provided */
@@ -290,15 +290,8 @@ export type GetAccountInfoQuery = { __typename?: "Query" } & {
 export type GetGalleriesQueryVariables = {};
 
 export type GetGalleriesQuery = { __typename?: "Query" } & {
-  getGalleries: Maybe<
-    Array<
-      Maybe<
-        { __typename?: "Gallery" } & Pick<
-          Gallery,
-          "id" | "title" | "description"
-        >
-      >
-    >
+  galleries: Array<
+    { __typename?: "Gallery" } & Pick<Gallery, "id" | "title" | "description">
   >;
 };
 

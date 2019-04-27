@@ -1,95 +1,103 @@
-  # DIRECTIVES
-  directive @authorization (scope: [Role]) on OBJECT | FIELD_DEFINITION
+# DIRECTIVES
+directive @authorization(scope: [Role]) on OBJECT | FIELD_DEFINITION
 
-  #  SCALAR CUSTOM TYPES
-  scalar Password
-  # ROOT TYPES
-  type Query {
-    # Account
-    getAccount: Account @authorization(scope: [SUPER_ADMIN, ADMIN])
-    "user is logged in and user information is provided"
-    login (input: LoginInput!): Account!
+#  SCALAR CUSTOM TYPES
+scalar Password
+# ROOT TYPES
+type Query {
+  # Account
+  getAccount: Account @authorization(scope: [SUPER_ADMIN, ADMIN])
+  "user is logged in and user information is provided"
+  login(input: LoginInput!): Account!
 
-    # Gallery
-    "All the galleries are provided"
-    getGalleries(sortOrder: SortOrder, sortBy: SortGalleryBy): [Gallery]
-    "the gallery for the given 'id' is provided"
-    getGallery (id: ID!): Gallery!
-    "The photo for the given 'id' is provided"
-    getPhoto(id: String!): Photo!
+  # Gallery
+  "All the galleries are provided"
+  getGalleries(sortOrder: SortOrder, sortBy: SortGalleryBy): [Gallery!]!
+  "the gallery for the given 'id' is provided"
+  getGallery(id: ID!): Gallery!
+  "The photo for the given 'id' is provided"
+  getPhoto(id: String!): Photo!
 
-    "This query provides a presigned URL from AWS S3 which is as the address where the file is uploaded"
-    s3PreSignedURLs (filenames: [String!]!): [S3PreSignedURL!]!
-  }
+  "This query provides a presigned URL from AWS S3 which is as the address where the file is uploaded"
+  s3PreSignedURLs(filenames: [String!]!): [S3PreSignedURL!]!
+}
 
-  type Mutation {
-    # Account
-    "User is signed up and user information is provided"
-    createAccount(input: createAccountInput!): Account! @authorization(scope: [SUPER_ADMIN])
-    "Edit Own User Information"
-    editAccountOwn(input: editUserInput!): Account! @authorization(scope: [SUPER_ADMIN, ADMIN, VIEWER])
-    # editAccountOther(input: editUserInput!): Account @authorization(scope: [SUPER_ADMIN])
+type Mutation {
+  # Account
+  "User is signed up and user information is provided"
+  createAccount(input: createAccountInput!): Account!
+    @authorization(scope: [SUPER_ADMIN])
+  "Edit Own User Information"
+  editAccountOwn(input: editUserInput!): Account!
+    @authorization(scope: [SUPER_ADMIN, ADMIN, VIEWER])
+  # editAccountOther(input: editUserInput!): Account @authorization(scope: [SUPER_ADMIN])
 
-    # Photo
-    "A Photo is added to the gallery of choice"
-    addPhotos ( galleryID: ID!, input: [AddPhotoInput!]!): [Photo!]! @authorization(scope: [SUPER_ADMIN, ADMIN])
-    "A photo gallery is created"
-    createGallery (input: CreateGalleryInput!): Gallery! @authorization(scope: [SUPER_ADMIN, ADMIN])
-    "Photo is deleted from S3 bucket and database"
-    deletePhoto(filenames: [String!]!): [Photo] @authorization(scope: [SUPER_ADMIN, ADMIN])
+  # Photo
+  "A Photo is added to the gallery of choice"
+  addPhotos(galleryID: ID!, input: [AddPhotoInput!]!): [Photo!]!
+    @authorization(scope: [SUPER_ADMIN, ADMIN])
+  "A photo gallery is created"
+  createGallery(input: CreateGalleryInput!): Gallery!
+    @authorization(scope: [SUPER_ADMIN, ADMIN])
+  "Photo is deleted from S3 bucket and database"
+  deletePhoto(filenames: [String!]!): [Photo]
+    @authorization(scope: [SUPER_ADMIN, ADMIN])
 
-    # Gallery
-    "Deletes the selected gallery and all the photos inside of it"
-    deleteGallery(id: ID!): DeletedGallery @authorization(scope: [SUPER_ADMIN, ADMIN])
+  # Gallery
+  "Deletes the selected gallery and all the photos inside of it"
+  deleteGallery(id: ID!): DeletedGallery
+    @authorization(scope: [SUPER_ADMIN, ADMIN])
 
-    "The 'item' argument represents the table name and the 'ID' argument represents the row that is to be deleted"
-    deleteItem (item: itemToDelete!, ID: ID!): DeleteItem @authorization(scope: [SUPER_ADMIN, ADMIN])
-    # sendEmail(input: emailInput!): Email
-    "Change password"
-    changePassword(password: Password): Account @authorization(scope: [SUPER_ADMIN, ADMIN, VIEWER])
-  }
+  "The 'item' argument represents the table name and the 'ID' argument represents the row that is to be deleted"
+  deleteItem(item: itemToDelete!, ID: ID!): DeleteItem
+    @authorization(scope: [SUPER_ADMIN, ADMIN])
+  # sendEmail(input: emailInput!): Email
+  "Change password"
+  changePassword(password: Password): Account
+    @authorization(scope: [SUPER_ADMIN, ADMIN, VIEWER])
+}
 
-  # TYPES
-  type Account {
-    id: ID!
-    firstName: String
-    lastName: String
-    username: String
-    email: String
-    phone: Float
-    role: Role
-    createdAt: String
-    token: String
-  }
+# TYPES
+type Account {
+  id: ID!
+  firstName: String
+  lastName: String
+  username: String
+  email: String
+  phone: Float
+  role: Role
+  createdAt: String
+  token: String
+}
 
-  type Photo {
-    id: ID!
-    url: String
-    description: String
-    addedBy: Account @authorization(scope: [SUPER_ADMIN, ADMIN])
-    clickCount: Float @authorization(scope: [SUPER_ADMIN, ADMIN])
-    createdAt: String
-    filename: String
-    gallery: Gallery
-  }
+type Photo {
+  id: ID!
+  url: String
+  description: String
+  addedBy: Account @authorization(scope: [SUPER_ADMIN, ADMIN])
+  clickCount: Float @authorization(scope: [SUPER_ADMIN, ADMIN])
+  createdAt: String
+  filename: String
+  gallery: Gallery
+}
 
-  type Gallery {
-    id: ID!
-    title: String
-    description: String
-    clickCount: Float @authorization(scope: [SUPER_ADMIN, ADMIN])
-    thumbnail: String
-    createdAt: String
-    createdBy: Account @authorization(scope: [SUPER_ADMIN, ADMIN])
-    photos: [Photo]
-  }
+type Gallery {
+  id: ID!
+  title: String!
+  description: String
+  clickCount: Float @authorization(scope: [SUPER_ADMIN, ADMIN])
+  thumbnail: String
+  createdAt: String
+  createdBy: Account @authorization(scope: [SUPER_ADMIN, ADMIN])
+  photos: [Photo]
+}
 
-  type S3PreSignedURL @authorization(scope: [SUPER_ADMIN, ADMIN]) {
-    "The url address where the photo will be uploaded"
-    url: String
-    "This the determined filename"
-    key: String
-  }
+type S3PreSignedURL @authorization(scope: [SUPER_ADMIN, ADMIN]) {
+  "The url address where the photo will be uploaded"
+  url: String
+  "This the determined filename"
+  key: String
+}
 
 #   type Envelope {
 #     from: String
@@ -107,85 +115,85 @@
 #     messageId: ID
 # }
 
-  type DeleteItem @authorization(scope: [SUPER_ADMIN, ADMIN]) {
-    "The number of items that was deleted. If 0 is returned then the item may not have existed in the first place"
-    quantityDeleted: Int
-  }
+type DeleteItem @authorization(scope: [SUPER_ADMIN, ADMIN]) {
+  "The number of items that was deleted. If 0 is returned then the item may not have existed in the first place"
+  quantityDeleted: Int
+}
 
-  type DeletedGallery @authorization(scope: [SUPER_ADMIN, ADMIN]) {
-    id: String
-  }
+type DeletedGallery @authorization(scope: [SUPER_ADMIN, ADMIN]) {
+  id: String
+}
 
-  # input emailInput {
-  #   to: String!
-  #   content: String!
-  #   subject: String!
-  # }
-  input editUserInput {
-    firstName: String
-    lastName: String
-    email: String
-    phone: String
-    role: Role
-  }
+# input emailInput {
+#   to: String!
+#   content: String!
+#   subject: String!
+# }
+input editUserInput {
+  firstName: String
+  lastName: String
+  email: String
+  phone: String
+  role: Role
+}
 
-  input createAccountInput {
-    username: String!
-    firstName: String!
-    lastName: String!
-    password: String!
-    email: String!
-    phone: String
-    role: Role!
-  }
+input createAccountInput {
+  username: String!
+  firstName: String!
+  lastName: String!
+  password: String!
+  email: String!
+  phone: String
+  role: Role!
+}
 
-  input LoginInput {
-    username: String!
-    password: String!
-  }
+input LoginInput {
+  username: String!
+  password: String!
+}
 
-  input AddPhotoInput {
-    "The S3 presigned URL where the photo was uploaded to"
-    url: String!
-    "A description of the photo being added to the gallery"
-    description: String
-    "filename to be saved in database to reference when deleting photo from AWS bucket"
-    filename: String!
-  }
+input AddPhotoInput {
+  "The S3 presigned URL where the photo was uploaded to"
+  url: String!
+  "A description of the photo being added to the gallery"
+  description: String
+  "filename to be saved in database to reference when deleting photo from AWS bucket"
+  filename: String!
+}
 
-  input CreateGalleryInput {
-    title: String!
-    description: String
-    thumbnail: String
-  }
+input CreateGalleryInput {
+  title: String!
+  description: String
+  thumbnail: String
+}
 
-  "different things the gallery list can be sorted by"
-  enum SortGalleryBy {
-    id
-    title
-    clickCount
-    createdAt
-  }
+"different things the gallery list can be sorted by"
+enum SortGalleryBy {
+  id
+  title
+  clickCount
+  createdAt
+}
 
-  # the two directions the the gallery list can be sorted by.
-  enum SortOrder {
-    "ascending"
-    asc
-    "descending"
-    desc
-  }
+# the two directions the the gallery list can be sorted by.
+enum SortOrder {
+  "ascending"
+  asc
+  "descending"
+  desc
+}
 
-  "the the options of items to delete"
-  enum itemToDelete {
-    photo
-    gallery
-    company
-    account
-  }
+"the the options of items to delete"
+enum itemToDelete {
+  photo
+  gallery
+  company
+  account
+}
 
-  "the various account types"
-  enum Role {
-    SUPER_ADMIN
-    ADMIN
-    VIEWER
-  }
+"the various account types"
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  VIEWER
+}

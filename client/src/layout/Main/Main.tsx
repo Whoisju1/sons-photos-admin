@@ -6,14 +6,11 @@ import AuthRoute from '../../utils/AuthRoutes';
 import Forms from '../../components/Forms';
 
 // import pages
-import {
-  Gallery,
-  Galleries,
-  Account,
-} from '../../pages'
+import { Gallery, Galleries, Account } from '../../pages';
 
 const StyledMain = styled.main`
   display: grid;
+  grid-column: 2/-2;
 `;
 
 const Main = () => {
@@ -29,6 +26,6 @@ const Main = () => {
       </Switch>
     </StyledMain>
   );
-}
+};
 
 export default Main;

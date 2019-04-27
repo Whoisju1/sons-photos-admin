@@ -16,7 +16,7 @@ export const GET_ACCOUNT = gql`
 
 export const GALLERY_QUERY = gql`
   query GetGalleries {
-    getGalleries {
+    galleries: getGalleries {
       id
       title
       description

@@ -1,43 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '../../styled-components';
-import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { GALLERY_QUERY } from '../../graphql/queries';
-import PhotoUpload from '../../components/PhotoUpload';
 import AddGalleryForm from '../../components/AddGalleryForm';
+import Button from '../../components/Button';
+import {
+  GetGalleriesQuery,
+  GetGalleriesQueryVariables,
+} from '../../gql-types.d';
+import GalleryPreview from '../../components/GalleryPreview';
 
-const StyledGalleries = styled.section`
+const StyledGalleries = styled.section``;
 
-`;
-
-interface IData {
-  id: string;
-  title: string;
-  description: string;
-}
-
-class GalleriesQuery extends Query<IData, {}>{}
+class GalleriesQuery extends Query<
+  GetGalleriesQuery,
+  GetGalleriesQueryVariables
+> {}
 
 const Galleries = () => {
+  const [showAddGalleryForm, setShowGalleryForm] = useState(false);
+
   return (
     <GalleriesQuery query={GALLERY_QUERY}>
-      {
-        ({ data, error, loading }) => {
-          if (error) {
-            console.dir(error);
-            return 'Oops! Something went wrong!'
-          }
-          if (loading) return 'loading...';
-          return (
-            <StyledGalleries>
-              <AddGalleryForm />
-              {/* <PhotoUpload galleryID={"2"} /> */}
-            </StyledGalleries>
-          );
+      {({ data, error, loading }) => {
+        if (error) {
+          console.dir(error);
+          return 'Oops! Something went wrong!';
         }
-      }
+        if (loading) return 'loading...';
+
+        if (!data) return <AddGalleryForm />;
+        if (!data.galleries) return <AddGalleryForm />;
+        if (!data.galleries.length) return <AddGalleryForm />;
+        const { galleries } = data;
+
+        return (
+          <StyledGalleries>
+            <div className="galleries">
+              {galleries.map(gallery => (
+                <GalleryPreview key={gallery.id} {...gallery} />
+              ))}
+            </div>
+            <Button click={() => setShowGalleryForm(true)}>Add Gallery</Button>
+            {showAddGalleryForm && <AddGalleryForm />}
+          </StyledGalleries>
+        );
+      }}
     </GalleriesQuery>
-  )
-}
+  );
+};
 
 export default Galleries;

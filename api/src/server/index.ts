@@ -15,17 +15,14 @@ const types = fs.readFileSync('./src/schema.graphql', { encoding: 'utf8' });
 
 const app = express();
 const path = '/graphql';
-const typeDefs = gql`${types}`;
+const typeDefs = gql`
+  ${types}
+`;
 
-app.use(
-  cors(),
-  bodyParser.json(),
-  bodyParser.urlencoded({ extended: true }),
-);
+app.use(cors(), bodyParser.json(), bodyParser.urlencoded({ extended: true }));
 
-const getToken = (req: Request) => req.headers.authorization
-? req.headers.authorization.split(' ')[1]
-: null;
+const getToken = (req: Request) =>
+  req.headers.authorization ? req.headers.authorization.split(' ')[1] : null;
 
 const server = new ApolloServer({
   typeDefs,
@@ -40,16 +37,14 @@ const server = new ApolloServer({
     jwt,
     bcrypt,
     token: getToken(req),
-    user: getToken(req)
-      ? jwt.decode(getToken(req) as string)
-      : null,
+    user: getToken(req) ? jwt.decode(getToken(req) as string) : null,
     emailService: new EmailService({
       SmtpFromAddress: config.EMAIL_FROM,
       SmtpServerConnectionString: config.EMAIL_CONNECTION_STRING,
     }),
     engine: {
       apiKey: config.ENGINE_API_KEY,
-      },
+    },
   }),
 });
 
@@ -59,5 +54,7 @@ const { PORT = 4000 } = config;
 
 app.listen(PORT, () => {
   console.log(`🚀  Server ready at http://localhost:${PORT}`);
-  console.log(`🚀  GraphQL endpoint: http://localhost:${PORT}${server.graphqlPath}`);
+  console.log(
+    `🚀  GraphQL endpoint: http://localhost:${PORT}${server.graphqlPath}`,
+  );
 });

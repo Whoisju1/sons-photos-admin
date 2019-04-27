@@ -6,8 +6,9 @@ CREATE TABLE IF NOT EXISTS gallery (
 
   id SERIAL UNIQUE,
   "title" VARCHAR(50) UNIQUE NOT NULL,
-  "galleryDescription" TEXT,
+  description TEXT,
   "clickCount" BIGINT DEFAULT 0,
+  thumbnail TEXT,
   "accountID" INTEGER REFERENCES account (id) ON DELETE CASCADE NOT NULL,
   "createdAt" TIMESTAMP DEFAULT NOW()
 );

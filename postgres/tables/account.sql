@@ -28,7 +28,7 @@ INSERT INTO account (
   'Julien',
   'John-Charles',
   'son',
-  'root',
+  '$2b$10$U4f8Qd3cGTl9MtWdLDQ7LeVtLDTd7ssiBHtLnVnw/ZQ1Optw2yjXy',
   'whoisju1@gmail.com',
   'SUPER_ADMIN',
   '0000000000'

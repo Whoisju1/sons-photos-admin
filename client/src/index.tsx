@@ -7,9 +7,11 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+const token = localStorage.getItem('token');
+const headers = token ? { authorization: `Bearer ${token}` } : null;
+
 const client = new ApolloClient({
-  name: 'sons-photos-admin-client',
-  version: '1',
+  headers,
 });
 
 ReactDOM.render(

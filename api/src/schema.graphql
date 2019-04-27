@@ -8,33 +8,33 @@
     # Account
     getAccount: Account @authorization(scope: [SUPER_ADMIN, ADMIN])
     "user is logged in and user information is provided"
-    login (input: LoginInput!): Account
+    login (input: LoginInput!): Account!
 
     # Gallery
     "All the galleries are provided"
     getGalleries(sortOrder: SortOrder, sortBy: SortGalleryBy): [Gallery]
     "the gallery for the given 'id' is provided"
-    getGallery (id: ID!): Gallery
+    getGallery (id: ID!): Gallery!
     "The photo for the given 'id' is provided"
-    getPhoto(id: String!): Photo
+    getPhoto(id: String!): Photo!
 
     "This query provides a presigned URL from AWS S3 which is as the address where the file is uploaded"
-    s3PreSignedURL (filename: String!): S3PreSignedURL
+    s3PreSignedURLs (filenames: [String!]!): [S3PreSignedURL!]!
   }
 
   type Mutation {
     # Account
     "User is signed up and user information is provided"
-    createAccount(input: createAccountInput!): Account @authorization(scope: [SUPER_ADMIN])
+    createAccount(input: createAccountInput!): Account! @authorization(scope: [SUPER_ADMIN])
     "Edit Own User Information"
-    editAccountOwn(input: editUserInput!): Account @authorization(scope: [SUPER_ADMIN, ADMIN, VIEWER])
+    editAccountOwn(input: editUserInput!): Account! @authorization(scope: [SUPER_ADMIN, ADMIN, VIEWER])
     # editAccountOther(input: editUserInput!): Account @authorization(scope: [SUPER_ADMIN])
 
     # Photo
     "A Photo is added to the gallery of choice"
-    addPhoto (input: photoInput!): Photo @authorization(scope: [SUPER_ADMIN, ADMIN])
+    addPhotos ( galleryID: ID!, input: [AddPhotoInput!]!): [Photo!]! @authorization(scope: [SUPER_ADMIN, ADMIN])
     "A photo gallery is created"
-    createGallery (input: createGalleryInput!): Gallery @authorization(scope: [SUPER_ADMIN, ADMIN])
+    createGallery (input: CreateGalleryInput!): Gallery! @authorization(scope: [SUPER_ADMIN, ADMIN])
     "Photo is deleted from S3 bucket and database"
     deletePhoto(filenames: [String!]!): [Photo] @authorization(scope: [SUPER_ADMIN, ADMIN])
 
@@ -144,20 +144,18 @@
     password: String!
   }
 
-  input photoInput {
+  input AddPhotoInput {
     "The S3 presigned URL where the photo was uploaded to"
     url: String!
-    "The gallery id of the id the photo should be associated with"
-    id: ID!
     "A description of the photo being added to the gallery"
     description: String
     "filename to be saved in database to reference when deleting photo from AWS bucket"
     filename: String!
   }
 
-  input createGalleryInput {
+  input CreateGalleryInput {
     title: String!
-    galleryDescription: String
+    description: String
     thumbnail: String
   }
 

@@ -24,7 +24,7 @@ export const getAccount: QueryGetAccountResolver<{}, {}, { db: Knex, user: IUser
 
     return accountInfo;
   } catch (err) {
-    return err;
+    throw new ApolloError(err);
   }
 };
 
@@ -55,7 +55,7 @@ export const login: QueryLoginResolver<{}, {}, { db: Knex }>
     delete userInfo.password;
 
     return userInfo;
-  } catch (e) {
-    return e;
+  } catch (err) {
+    throw new ApolloError(err);
   }
 };

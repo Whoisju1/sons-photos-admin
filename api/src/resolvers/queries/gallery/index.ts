@@ -9,14 +9,14 @@ export const getGallery: QueryGetGalleryResolver<{}, {}, { db: Knex }>
       .where({ id });
 
     return galleryInfo;
-  } catch (err) {
-    return err;
-  }
-};
+    } catch (err) {
+      return err;
+    }
+  };
 
 export const getGalleries: QueryGetGalleriesResolver<{}, {}, { db: Knex }>
-= async (root, { sortBy, sortOrder }, { db }) => {
-  try {
+  = async (root, { sortBy, sortOrder }, { db }) => {
+    try {
     const galleriesList = await db('gallery')
       .orderBy(sortBy || 'id', sortOrder || 'ASC');
     return galleriesList;

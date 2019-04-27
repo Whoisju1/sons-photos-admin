@@ -14,7 +14,7 @@ interface IExtendedField extends GraphQLField<any, any> {
 
 export interface IUser {
   sub: {
-    accountID: number;
+    id: number;
     role: Role;
    };
    iat: number;
@@ -31,13 +31,15 @@ export class AuthorizationDirective extends SchemaDirectiveVisitor {
     field.resolve = async (root, args, ctx, info) => {
       try {
         const { user = null }: { user: IUser | null } = ctx;
+        // if user isn't found in the context, in which case no one is logged in, throw an `Unauthorized` error
         if (!user) return new AuthenticationError('Unauthorized!');
-        const { accountID, role } = user.sub;
+        const { id, role } = user.sub;
 
-        const foundUser = await this.getUser(accountID);
-        // user doesn't exist in database return an error of Unauthorized
+        const foundUser = await this.getUser(id);
+        // if user doesn't exist in database return an error of "Unauthorized"
         if (!foundUser) return new AuthenticationError('User not found');
-        const isPermitted = (this.args.scope as Role[]).includes(role);
+        // check if user has the requisite permissions
+        const isPermitted: boolean = (this.args.scope as Role[]).includes(role);
 
         if (isPermitted) {
           return await resolve.apply(this, [root, args, ctx, info]);
@@ -70,8 +72,7 @@ export class AuthorizationDirective extends SchemaDirectiveVisitor {
         if (! requiredRole) {
           return resolve.apply(this, [root, args, context, info]);
         }
-
-        const user = await this.getUser(context.user.sub.accountID);
+        const user = await this.getUser(context.user.sub.id);
         if (! user.hasRole(requiredRole)) {
           throw new AuthenticationError('not authorized');
         }
@@ -81,10 +82,10 @@ export class AuthorizationDirective extends SchemaDirectiveVisitor {
     });
   }
 
-  private getUser = async (accountID: number) => {
+  private getUser = async (id: number) => {
     const [foundUser] = await db
-          .select('accountID')
-          .where({ accountID })
+          .select('id')
+          .where({ id })
           .from('account');
     return foundUser;
   }

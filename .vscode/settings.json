@@ -1,8 +1,12 @@
 {
   "cSpell.words": [
+    "OGOUT",
     "PRESIGNED",
     "QLID",
+    "Smtp",
+    "browserslist",
     "camelcase",
+    "codegen",
     "inmemory",
     "knexfile"
   ],

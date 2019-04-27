@@ -37,7 +37,7 @@ services:
     volumes:
       - postgres_database:/var/lib/postgresql/data:Z
     env_file: ./postgres/postgres.env
-# run this command to create volume: "docker volume create postgres_database"
+# run this command to create volume: "docker volume create --name=postgres_database"
 volumes:
     postgres_database:
         external: true

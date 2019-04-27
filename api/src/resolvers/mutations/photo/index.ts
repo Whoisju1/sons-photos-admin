@@ -1,5 +1,5 @@
 import {
-  MutationAddPhotoResolver,
+  MutationAddPhotosResolver,
   Role,
   MutationDeletePhotoResolver,
 } from '../../../resolver-types';
@@ -15,19 +15,24 @@ interface IUserInfo {
     };
 }
 
-export const addPhoto: MutationAddPhotoResolver<{}, {}, { db: Knex, user: IUserInfo }>
+export const addPhotos: MutationAddPhotosResolver<{}, {}, { db: Knex, user: IUserInfo }>
 = async (_, { input }, { db, user }) => {
   try {
     // store photo and retrieve the photo id
     // get user id from token
     const { id: accountID } = user.sub; // eslint-disable-line camelcase
     // add user id to data to be stored in database
-    const newInput = { ...input, accountID };
-    const [photo] = await db('photo')
-      .insert(newInput)
-      .returning('*');
 
-    return photo;
+    const newInput = input.map(item => ({ ...item, accountID }));
+
+    const photosToSave = newInput.map(async photoInput => {
+      const [savedPhotos] = await db('photo')
+        .insert(newInput)
+        .returning('*');
+      return savedPhotos;
+    });
+
+    return await Promise.all(photosToSave);
   } catch (err) {
     return err;
   }

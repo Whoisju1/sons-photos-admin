@@ -3,9 +3,11 @@ import styled from '../../styled-components';
 
 const StyledFooter = styled.footer`
   display: grid;
-  grid-column: 1/-1;
+  grid-column: sidebar-start/full-end;
+  grid-row: -2/-1;
   justify-content: center;
   align-items: center;
+  border: 0.005rem solid lightgray;
 `;
 
 const Footer = () => {

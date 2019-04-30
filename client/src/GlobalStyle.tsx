@@ -19,8 +19,8 @@ export const GlobalStyle = createGlobalStyle`
   body {
     box-sizing: border-box;
     display: grid;
-    ${({ theme }) => theme.grid.primary}
-    grid-template-rows: minmax(4rem, 6rem) auto minmax(4rem, 6rem);
+    grid-template-columns: ${({ theme }) => theme.grid.primary};
+    grid-template-rows: minmax(8rem, 10rem) 1fr minmax(8rem, 10rem);
     font-size: ${({ theme }) => theme.fontSize.default};
     min-height: 100vh;
   }

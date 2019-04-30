@@ -44,6 +44,9 @@ const AddGalleryForm: React.FunctionComponent<IProps> = props => {
     title: '',
   });
 
+  /**
+   * TODO: Create means to upload photo and a way to preview photo before
+   */
   const { description, thumbnail, title } = galleryDetails;
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;

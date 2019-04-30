@@ -13,7 +13,10 @@ import {
 
 import { SAVE_PHOTO_INFO, GET_SIGNED_URL } from '../../graphql/Photos';
 
-class UploadPhotoMutation extends Mutation<PhotoData[], SavePhotoInfoMutationVariables>{}
+class UploadPhotoMutation extends Mutation<
+  PhotoData[],
+  SavePhotoInfoMutationVariables
+> {}
 
 const StyledPhotoUpload = styled.div`
   display: grid;
@@ -21,7 +24,7 @@ const StyledPhotoUpload = styled.div`
   align-items: center;
   grid-column: 1/-1;
   background-color: aliceblue;
-  border: .1rem solid black;
+  border: 0.1rem solid black;
   height: 100%;
   .photos {
     display: grid;
@@ -29,12 +32,11 @@ const StyledPhotoUpload = styled.div`
   }
 `;
 
-const StyledForm = styled.form`
-`;
+const StyledForm = styled.form``;
 
 const InputContainer = styled.div`
   position: relative;
-  border: .004rem solid gray;
+  border: 0.004rem solid gray;
 `;
 
 const StyledLabel = styled.label`
@@ -44,8 +46,8 @@ const StyledLabel = styled.label`
   width: 100%;
   height: 100%;
   background-color: aliceblue;
-  border: .004rem solid gray;
-  box-shadow: .2rem .4rem 1.4rem rgba(0, 0, 0, .3);
+  border: 0.004rem solid gray;
+  box-shadow: 0.2rem 0.4rem 1.4rem rgba(0, 0, 0, 0.3);
 `;
 
 const PhotoInput = styled.input.attrs({
@@ -66,13 +68,14 @@ const PhotoInput = styled.input.attrs({
 interface PreUploadedFile {
   file: File;
   fileLink: string;
-};
+}
 
 interface Props {
   galleryID: string;
 }
 
-const getFilenames = (fileInfo: PreUploadedFile[]): string[] => fileInfo.map(({ file }) => file.name); 
+const getFilenames = (fileInfo: PreUploadedFile[]): string[] =>
+  fileInfo.map(({ file }) => file.name);
 
 const PhotoUpload: React.FunctionComponent<Props> = ({ galleryID }) => {
   const [photoLocation, setPhotoLocation] = useState<PreUploadedFile[]>([]);
@@ -85,7 +88,7 @@ const PhotoUpload: React.FunctionComponent<Props> = ({ galleryID }) => {
       const pickedFiles = Array.from(fileRef.current.files || []);
       pickedFiles.map(file => {
         const fileReader = new FileReader();
-        fileReader.onload = (e) => {
+        fileReader.onload = e => {
           const fileInfo = { file, fileLink: (e.target as any).result };
           fileInfoList = [...fileInfoList, fileInfo];
           // I had to do it this way to avoid multiple renders
@@ -98,7 +101,7 @@ const PhotoUpload: React.FunctionComponent<Props> = ({ galleryID }) => {
         fileReader.readAsDataURL(file);
       });
     }
-  }
+  };
 
   return (
     <UploadPhotoMutation mutation={SAVE_PHOTO_INFO}>
@@ -106,12 +109,20 @@ const PhotoUpload: React.FunctionComponent<Props> = ({ galleryID }) => {
         return (
           <StyledPhotoUpload>
             <div className="photos">
-              {photoLocation.map(({ fileLink }, i) => <Photo key={i} src={fileLink} />)}
+              {photoLocation.map(({ fileLink }, i) => (
+                <Photo key={i} src={fileLink} />
+              ))}
             </div>
-            <StyledForm onSubmit={async (e) => {
+            <StyledForm
+              onSubmit={async e => {
                 try {
                   e.preventDefault();
-                  const { data: { s3PreSignedURLs } } = await client.query<{ s3PreSignedURLs: S3PreSignedUrl[] }, QueryS3PreSignedUrLsArgs>({
+                  const {
+                    data: { s3PreSignedURLs },
+                  } = await client.query<
+                    { s3PreSignedURLs: S3PreSignedUrl[] },
+                    QueryS3PreSignedUrLsArgs
+                  >({
                     query: GET_SIGNED_URL,
                     variables: {
                       filenames: getFilenames(photoLocation),
@@ -121,7 +132,7 @@ const PhotoUpload: React.FunctionComponent<Props> = ({ galleryID }) => {
                   // upload photos to AWS S3 bucket
                   const urls = s3PreSignedURLs.map(({ key, url }, i) => {
                     const { file } = photoLocation[i];
-                    return axios.put((url as string), file, {
+                    return axios.put(url as string, file, {
                       headers: {
                         'Content-Type': file.type,
                       },
@@ -136,8 +147,7 @@ const PhotoUpload: React.FunctionComponent<Props> = ({ galleryID }) => {
                       photoInfo: [],
                     },
                   });
-                  // execute final mutation to save file information in database 
-
+                  // execute final mutation to save file information in database
                 } catch (err) {
                   console.log('Oops! Something went wrong!');
                   console.dir(err);
@@ -145,11 +155,8 @@ const PhotoUpload: React.FunctionComponent<Props> = ({ galleryID }) => {
               }}>
               <InputContainer>
                 <StyledLabel htmlFor="image_upload">Add Photo</StyledLabel>
-                <PhotoInput
-                  ref={fileRef as any}
-                  onChange={handleChange}
-                />
-                <input type="submit" value="Upload Photos"/>
+                <PhotoInput ref={fileRef as any} onChange={handleChange} />
+                <input type="submit" value="Upload Photos" />
               </InputContainer>
               <input type="submit" value="Upload Photo" />
             </StyledForm>

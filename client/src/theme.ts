@@ -38,9 +38,7 @@ const inputValidation = {
 };
 
 const grid = {
-  primary: css`
-    grid-template-columns: 8rem auto 8rem;
-  `,
+  primary: css` [sidebar-start] 8rem [sidebar-end full-start] 1fr [center-start] repeat(8, [col-start] minmax(min-content, 14rem) [col-end]) [center-end] 1fr [full-end]`,
 };
 
 export const theme: ThemeInterface = {

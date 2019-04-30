@@ -1,46 +1,39 @@
-import React, { PropsWithChildren } from 'react';
-import { FlattenSimpleInterpolation } from 'styled-components';
-import styled from '../../styled-components';
+import React from 'react';
+import styled, { css } from '../../styled-components';
 
-type ButtonType = 'PRIMARY' | 'DANGER' | 'INFO';
+type ButtonType = 'primary' | 'danger' | 'info';
 
-interface StyledData {
-  buttonType: ButtonType;
-  additionalStyles?: FlattenSimpleInterpolation;
-}
-
-
-const StyledButton = styled.button<StyledData>`
-  background-color: ${(props) => {
-    const { buttonType, theme: { colors }} = props;
-    if (buttonType === 'PRIMARY') return colors.primaryColor;
-    if (buttonType === 'DANGER') return colors.softRed;
-    if (buttonType === 'INFO') return 'blue';
-  }};
-  /* This is to add additional styles to the button */
-  ${({additionalStyles}) => additionalStyles || ''}
+const buttonStyles = {
+  primary: css`
+    background-color: green;
+  `,
+  danger: css`
+    background-color: red;
+  `,
+  info: css`
+    background-color: blue;
+  `,
+};
+const StyledButton = styled.button<{ buttonType: ButtonType }>`
+  ${props => buttonStyles[props.buttonType]}
 `;
 
-interface Props {
-  children: string;
-  click: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  buttonType?: ButtonType;
+interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
+  click: (e: React.MouseEvent) => void;
+  type?: ButtonType;
 }
 
-const Button: React.FunctionComponent<PropsWithChildren<Props>> = ({
-  buttonType,
-  children,
+const Button: React.FunctionComponent<IProps> = ({
   click,
-  }, ...props) => {
+  type = 'primary',
+  children,
+  ...props
+}) => {
   return (
-    <StyledButton
-      buttonType={buttonType || 'PRIMARY'}
-      {...props}
-      onClick={click}
-    >
+    <StyledButton onClick={click} buttonType={type} {...props}>
       {children}
     </StyledButton>
-  )
+  );
 };
 
 export default Button;

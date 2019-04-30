@@ -3,14 +3,24 @@ import styled from '../../styled-components';
 import { Query } from 'react-apollo';
 import { GALLERY_QUERY } from '../../graphql/queries';
 import AddGalleryForm from '../../components/AddGalleryForm';
-import Button from '../../components/Button';
+import Button from '../../shared/Button';
 import {
   GetGalleriesQuery,
   GetGalleriesQueryVariables,
 } from '../../gql-types.d';
 import GalleryPreview from '../../components/GalleryPreview';
 
-const StyledGalleries = styled.section``;
+const StyledGalleries = styled.section`
+  .galleries {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    justify-content: left;
+    grid-template-columns: repeat(auto-fit, minmax(min-content, 20rem));
+    grid-auto-rows: min-content;
+    grid-gap: 1rem;
+  }
+`;
 
 class GalleriesQuery extends Query<
   GetGalleriesQuery,

@@ -31,8 +31,6 @@ const Gallery = (props: any) => {
           return '...Error!'
         }
         if (loading) return '...loading';
-        console.log({ data });
-        console.log({ props });
         return (
           <StyledGallery>
             Gallery

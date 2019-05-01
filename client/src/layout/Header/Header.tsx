@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from '../../styled-components';
 import { Link } from '../../shared/Link';
+import Authentication from '../../components/AddGalleryForm/Authentication';
 
 const StyledHeader = styled.header`
   display: grid;
@@ -17,6 +18,10 @@ const StyledHeader = styled.header`
     color: black;
     text-shadow: 0.5rem 0.4rem 2rem rgba(0, 0, 0, 0.3);
   }
+
+  .auth {
+    grid-column: 10/11;
+  }
 `;
 
 interface IProps {
@@ -29,6 +34,7 @@ const Header: React.FunctionComponent<IProps> = ({ logo }) => {
       <Link to="/" className="logo">
         {logo || "Son's Photos Admin"}
       </Link>
+      <Authentication className="auth" />
     </StyledHeader>
   );
 };

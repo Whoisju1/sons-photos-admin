@@ -3,19 +3,17 @@ import { Redirect } from 'react-router-dom';
 import { authContext } from '../context/authContext';
 
 type Props = React.PropsWithChildren<{
-  children: JSX.Element;
+  children: React.ReactNode;
   redirectTo?: string;
-}>
+}>;
 
-const AuthRoute: React.FunctionComponent<Props> = ({ children, redirectTo = '/login' }) => {
+const AuthRoute: React.FunctionComponent<Props> = ({
+  children,
+  redirectTo = '/login',
+}) => {
   const auth = useContext(authContext);
-  console.log({ auth });
-  if (!auth.auth.isLoggedIn) return <Redirect to={redirectTo} />
-  return (
-    <>
-      { children }
-    </>
-  );
+  if (!auth.auth.isLoggedIn) return <Redirect to={redirectTo} />;
+  return <>{children}</>;
 };
 
 export default AuthRoute;

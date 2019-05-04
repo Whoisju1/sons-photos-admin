@@ -6,7 +6,6 @@ const StyledAside = styled.aside`
   grid-template-rows: 6rem repeat(auo-fill, min-content);
   /* grid-row: 1/-1; */
   grid-column: sidebar-start/sidebar-end;
-  border: 0.05rem solid lightgray;
   background-color: antiquewhite;
   padding-top: 1rem;
 `;

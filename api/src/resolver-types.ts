@@ -37,8 +37,6 @@ export interface EditUserInput {
 export interface AddPhotoInput {
   /** The S3 presigned URL where the photo was uploaded to */
   url: string;
-  /** The gallery id of the id the photo should be associated with */
-  id: string;
   /** A description of the photo being added to the gallery */
   description?: Maybe<string>;
   /** filename to be saved in database to reference when deleting photo from AWS bucket */
@@ -48,7 +46,7 @@ export interface AddPhotoInput {
 export interface CreateGalleryInput {
   title: string;
 
-  galleryDescription?: Maybe<string>;
+  description?: Maybe<string>;
 
   thumbnail?: Maybe<string>;
 }
@@ -99,15 +97,15 @@ export type Upload = any;
 export interface Query {
   getAccount?: Maybe<Account>;
   /** user is logged in and user information is provided */
-  login?: Maybe<Account>;
+  login: Account;
   /** All the galleries are provided */
-  getGalleries?: Maybe<(Maybe<Gallery>)[]>;
+  getGalleries: Gallery[];
   /** the gallery for the given 'id' is provided */
-  getGallery?: Maybe<Gallery>;
+  getGallery: Gallery;
   /** The photo for the given 'id' is provided */
-  getPhoto?: Maybe<Photo>;
+  getPhoto: Photo;
   /** This query provides a presigned URL from AWS S3 which is as the address where the file is uploaded */
-  s3PreSignedURLs?: Maybe<(Maybe<S3PreSignedUrl>)[]>;
+  s3PreSignedURLs: S3PreSignedUrl[];
 }
 
 export interface Account {
@@ -133,7 +131,7 @@ export interface Account {
 export interface Gallery {
   id: string;
 
-  title?: Maybe<string>;
+  title: string;
 
   description?: Maybe<string>;
 
@@ -175,13 +173,13 @@ export interface S3PreSignedUrl {
 
 export interface Mutation {
   /** User is signed up and user information is provided */
-  createAccount?: Maybe<Account>;
+  createAccount: Account;
   /** Edit Own User Information */
-  editAccountOwn?: Maybe<Account>;
+  editAccountOwn: Account;
   /** A Photo is added to the gallery of choice */
-  addPhotos?: Maybe<(Maybe<Photo>)[]>;
+  addPhotos: Photo[];
   /** A photo gallery is created */
-  createGallery?: Maybe<Gallery>;
+  createGallery: Gallery;
   /** Photo is deleted from S3 bucket and database */
   deletePhoto?: Maybe<(Maybe<Photo>)[]>;
   /** Deletes the selected gallery and all the photos inside of it */
@@ -214,7 +212,7 @@ export interface GetGalleriesQueryArgs {
   sortBy?: Maybe<SortGalleryBy>;
 }
 export interface GetGalleryQueryArgs {
-  id: string;
+  title: string;
 }
 export interface GetPhotoQueryArgs {
   id: string;
@@ -229,6 +227,8 @@ export interface EditAccountOwnMutationArgs {
   input: EditUserInput;
 }
 export interface AddPhotosMutationArgs {
+  galleryTitle: string;
+
   input: AddPhotoInput[];
 }
 export interface CreateGalleryMutationArgs {
@@ -307,20 +307,16 @@ export type DirectiveResolverFn<TResult, TArgs = {}, TContext = {}> = (
 export interface QueryResolvers<TContext = {}, TypeParent = {}> {
   getAccount?: QueryGetAccountResolver<Maybe<Account>, TypeParent, TContext>;
   /** user is logged in and user information is provided */
-  login?: QueryLoginResolver<Maybe<Account>, TypeParent, TContext>;
+  login?: QueryLoginResolver<Account, TypeParent, TContext>;
   /** All the galleries are provided */
-  getGalleries?: QueryGetGalleriesResolver<
-    Maybe<(Maybe<Gallery>)[]>,
-    TypeParent,
-    TContext
-  >;
+  getGalleries?: QueryGetGalleriesResolver<Gallery[], TypeParent, TContext>;
   /** the gallery for the given 'id' is provided */
-  getGallery?: QueryGetGalleryResolver<Maybe<Gallery>, TypeParent, TContext>;
+  getGallery?: QueryGetGalleryResolver<Gallery, TypeParent, TContext>;
   /** The photo for the given 'id' is provided */
-  getPhoto?: QueryGetPhotoResolver<Maybe<Photo>, TypeParent, TContext>;
+  getPhoto?: QueryGetPhotoResolver<Photo, TypeParent, TContext>;
   /** This query provides a presigned URL from AWS S3 which is as the address where the file is uploaded */
   s3PreSignedURLs?: QueryS3PreSignedUrLsResolver<
-    Maybe<(Maybe<S3PreSignedUrl>)[]>,
+    S3PreSignedUrl[],
     TypeParent,
     TContext
   >;
@@ -332,7 +328,7 @@ export type QueryGetAccountResolver<
   TContext = {}
 > = Resolver<R, Parent, TContext>;
 export type QueryLoginResolver<
-  R = Maybe<Account>,
+  R = Account,
   Parent = {},
   TContext = {}
 > = Resolver<R, Parent, TContext, QueryLoginArgs>;
@@ -341,7 +337,7 @@ export interface QueryLoginArgs {
 }
 
 export type QueryGetGalleriesResolver<
-  R = Maybe<(Maybe<Gallery>)[]>,
+  R = Gallery[],
   Parent = {},
   TContext = {}
 > = Resolver<R, Parent, TContext, QueryGetGalleriesArgs>;
@@ -352,16 +348,16 @@ export interface QueryGetGalleriesArgs {
 }
 
 export type QueryGetGalleryResolver<
-  R = Maybe<Gallery>,
+  R = Gallery,
   Parent = {},
   TContext = {}
 > = Resolver<R, Parent, TContext, QueryGetGalleryArgs>;
 export interface QueryGetGalleryArgs {
-  id: string;
+  title: string;
 }
 
 export type QueryGetPhotoResolver<
-  R = Maybe<Photo>,
+  R = Photo,
   Parent = {},
   TContext = {}
 > = Resolver<R, Parent, TContext, QueryGetPhotoArgs>;
@@ -370,7 +366,7 @@ export interface QueryGetPhotoArgs {
 }
 
 export type QueryS3PreSignedUrLsResolver<
-  R = Maybe<(Maybe<S3PreSignedUrl>)[]>,
+  R = S3PreSignedUrl[],
   Parent = {},
   TContext = {}
 > = Resolver<R, Parent, TContext, QueryS3PreSignedUrLsArgs>;
@@ -447,7 +443,7 @@ export type AccountTokenResolver<
 export interface GalleryResolvers<TContext = {}, TypeParent = Gallery> {
   id?: GalleryIdResolver<string, TypeParent, TContext>;
 
-  title?: GalleryTitleResolver<Maybe<string>, TypeParent, TContext>;
+  title?: GalleryTitleResolver<string, TypeParent, TContext>;
 
   description?: GalleryDescriptionResolver<Maybe<string>, TypeParent, TContext>;
 
@@ -468,7 +464,7 @@ export type GalleryIdResolver<
   TContext = {}
 > = Resolver<R, Parent, TContext>;
 export type GalleryTitleResolver<
-  R = Maybe<string>,
+  R = string,
   Parent = Gallery,
   TContext = {}
 > = Resolver<R, Parent, TContext>;
@@ -585,29 +581,17 @@ export type S3PreSignedUrlKeyResolver<
 
 export interface MutationResolvers<TContext = {}, TypeParent = {}> {
   /** User is signed up and user information is provided */
-  createAccount?: MutationCreateAccountResolver<
-    Maybe<Account>,
-    TypeParent,
-    TContext
-  >;
+  createAccount?: MutationCreateAccountResolver<Account, TypeParent, TContext>;
   /** Edit Own User Information */
   editAccountOwn?: MutationEditAccountOwnResolver<
-    Maybe<Account>,
+    Account,
     TypeParent,
     TContext
   >;
   /** A Photo is added to the gallery of choice */
-  addPhotos?: MutationAddPhotosResolver<
-    Maybe<(Maybe<Photo>)[]>,
-    TypeParent,
-    TContext
-  >;
+  addPhotos?: MutationAddPhotosResolver<Photo[], TypeParent, TContext>;
   /** A photo gallery is created */
-  createGallery?: MutationCreateGalleryResolver<
-    Maybe<Gallery>,
-    TypeParent,
-    TContext
-  >;
+  createGallery?: MutationCreateGalleryResolver<Gallery, TypeParent, TContext>;
   /** Photo is deleted from S3 bucket and database */
   deletePhoto?: MutationDeletePhotoResolver<
     Maybe<(Maybe<Photo>)[]>,
@@ -635,7 +619,7 @@ export interface MutationResolvers<TContext = {}, TypeParent = {}> {
 }
 
 export type MutationCreateAccountResolver<
-  R = Maybe<Account>,
+  R = Account,
   Parent = {},
   TContext = {}
 > = Resolver<R, Parent, TContext, MutationCreateAccountArgs>;
@@ -644,7 +628,7 @@ export interface MutationCreateAccountArgs {
 }
 
 export type MutationEditAccountOwnResolver<
-  R = Maybe<Account>,
+  R = Account,
   Parent = {},
   TContext = {}
 > = Resolver<R, Parent, TContext, MutationEditAccountOwnArgs>;
@@ -653,16 +637,18 @@ export interface MutationEditAccountOwnArgs {
 }
 
 export type MutationAddPhotosResolver<
-  R = Maybe<(Maybe<Photo>)[]>,
+  R = Photo[],
   Parent = {},
   TContext = {}
 > = Resolver<R, Parent, TContext, MutationAddPhotosArgs>;
 export interface MutationAddPhotosArgs {
+  galleryTitle: string;
+
   input: AddPhotoInput[];
 }
 
 export type MutationCreateGalleryResolver<
-  R = Maybe<Gallery>,
+  R = Gallery,
   Parent = {},
   TContext = {}
 > = Resolver<R, Parent, TContext, MutationCreateGalleryArgs>;

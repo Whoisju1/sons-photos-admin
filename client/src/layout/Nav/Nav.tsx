@@ -3,7 +3,6 @@ import styled from '../../styled-components';
 import { NavLink } from '../../shared/Link';
 
 const StyledNav = styled.nav`
-  border: 0.005rem solid gray;
   display: grid;
   grid-auto-rows: max-content;
   grid-gap: 1rem;
@@ -18,7 +17,7 @@ const Nav = () => {
       <NavLink to="/galleries" exact activeClassName="active">
         Galleries
       </NavLink>
-      <NavLink to={`/galleries/:title`} exact activeClassName="active">
+      <NavLink to={`/gallery/Wedding`} exact activeClassName="active">
         Gallery
       </NavLink>
     </StyledNav>

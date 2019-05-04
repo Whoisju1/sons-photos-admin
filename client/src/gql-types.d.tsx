@@ -122,7 +122,7 @@ export type MutationEditAccountOwnArgs = {
 };
 
 export type MutationAddPhotosArgs = {
-  galleryID: Scalars["ID"];
+  galleryTitle: Scalars["String"];
   input: Array<AddPhotoInput>;
 };
 
@@ -182,7 +182,7 @@ export type QueryGetGalleriesArgs = {
 };
 
 export type QueryGetGalleryArgs = {
-  id: Scalars["ID"];
+  title: Scalars["String"];
 };
 
 export type QueryGetPhotoArgs = {
@@ -253,7 +253,7 @@ export type CreateAccountMutation = { __typename?: "Mutation" } & {
 };
 
 export type SavePhotoInfoMutationVariables = {
-  galleryID: Scalars["ID"];
+  galleryTitle: Scalars["String"];
   photoInfo: Array<AddPhotoInput>;
 };
 
@@ -296,9 +296,13 @@ export type GetGalleriesQuery = { __typename?: "Query" } & {
 };
 
 export type GetGalleryQueryVariables = {
-  id: Scalars["ID"];
+  title: Scalars["String"];
 };
 
 export type GetGalleryQuery = { __typename?: "Query" } & {
-  getGallery: { __typename?: "Gallery" } & Pick<Gallery, "id" | "title">;
+  getGallery: { __typename?: "Gallery" } & Pick<Gallery, "id" | "title"> & {
+      photos: Maybe<
+        Array<Maybe<{ __typename?: "Photo" } & Pick<Photo, "id" | "url">>>
+      >;
+    };
 };

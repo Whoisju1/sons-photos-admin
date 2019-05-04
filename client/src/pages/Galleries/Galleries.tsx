@@ -29,7 +29,6 @@ class GalleriesQuery extends Query<
 
 const Galleries = () => {
   const [showAddGalleryForm, setShowGalleryForm] = useState(false);
-
   return (
     <GalleriesQuery query={GALLERY_QUERY}>
       {({ data, error, loading }) => {
@@ -43,13 +42,13 @@ const Galleries = () => {
         if (!data.galleries) return <AddGalleryForm />;
         if (!data.galleries.length) return <AddGalleryForm />;
         const { galleries } = data;
-
+        // TODO: Make sure that the list of galleries are being displayed because they're not
         return (
           <StyledGalleries>
             <div className="galleries">
-              {galleries.map(gallery => (
-                <GalleryPreview key={gallery.id} {...gallery} />
-              ))}
+              {galleries.map(gallery => {
+                return <GalleryPreview key={gallery.id} {...gallery} />;
+              })}
             </div>
             <Button click={() => setShowGalleryForm(true)}>Add Gallery</Button>
             {showAddGalleryForm && <AddGalleryForm />}

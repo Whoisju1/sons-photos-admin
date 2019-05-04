@@ -7,6 +7,7 @@ import Forms from '../../components/Forms';
 
 // import pages
 import { Gallery, Galleries, Account, NotFound } from '../../pages';
+import PhotoUpload from '../../components/PhotoUpload';
 
 const StyledMain = styled.main`
   display: grid;
@@ -18,8 +19,10 @@ const Main = () => {
     <StyledMain>
       <Switch>
         <Route path="/login" component={Forms.Login} />
+        <AuthRoute>
+          <Route path="/gallery/:gallery" component={Gallery} />
+        </AuthRoute>
         <Route path="/galleries" component={Galleries} />
-        <Route path="/galleries/gallery/:id" component={Gallery} />
         <AuthRoute>
           <Route exact path="/account" component={Account} />
         </AuthRoute>

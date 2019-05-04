@@ -10,8 +10,8 @@ const s3 = new AWS.S3({
 
 export default async (filename: string): Promise<S3PreSignedUrl> => {
   filename = filename // eslint-disable-line no-param-reassign
-      .toLowerCase()
-      .replace(/ /gi, '_'); // replace all white-spaces with underscore
+    .toLowerCase()
+    .replace(/ /gi, '_'); // replace all white-spaces with underscore
 
   const key = `${uuid()}-${filename}`;
 

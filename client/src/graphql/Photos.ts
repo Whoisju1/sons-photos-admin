@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export const SAVE_PHOTO_INFO = gql`
-  mutation SavePhotoInfo ($galleryID: ID!, $photoInfo: [AddPhotoInput!]!) {
-    addPhotos(galleryID: $galleryID, input: $photoInfo) {
+  mutation SavePhotoInfo ($galleryTitle: String!, $photoInfo: [AddPhotoInput!]!) {
+    addPhotos(galleryTitle: $galleryTitle, input: $photoInfo) {
       id
       url
       description

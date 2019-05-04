@@ -14,7 +14,7 @@ type Query {
   "All the galleries are provided"
   getGalleries(sortOrder: SortOrder, sortBy: SortGalleryBy): [Gallery!]!
   "the gallery for the given 'id' is provided"
-  getGallery(id: ID!): Gallery!
+  getGallery(title: String!): Gallery!
   "The photo for the given 'id' is provided"
   getPhoto(id: String!): Photo!
 
@@ -34,7 +34,7 @@ type Mutation {
 
   # Photo
   "A Photo is added to the gallery of choice"
-  addPhotos(galleryID: ID!, input: [AddPhotoInput!]!): [Photo!]!
+  addPhotos(galleryTitle: String!, input: [AddPhotoInput!]!): [Photo!]!
     @authorization(scope: [SUPER_ADMIN, ADMIN])
   "A photo gallery is created"
   createGallery(input: CreateGalleryInput!): Gallery!

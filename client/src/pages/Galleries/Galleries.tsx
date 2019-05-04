@@ -24,6 +24,7 @@ const StyledGalleries = styled.section`
     grid-template-columns: repeat(auto-fit, minmax(min-content, 20rem));
     grid-auto-rows: min-content;
     grid-gap: 1rem;
+    padding-top: 1rem;
   }
 `;
 

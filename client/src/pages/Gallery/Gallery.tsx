@@ -26,6 +26,7 @@ const StyledGallery = styled.section`
   grid-column: 1/-1;
   display: grid;
   width: 100%;
+  padding-top: 1rem;
   grid-template-columns: repeat(auto-fill, minmax(7rem, 10rem));
   & > img {
     width: 100%;

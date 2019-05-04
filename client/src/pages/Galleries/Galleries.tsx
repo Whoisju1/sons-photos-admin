@@ -9,6 +9,11 @@ import {
   GetGalleriesQueryVariables,
 } from '../../gql-types.d';
 import GalleryPreview from '../../components/GalleryPreview';
+import { Link as BrowserLInk } from '../../shared/Link';
+
+const Link = styled(BrowserLInk)`
+  display: contents;
+`;
 
 const StyledGalleries = styled.section`
   .galleries {
@@ -27,7 +32,9 @@ class GalleriesQuery extends Query<
   GetGalleriesQueryVariables
 > {}
 
-const Galleries = () => {
+interface Props {}
+
+const Galleries: React.FunctionComponent<Props> = () => {
   const [showAddGalleryForm, setShowGalleryForm] = useState(false);
   return (
     <GalleriesQuery query={GALLERY_QUERY}>
@@ -47,7 +54,11 @@ const Galleries = () => {
           <StyledGalleries>
             <div className="galleries">
               {galleries.map(gallery => {
-                return <GalleryPreview key={gallery.id} {...gallery} />;
+                return (
+                  <Link to={`gallery/${gallery.title}`}>
+                    <GalleryPreview key={gallery.id} {...gallery} />;
+                  </Link>
+                );
               })}
             </div>
             <Button click={() => setShowGalleryForm(true)}>Add Gallery</Button>

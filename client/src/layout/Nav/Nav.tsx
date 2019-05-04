@@ -17,9 +17,6 @@ const Nav = () => {
       <NavLink to="/galleries" exact activeClassName="active">
         Galleries
       </NavLink>
-      <NavLink to={`/gallery/Wedding`} exact activeClassName="active">
-        Gallery
-      </NavLink>
     </StyledNav>
   );
 };

@@ -17,6 +17,9 @@ const Nav = () => {
       <NavLink to="/galleries" exact activeClassName="active">
         Galleries
       </NavLink>
+      <NavLink to="/account" exact activeClassName="active">
+        Account
+      </NavLink>
     </StyledNav>
   );
 };

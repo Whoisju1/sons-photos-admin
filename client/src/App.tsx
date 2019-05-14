@@ -4,9 +4,7 @@ import { GlobalStyle } from './GlobalStyle';
 import { theme } from './theme';
 import { authContext, authReducer } from './context/authContext';
 import { Footer, Header, Main, Nav, Aside } from './layout';
-
-// import Forms from './components/Forms';
-// import AuthRender from './utils/AuthRender';
+import UtilityBar from './components/UtilityBar';
 
 const App = () => {
   const auth = authReducer();
@@ -16,6 +14,7 @@ const App = () => {
         <>
           <GlobalStyle />
           <Header />
+          <UtilityBar />
           <Aside heading={<div>Open</div>}>{() => <Nav />}</Aside>
           <Main />
           <Footer />

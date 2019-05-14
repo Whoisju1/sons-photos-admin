@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-export const GET_ACCOUNT = gql`
+export const GET_ACCOUNT_QUERY = gql`
   query GetAccountInfo {
     getAccount {
       id

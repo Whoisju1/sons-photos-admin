@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '../../styled-components';
 import { Link } from '../../shared/Link';
-import Authentication from '../../components/AddGalleryForm/Authentication';
+import Authentication from '../../components/Authentication';
 
 const StyledHeader = styled.header`
   display: grid;

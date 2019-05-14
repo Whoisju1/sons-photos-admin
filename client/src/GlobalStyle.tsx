@@ -20,7 +20,7 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     display: grid;
     grid-template-columns: ${({ theme }) => theme.grid.primary};
-    grid-template-rows: minmax(8rem, 10rem) 1fr minmax(8rem, 10rem);
+    grid-template-rows: 5rem minmax(3rem, min-content) 1fr minmax(8rem, 10rem);
     font-size: ${({ theme }) => theme.fontSize.default};
     min-height: 100vh;
   }

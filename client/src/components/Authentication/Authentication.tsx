@@ -1,15 +1,21 @@
 import React, { useContext } from 'react';
-import styled from '../../../styled-components';
-import { authContext } from '../../../context/authContext';
+import styled from '../../styled-components';
+import { authContext } from '../../context/authContext';
 import { Link } from 'react-router-dom';
 
 const StyledAuthentication = styled.div`
   display: grid;
-  justify-content: center;
-  align-items: center;
   .logout,
   .login {
     cursor: pointer;
+    display: grid;
+    justify-content: right;
+    align-items: center;
+  }
+  & > {
+    display: grid;
+    justify-content: right;
+    align-items: center;
   }
 `;
 

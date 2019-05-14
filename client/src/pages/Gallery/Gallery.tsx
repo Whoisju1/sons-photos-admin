@@ -31,6 +31,9 @@ const StyledGallery = styled.section`
   & > img {
     width: 100%;
   }
+  .title {
+    grid-row: 1/2;
+  }
 `;
 
 interface Params {
@@ -44,7 +47,6 @@ const Gallery: React.FunctionComponent<Props> = ({ match }) => {
     params: { gallery },
   } = match;
   return (
-    // get id from route param
     <GalleryQuery query={GALLERY_QUERY} variables={{ title: gallery }}>
       {({ data, error, loading }) => {
         if (error) {
@@ -63,14 +65,10 @@ const Gallery: React.FunctionComponent<Props> = ({ match }) => {
                 return <PhotoUpload galleryTitle={gallery} />;
               return photos.map(photo => {
                 if (!photo) return '...No Photo';
-                return (
-                  <Photo
-                    key={photo.id}
-                    src={`https://s3.amazonaws.com/sons-photos-bucket/${
-                      photo.url
-                    }`}
-                  />
-                );
+                const photoUrl = `https://s3.amazonaws.com/sons-photos-bucket/${
+                  photo.url
+                }`;
+                return <Photo key={photo.id} src={photoUrl} />;
               });
             })()}
           </StyledGallery>

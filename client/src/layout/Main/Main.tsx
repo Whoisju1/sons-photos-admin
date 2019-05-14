@@ -12,6 +12,7 @@ import PhotoUpload from '../../components/PhotoUpload';
 const StyledMain = styled.main`
   display: grid;
   grid-column: center-start/center-end;
+  position: relative;
 `;
 
 const Main = () => {

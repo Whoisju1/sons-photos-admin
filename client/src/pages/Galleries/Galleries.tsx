@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import styled from '../../styled-components';
 import { Query } from 'react-apollo';
 import { GALLERY_QUERY } from '../../graphql/queries';
-import AddGalleryForm from '../../components/AddGalleryForm';
-import Button from '../../shared/Button';
+import AddGalleryForm from '../../components/AddGallery/AddGalleryForm';
 import {
   GetGalleriesQuery,
   GetGalleriesQueryVariables,
@@ -36,7 +35,6 @@ class GalleriesQuery extends Query<
 interface Props {}
 
 const Galleries: React.FunctionComponent<Props> = () => {
-  const [showAddGalleryForm, setShowGalleryForm] = useState(false);
   return (
     <GalleriesQuery query={GALLERY_QUERY}>
       {({ data, error, loading }) => {
@@ -57,13 +55,11 @@ const Galleries: React.FunctionComponent<Props> = () => {
               {galleries.map(gallery => {
                 return (
                   <Link to={`gallery/${gallery.title}`}>
-                    <GalleryPreview key={gallery.id} {...gallery} />;
+                    <GalleryPreview key={gallery.id} {...gallery} />
                   </Link>
                 );
               })}
             </div>
-            <Button click={() => setShowGalleryForm(true)}>Add Gallery</Button>
-            {showAddGalleryForm && <AddGalleryForm />}
           </StyledGalleries>
         );
       }}

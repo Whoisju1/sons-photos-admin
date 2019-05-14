@@ -14,6 +14,8 @@ const StyledGalleryPreview = styled.div`
   .title {
     display: flex;
     justify-content: center;
+    grid-column: 1/-1;
+    grid-row: 1/2;
     align-items: center;
     font-size: ${({ theme }) => theme.fontSize.heading3};
     color: #fff;

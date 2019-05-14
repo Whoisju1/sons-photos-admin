@@ -4,20 +4,22 @@ import { FlattenInterpolation, css } from 'styled-components';
 
 interface Props {
   src: string;
-  additionalStyles?: FlattenInterpolation<{}>
+  additionalStyles?: FlattenInterpolation<{}>;
 }
 
 interface StyledProps {
-  additionalStyles?: FlattenInterpolation<{}>
+  additionalStyles?: FlattenInterpolation<{}>;
 }
 
 const StyledPhoto = styled.img<StyledProps>`
   height: auto;
-  border: .05rem solid lightgray;
-  ${(props) => props.additionalStyles && props.additionalStyles}
+  border: 0.05rem solid lightgray;
+  ${props => props.additionalStyles && props.additionalStyles}
 `;
 
-const Photo: React.FunctionComponent<Props> = ({ src, additionalStyles = css`` }) =>
-  <StyledPhoto src={src} additionalStyles={additionalStyles} />;
+const Photo: React.FunctionComponent<Props> = ({
+  src,
+  additionalStyles = css``,
+}) => <StyledPhoto src={src} additionalStyles={additionalStyles} />;
 
 export default Photo;

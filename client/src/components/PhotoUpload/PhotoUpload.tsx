@@ -76,6 +76,8 @@ const StyledForm = styled.form`
     [col-end];
   grid-auto-rows: 3rem;
   grid-column-gap: 1rem;
+  position: sticky;
+  bottom: 0;
   label {
     background-color: aliceblue;
     border: 0.004rem solid gray;

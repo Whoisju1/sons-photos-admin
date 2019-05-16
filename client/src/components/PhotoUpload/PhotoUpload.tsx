@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from '../../styled-components';
 import Photo from '../Photo/Photo';
 import { Mutation } from 'react-apollo';
@@ -18,14 +18,20 @@ class UploadPhotoMutation extends Mutation<
   SavePhotoInfoMutationVariables
 > {}
 
+interface PreUploadedFile {
+  file: File;
+  fileLink: string;
+  description?: string;
+}
+
 // TODO: Be sure to use the new `for await` for this function
 // function not yet in use
-const getFileInfo = (file: File) =>
+const getFileInfo = (file: File): Promise<PreUploadedFile> =>
   new Promise(resolve => {
     const fileReader = new FileReader();
-    //
+
     fileReader.onload = e => {
-      const fileInfo = {
+      const fileInfo: PreUploadedFile = {
         file, // the file itself
         fileLink: (e.target as any).result, // this is the url for the preview file to render in the img tag
       };
@@ -84,13 +90,12 @@ const StyledForm = styled.form`
     display: grid;
     justify-content: center;
     align-items: center;
-    grid-column: 1/2;
     & > input {
       display: none;
     }
   }
   input[type='submit'] {
-    grid-column: 2/3;
+    /* TODO: style input button */
   }
 `;
 
@@ -101,12 +106,6 @@ const PhotoInput = styled.input.attrs({
   id: 'image_upload',
   name: 'image_upload',
 })``;
-
-interface PreUploadedFile {
-  file: File;
-  fileLink: string;
-  description?: string;
-}
 
 interface Props {
   galleryTitle: string;
@@ -119,37 +118,17 @@ const PhotoUpload: React.FunctionComponent<Props> = ({ galleryTitle }) => {
   const [photoLocation, setPhotoLocation] = useState<PreUploadedFile[]>([]);
   const fileRef = useRef<HTMLInputElement>(null);
 
-  let fileInfoList: PreUploadedFile[] = [];
-
-  const handleChange = () => {
+  const handleChange = async () => {
     if (fileRef.current) {
-      // create and array from selected files to upload
-      const pickedFiles = Array.from(fileRef.current.files || []);
+      const pickedFiles = fileRef.current.files || [];
 
-      pickedFiles.map(file => {
-        // create a file reader for each selected file
-        const fileReader = new FileReader();
-        //
-        fileReader.onload = e => {
-          const fileInfo = {
-            file, // the file itself
-            fileLink: (e.target as any).result, // this is the url for the preview file to render in the img tag
-          };
+      const filesForUpload = [...photoLocation];
 
-          fileInfoList = [
-            ...fileInfoList, // spread fileInfo into array if there are already selected files
-            fileInfo, // add newly selected file
-          ];
-
-          // I had to do it this way to avoid multiple renders
-          if (fileInfoList.length === pickedFiles.length) {
-            // set the state to include all selected files in the photoLocation state
-            setPhotoLocation([...photoLocation, ...fileInfoList]);
-            fileInfoList = [];
-          }
-        };
-        fileReader.readAsDataURL(file);
-      });
+      for await (const file of pickedFiles) {
+        const fileInfo = await getFileInfo(file);
+        filesForUpload.push(fileInfo);
+      }
+      setPhotoLocation(filesForUpload);
     }
   };
 

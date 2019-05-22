@@ -1,7 +1,7 @@
 import {
   MutationAddPhotosResolver,
   Role,
-  MutationDeletePhotoResolver,
+  MutationDeletePhotosResolver,
 } from '../../../resolver-types';
 import Knex from 'knex';
 import AWS from 'aws-sdk';
@@ -43,7 +43,7 @@ export const addPhotos: MutationAddPhotosResolver<{}, {}, { db: Knex, user: IUse
     }
   };
 
-export const deletePhoto: MutationDeletePhotoResolver<{}, {}, { db: Knex }>
+export const deletePhotos: MutationDeletePhotosResolver<{}, {}, { db: Knex }>
   = async (
     _,
     { filenames },

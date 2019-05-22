@@ -181,7 +181,7 @@ export interface Mutation {
   /** A photo gallery is created */
   createGallery: Gallery;
   /** Photo is deleted from S3 bucket and database */
-  deletePhoto?: Maybe<(Maybe<Photo>)[]>;
+  deletePhotos?: Maybe<(Maybe<Photo>)[]>;
   /** Deletes the selected gallery and all the photos inside of it */
   deleteGallery?: Maybe<DeletedGallery>;
   /** The 'item' argument represents the table name and the 'ID' argument represents the row that is to be deleted */
@@ -234,7 +234,7 @@ export interface AddPhotosMutationArgs {
 export interface CreateGalleryMutationArgs {
   input: CreateGalleryInput;
 }
-export interface DeletePhotoMutationArgs {
+export interface DeletePhotosMutationArgs {
   filenames: string[];
 }
 export interface DeleteGalleryMutationArgs {
@@ -593,7 +593,7 @@ export interface MutationResolvers<TContext = {}, TypeParent = {}> {
   /** A photo gallery is created */
   createGallery?: MutationCreateGalleryResolver<Gallery, TypeParent, TContext>;
   /** Photo is deleted from S3 bucket and database */
-  deletePhoto?: MutationDeletePhotoResolver<
+  deletePhotos?: MutationDeletePhotosResolver<
     Maybe<(Maybe<Photo>)[]>,
     TypeParent,
     TContext
@@ -656,12 +656,12 @@ export interface MutationCreateGalleryArgs {
   input: CreateGalleryInput;
 }
 
-export type MutationDeletePhotoResolver<
+export type MutationDeletePhotosResolver<
   R = Maybe<(Maybe<Photo>)[]>,
   Parent = {},
   TContext = {}
-> = Resolver<R, Parent, TContext, MutationDeletePhotoArgs>;
-export interface MutationDeletePhotoArgs {
+> = Resolver<R, Parent, TContext, MutationDeletePhotosArgs>;
+export interface MutationDeletePhotosArgs {
   filenames: string[];
 }
 

@@ -24,13 +24,14 @@ const StyledPhoto = styled.img`
 
 interface Props {
   src: string;
+  photoId: string;
   deleteAction: () => any;
 }
 
 const GalleryPhoto: React.FunctionComponent<Props> = props => {
   return (
     <PhotoContainer className="gallery-photo">
-      <DeleteBtn click={props.deleteAction} />
+      <DeleteBtn photoId={props.photoId} />
       <StyledPhoto src={props.src} />
     </PhotoContainer>
   );

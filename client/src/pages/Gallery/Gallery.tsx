@@ -89,6 +89,7 @@ const Gallery: React.FunctionComponent<Props> = ({ match }) => {
                   galleryPhotos.map(photo => (
                     <GalleryPhoto
                       key={photo.id}
+                      photoId={photo.id}
                       src={`https://s3.amazonaws.com/sons-photos-bucket/${
                         photo.url
                       }`}

@@ -104,7 +104,7 @@ export type Mutation = {
   /** A photo gallery is created */
   createGallery: Gallery;
   /** Photo is deleted from S3 bucket and database */
-  deletePhoto?: Maybe<Array<Maybe<Photo>>>;
+  deletePhotos?: Maybe<Array<Maybe<Photo>>>;
   /** Deletes the selected gallery and all the photos inside of it */
   deleteGallery?: Maybe<DeletedGallery>;
   /** The 'item' argument represents the table name and the 'ID' argument represents the row that is to be deleted */
@@ -130,8 +130,8 @@ export type MutationCreateGalleryArgs = {
   input: CreateGalleryInput;
 };
 
-export type MutationDeletePhotoArgs = {
-  filenames: Array<Scalars["String"]>;
+export type MutationDeletePhotosArgs = {
+  photoIDs: Array<Scalars["ID"]>;
 };
 
 export type MutationDeleteGalleryArgs = {
@@ -249,6 +249,18 @@ export type CreateAccountMutation = { __typename?: "Mutation" } & {
   createAccount: { __typename?: "Account" } & Pick<
     Account,
     "token" | "username" | "firstName" | "lastName"
+  >;
+};
+
+export type DeletePhotosMutationVariables = {
+  photoIDs: Array<Scalars["ID"]>;
+};
+
+export type DeletePhotosMutation = { __typename?: "Mutation" } & {
+  deletePhotos: Maybe<
+    Array<
+      Maybe<{ __typename?: "Photo" } & Pick<Photo, "id" | "url" | "filename">>
+    >
   >;
 };
 

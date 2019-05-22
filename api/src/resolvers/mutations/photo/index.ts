@@ -46,10 +46,19 @@ export const addPhotos: MutationAddPhotosResolver<{}, {}, { db: Knex, user: IUse
 export const deletePhotos: MutationDeletePhotosResolver<{}, {}, { db: Knex }>
   = async (
     _,
-    { filenames },
+    { photoIDs },
     { db },
   ) => {
     try {
+      const filenames: string[] = [];
+      // collect filenames in array from database
+      for await (const id of photoIDs) {
+        const [photo] = await db('photo')
+          .select('filename')
+          .where({ id });
+        filenames.push(photo.filename);
+      }
+
       const s3 = new AWS.S3({
         accessKeyId: config.ACCESS_KEY_ID,
         secretAccessKey: config.SECRETE_ACCESS_KEY,
@@ -69,7 +78,7 @@ export const deletePhotos: MutationDeletePhotosResolver<{}, {}, { db: Knex }>
         .promise();
 
       if (!Deleted) return new ApolloError('Photo does not exist.');
-
+      // delete photo information from database while retrieving all the data
       const deletedPhotos = await Deleted.map(({ Key: filename }) => db('photo')
         .where({ filename })
         .del()

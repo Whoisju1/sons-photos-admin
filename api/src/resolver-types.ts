@@ -235,7 +235,7 @@ export interface CreateGalleryMutationArgs {
   input: CreateGalleryInput;
 }
 export interface DeletePhotosMutationArgs {
-  filenames: string[];
+  photoIDs: string[];
 }
 export interface DeleteGalleryMutationArgs {
   id: string;
@@ -662,7 +662,7 @@ export type MutationDeletePhotosResolver<
   TContext = {}
 > = Resolver<R, Parent, TContext, MutationDeletePhotosArgs>;
 export interface MutationDeletePhotosArgs {
-  filenames: string[];
+  photoIDs: string[];
 }
 
 export type MutationDeleteGalleryResolver<

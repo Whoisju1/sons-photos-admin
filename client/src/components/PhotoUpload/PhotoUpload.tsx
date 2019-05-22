@@ -12,7 +12,7 @@ import {
 
 import { SAVE_PHOTO_INFO, GET_SIGNED_URL } from '../../graphql/Photos';
 import { uploadImgToS3 } from '../../utils/s3UploadImg';
-import PhotosContainer from '../PhotosContainer';
+import PhotosContainer from '../PhotosCollection';
 
 class UploadPhotoMutation extends Mutation<
   SavePhotoInfoMutation,

@@ -7,7 +7,7 @@ import gql from 'graphql-tag';
 import { GetGalleryQuery, QueryGetGalleryArgs, Photo } from '../../gql-types.d';
 import PhotoUpload from '../../components/PhotoUpload';
 import GalleryPhoto from './GalleryPhoto';
-import PhotosContainer from '../../components/PhotosContainer';
+import PhotosCollection from '../../components/PhotosCollection';
 
 const GALLERY_QUERY = gql`
   query GetGallery($title: String!) {
@@ -84,7 +84,7 @@ const Gallery: React.FunctionComponent<Props> = ({ match }) => {
             {!photos || !photos.length ? (
               <PhotoUpload galleryTitle={gallery} />
             ) : (
-              <PhotosContainer<Photo> photos={photos as any}>
+              <PhotosCollection<Photo> photos={photos as any}>
                 {galleryPhotos =>
                   galleryPhotos.map(photo => (
                     <GalleryPhoto
@@ -96,7 +96,7 @@ const Gallery: React.FunctionComponent<Props> = ({ match }) => {
                     />
                   ))
                 }
-              </PhotosContainer>
+              </PhotosCollection>
             )}
           </StyledGalleryContainer>
         );

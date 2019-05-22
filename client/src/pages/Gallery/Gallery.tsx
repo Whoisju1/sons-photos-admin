@@ -1,11 +1,13 @@
 import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import styled from '../../styled-components';
-import Photo from '../../components/Photo';
+// import Photo from '../../components/Photo';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import { GetGalleryQuery, QueryGetGalleryArgs } from '../../gql-types.d';
+import { GetGalleryQuery, QueryGetGalleryArgs, Photo } from '../../gql-types.d';
 import PhotoUpload from '../../components/PhotoUpload';
+import GalleryPhoto from './GalleryPhoto';
+import PhotosContainer from '../../components/PhotosContainer';
 
 const GALLERY_QUERY = gql`
   query GetGallery($title: String!) {
@@ -22,17 +24,36 @@ const GALLERY_QUERY = gql`
 
 class GalleryQuery extends Query<GetGalleryQuery, QueryGetGalleryArgs> {}
 
-const StyledGallery = styled.section`
-  grid-column: 1/-1;
+const StyledGalleryContainer = styled.div`
   display: grid;
-  width: 100%;
-  padding-top: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(7rem, 10rem));
-  & > img {
+  grid-template-rows: 3rem auto;
+  grid-column: 1/-1;
+  margin-top: 1rem;
+  .gallery {
+    grid-column: 1/-1;
+    display: grid;
+    grid-gap: 1rem;
+    padding: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    grid-auto-rows: 25rem 15rem;
+    grid-auto-flow: dense;
+    border: 0.05rem solid gray;
+  }
+  & > .gallery-photo {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
+    &:nth-child(3n) {
+      grid-column: span 2;
+    }
   }
   .title {
     grid-row: 1/2;
+    grid-column: 1/-1;
+    display: grid;
+    max-height: 4rem;
+    justify-content: center;
+    align-items: center;
   }
 `;
 
@@ -58,20 +79,26 @@ const Gallery: React.FunctionComponent<Props> = ({ match }) => {
         const { title, photos } = data.getGallery;
 
         return (
-          <StyledGallery>
+          <StyledGalleryContainer>
             <h2 className="title">{title}</h2>
-            {(() => {
-              if (!photos || !photos.length)
-                return <PhotoUpload galleryTitle={gallery} />;
-              return photos.map(photo => {
-                if (!photo) return '...No Photo';
-                const photoUrl = `https://s3.amazonaws.com/sons-photos-bucket/${
-                  photo.url
-                }`;
-                return <Photo key={photo.id} src={photoUrl} />;
-              });
-            })()}
-          </StyledGallery>
+            {!photos || !photos.length ? (
+              <PhotoUpload galleryTitle={gallery} />
+            ) : (
+              <PhotosContainer<Photo> photos={photos as any}>
+                {galleryPhotos =>
+                  galleryPhotos.map(photo => (
+                    <GalleryPhoto
+                      key={photo.id}
+                      src={`https://s3.amazonaws.com/sons-photos-bucket/${
+                        photo.url
+                      }`}
+                      deleteAction={() => console.log('delete Photo')}
+                    />
+                  ))
+                }
+              </PhotosContainer>
+            )}
+          </StyledGalleryContainer>
         );
       }}
     </GalleryQuery>

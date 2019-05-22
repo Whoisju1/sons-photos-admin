@@ -12,6 +12,7 @@ import {
 
 import { SAVE_PHOTO_INFO, GET_SIGNED_URL } from '../../graphql/Photos';
 import { uploadImgToS3 } from '../../utils/s3UploadImg';
+import PhotosContainer from '../PhotosContainer';
 
 class UploadPhotoMutation extends Mutation<
   SavePhotoInfoMutation,
@@ -48,26 +49,6 @@ const StyledPhotoUpload = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
   grid-template-rows: 1fr min-content;
   min-height: 100%;
-`;
-
-const PhotoPreview = styled.div`
-  grid-row: 1/2;
-  display: grid;
-  grid-gap: 1rem;
-  padding: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-  grid-auto-rows: 25rem 15rem;
-  grid-auto-flow: dense;
-  border: 0.05rem solid gray;
-  min-height: 100%;
-  & img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    &:nth-child(3n) {
-      grid-column: span 2;
-    }
-  }
 `;
 
 const StyledForm = styled.form`
@@ -137,11 +118,13 @@ const PhotoUpload: React.FunctionComponent<Props> = ({ galleryTitle }) => {
       {(uploadPhotos, { client }) => {
         return (
           <StyledPhotoUpload className="container">
-            <PhotoPreview className="photo-preview-area">
-              {photoLocation.map(({ fileLink }, i) => (
-                <Photo key={i} src={fileLink} />
-              ))}
-            </PhotoPreview>
+            <PhotosContainer<PreUploadedFile> photos={photoLocation}>
+              {photos => {
+                return photos.map((photo, i) => (
+                  <Photo key={i} src={photo.fileLink} />
+                ));
+              }}
+            </PhotosContainer>
             <StyledForm
               className="form"
               onSubmit={async e => {
@@ -202,7 +185,9 @@ const PhotoUpload: React.FunctionComponent<Props> = ({ galleryTitle }) => {
                 Add Photo
                 <PhotoInput ref={fileRef as any} onChange={handleChange} />
               </label>
-              <input type="submit" value="Upload Photo(s)" />
+              {!!photoLocation.length && (
+                <input type="submit" value="Upload Photo(s)" />
+              )}
             </StyledForm>
           </StyledPhotoUpload>
         );

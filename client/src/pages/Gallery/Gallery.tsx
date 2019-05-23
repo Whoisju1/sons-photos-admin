@@ -55,6 +55,9 @@ const StyledGalleryContainer = styled.div`
     justify-content: center;
     align-items: center;
   }
+  &:last-child {
+    margin-bottom: 1rem;
+  }
 `;
 
 interface Params {

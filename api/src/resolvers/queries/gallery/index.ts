@@ -13,7 +13,6 @@ export const getGallery: QueryGetGalleryResolver<{}, {}, { db: Knex }>
 
       return galleryInfo;
     } catch (err) {
-      console.log(err);
       return err;
     }
   };

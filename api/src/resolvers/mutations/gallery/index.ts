@@ -88,7 +88,6 @@ export const createGallery: MutationCreateGalleryResolver<
       .db('gallery')
       .insert({ ...input, accountID: ctx.user.sub.id })
       .returning('*');
-    console.log(newGallery);
     return newGallery;
   } catch (e) {
     return e;

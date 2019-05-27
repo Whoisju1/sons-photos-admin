@@ -13,11 +13,21 @@ export default async (filename: string): Promise<S3PreSignedUrl> => {
     .toLowerCase()
     .replace(/ /gi, '_'); // replace all white-spaces with underscore
 
+  // get file type from filename
+  const fileType = /(?<type>\.[A-Za-z]+$)/.exec(filename);
+  let ContentType;
+  if (fileType && fileType.groups) {
+    const type = fileType.groups.type.replace(/^\.(?=[A-Za-z]+$)/, '');
+    ContentType = `image/${type}`;
+  } else {
+    ContentType = 'image/jpeg';
+  }
+
   const key = `${uuid()}-${filename}`;
 
   const params = {
     Bucket: 'sons-photos-bucket',
-    ContentType: 'image/jpeg',
+    ContentType,
     Key: key,
   };
 

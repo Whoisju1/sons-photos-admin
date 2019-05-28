@@ -1,6 +1,6 @@
 import { ApolloError } from 'apollo-server-express';
 import Knex from 'knex';
-import { QueryGetGalleryResolver, QueryGetGalleriesResolver } from '../../../resolver-types';
+import { QueryGetGalleryResolver, QueryGetGalleriesResolver, Gallery } from '../../../resolver-types';
 
 export const getGallery: QueryGetGalleryResolver<{}, {}, { db: Knex }>
   = async (root, { title }, { db }) => {
@@ -9,9 +9,12 @@ export const getGallery: QueryGetGalleryResolver<{}, {}, { db: Knex }>
         .select()
         .where({ title });
 
-      if (!galleryInfo) return new ApolloError(`There is no gallery by the name of "${title}"`);
+      const [photoInfo] = await db('photo')
+        .count()
+        .where({ galleryID: galleryInfo.id });
 
-      return galleryInfo;
+      if (!galleryInfo) return new ApolloError(`There is no gallery by the name of "${title}"`);
+      return { ...galleryInfo, photoQuantity: photoInfo.count };
     } catch (err) {
       return err;
     }
@@ -22,7 +25,13 @@ export const getGalleries: QueryGetGalleriesResolver<{}, {}, { db: Knex }>
     try {
       const galleriesList = await db('gallery')
         .orderBy(sortBy || 'id', sortOrder || 'ASC');
-      return galleriesList;
+      const galleries = galleriesList.map(async (gallery: Gallery) => {
+        const [count] = await db('photo')
+          .count()
+          .where({ galleryID: gallery.id });
+        return { ...gallery, photoQuantity: count.count };
+      })
+      return Promise.all(galleries);
     } catch (err) {
       return err;
     }

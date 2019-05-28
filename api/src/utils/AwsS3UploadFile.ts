@@ -17,6 +17,7 @@ export default async (filename: string): Promise<S3PreSignedUrl> => {
   const fileType = /(?<type>\.[A-Za-z]+$)/.exec(filename);
   let ContentType;
   if (fileType && fileType.groups) {
+    // replace the '.' from the file type and construct content type
     const type = fileType.groups.type.replace(/^\.(?=[A-Za-z]+$)/, '');
     ContentType = `image/${type}`;
   } else {

@@ -90,6 +90,7 @@ type Gallery {
   createdAt: String
   createdBy: Account @authorization(scope: [SUPER_ADMIN, ADMIN])
   photos: [Photo]
+  photoQuantity: Int
 }
 
 type S3PreSignedURL @authorization(scope: [SUPER_ADMIN, ADMIN]) {

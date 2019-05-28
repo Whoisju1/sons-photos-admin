@@ -144,6 +144,8 @@ export interface Gallery {
   createdBy?: Maybe<Account>;
 
   photos?: Maybe<(Maybe<Photo>)[]>;
+
+  count?: Maybe<number>;
 }
 
 export interface Photo {
@@ -456,6 +458,8 @@ export interface GalleryResolvers<TContext = {}, TypeParent = Gallery> {
   createdBy?: GalleryCreatedByResolver<Maybe<Account>, TypeParent, TContext>;
 
   photos?: GalleryPhotosResolver<Maybe<(Maybe<Photo>)[]>, TypeParent, TContext>;
+
+  count?: GalleryCountResolver<Maybe<number>, TypeParent, TContext>;
 }
 
 export type GalleryIdResolver<
@@ -495,6 +499,11 @@ export type GalleryCreatedByResolver<
 > = Resolver<R, Parent, TContext>;
 export type GalleryPhotosResolver<
   R = Maybe<(Maybe<Photo>)[]>,
+  Parent = Gallery,
+  TContext = {}
+> = Resolver<R, Parent, TContext>;
+export type GalleryCountResolver<
+  R = Maybe<number>,
   Parent = Gallery,
   TContext = {}
 > = Resolver<R, Parent, TContext>;

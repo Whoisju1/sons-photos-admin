@@ -17,7 +17,6 @@ const StyledSvg = styled.svg.attrs({
 })`
   height: 100%;
   width: 100%;
-  border: 0.04rem solid gray;
   cursor: pointer;
   stroke: #2c3e50;
   #trash-can {

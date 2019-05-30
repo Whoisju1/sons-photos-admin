@@ -23,7 +23,6 @@ const StyledGalleryPreview = styled.div`
     grid-row: 1/2;
     grid-column: 1/2;
     z-index: 1;
-    border: 0.01rem solid gray;
     text-shadow: 0.4rem 0.5rem 2rem rgba(255, 255, 255, 0.1);
     /* TODO: This should be a gradient */
     background-color: rgba(0, 0, 0, 0.1);

@@ -30,7 +30,7 @@ export const getGalleries: QueryGetGalleriesResolver<{}, {}, { db: Knex }>
           .count()
           .where({ galleryID: gallery.id });
         return { ...gallery, photoQuantity: count.count };
-      })
+      });
       return Promise.all(galleries);
     } catch (err) {
       return err;

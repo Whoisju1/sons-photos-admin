@@ -11,7 +11,7 @@ import {
 import { SAVE_PHOTO_INFO } from '../../graphql/Photos';
 import PhotosContainer from '../PhotosCollection';
 import { getFileInfo, PreUploadedFile } from '../../utils/getFileInfo';
-import { photoUpload } from '../../utils/photoUpload';
+import { photoUpload } from '../../utils/photoUpload1';
 
 class UploadPhotoMutation extends Mutation<
   SavePhotoInfoMutation,

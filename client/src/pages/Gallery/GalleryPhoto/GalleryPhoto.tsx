@@ -6,7 +6,7 @@ import DeleteBtn from '../DeleteBtn';
 const PhotoContainer = styled.div`
   display: grid;
   grid-template-rows: 10% auto;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr 1fr 3rem;
   & > button {
     z-index: 1;
     grid-row: 1/2;

@@ -79,6 +79,7 @@ export type Gallery = {
   createdAt?: Maybe<Scalars["String"]>;
   createdBy?: Maybe<Account>;
   photos?: Maybe<Array<Maybe<Photo>>>;
+  photoQuantity?: Maybe<Scalars["Int"]>;
 };
 
 /** the the options of items to delete */
@@ -303,7 +304,10 @@ export type GetGalleriesQueryVariables = {};
 
 export type GetGalleriesQuery = { __typename?: "Query" } & {
   galleries: Array<
-    { __typename?: "Gallery" } & Pick<Gallery, "id" | "title" | "description">
+    { __typename?: "Gallery" } & Pick<
+      Gallery,
+      "id" | "title" | "description" | "photoQuantity"
+    >
   >;
 };
 

@@ -145,7 +145,7 @@ export interface Gallery {
 
   photos?: Maybe<(Maybe<Photo>)[]>;
 
-  count?: Maybe<number>;
+  photoQuantity?: Maybe<number>;
 }
 
 export interface Photo {
@@ -459,7 +459,11 @@ export interface GalleryResolvers<TContext = {}, TypeParent = Gallery> {
 
   photos?: GalleryPhotosResolver<Maybe<(Maybe<Photo>)[]>, TypeParent, TContext>;
 
-  count?: GalleryCountResolver<Maybe<number>, TypeParent, TContext>;
+  photoQuantity?: GalleryPhotoQuantityResolver<
+    Maybe<number>,
+    TypeParent,
+    TContext
+  >;
 }
 
 export type GalleryIdResolver<
@@ -502,7 +506,7 @@ export type GalleryPhotosResolver<
   Parent = Gallery,
   TContext = {}
 > = Resolver<R, Parent, TContext>;
-export type GalleryCountResolver<
+export type GalleryPhotoQuantityResolver<
   R = Maybe<number>,
   Parent = Gallery,
   TContext = {}

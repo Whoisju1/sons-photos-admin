@@ -177,8 +177,8 @@ const PhotoUpload: React.FunctionComponent<Props> = ({ galleryTitle }) => {
                   const { addPhotos } = data;
                   // TODO: Do something with downloaded photos
                 } catch (err) {
-                  console.log('Oops! Something went wrong!');
                   console.dir(err);
+                  console.log(err.message);
                 }
               }}>
               <label htmlFor="image_upload">

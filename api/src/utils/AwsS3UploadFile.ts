@@ -2,27 +2,30 @@ import AWS from 'aws-sdk';
 import uuid from 'uuid/v1';
 import * as config from '../config';
 import { S3PreSignedUrl } from '../resolver-types';
+import { ApolloError } from 'apollo-server-express';
 
 const s3 = new AWS.S3({
   accessKeyId: config.ACCESS_KEY_ID,
   secretAccessKey: config.SECRETE_ACCESS_KEY,
 });
 
-export default async (filename: string): Promise<S3PreSignedUrl> => {
+export default async (filename: string) => {
   filename = filename // eslint-disable-line no-param-reassign
     .toLowerCase()
-    .replace(/ /gi, '_'); // replace all white-spaces with underscore
+    .replace(/ /gi, '-'); // replace all white-spaces with underscore
 
   // get file type from filename
-  const fileType = /(?<type>\.[A-Za-z]+$)/.exec(filename);
-  let ContentType;
-  if (fileType && fileType.groups) {
-    // replace the '.' from the file type and construct content type
-    const type = fileType.groups.type.replace(/^\.(?=[A-Za-z]+$)/, '');
-    ContentType = `image/${type}`;
-  } else {
-    ContentType = 'image/jpeg';
-  }
+  const isFileTypeValid = /(?<type>(jpeg|jpg|png)$)/.test(filename);
+  if (!isFileTypeValid) return new ApolloError(
+    'only images of types "jpeg", "jpg" and "png" are permitted.',
+    'UNSUPPORTED MEDIA TYPE');
+
+  let ContentType = 'image/jpeg';
+
+  // test to determine if the file is a png file
+  const isPng = /.png$/.test(filename);
+  // tslint:disable-next-line: no-unused-expression
+  isPng && (ContentType = 'image/png');
 
   const key = `${uuid()}-${filename}`;
 
@@ -33,7 +36,6 @@ export default async (filename: string): Promise<S3PreSignedUrl> => {
   };
 
   const url = await s3.getSignedUrl('putObject', params);
-
   return {
     key,
     url,

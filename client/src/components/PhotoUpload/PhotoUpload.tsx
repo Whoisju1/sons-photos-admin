@@ -1,45 +1,22 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from '../../styled-components';
 import Photo from '../Photo/Photo';
 import { Mutation } from 'react-apollo';
 import {
   SavePhotoInfoMutationVariables,
-  QueryS3PreSignedUrLsArgs,
-  S3PreSignedUrl,
   AddPhotoInput,
   SavePhotoInfoMutation,
 } from '../../gql-types.d';
 
-import { SAVE_PHOTO_INFO, GET_SIGNED_URL } from '../../graphql/Photos';
-import { uploadImgToS3 } from '../../utils/s3UploadImg';
+import { SAVE_PHOTO_INFO } from '../../graphql/Photos';
 import PhotosContainer from '../PhotosCollection';
+import { getFileInfo, PreUploadedFile } from '../../utils/getFileInfo';
+import { photoUpload } from '../../utils/photoUpload';
 
 class UploadPhotoMutation extends Mutation<
   SavePhotoInfoMutation,
   SavePhotoInfoMutationVariables
 > {}
-
-interface PreUploadedFile {
-  file: File;
-  fileLink: string;
-  description?: string;
-}
-
-// TODO: Be sure to use the new `for await` for this function
-// function not yet in use
-const getFileInfo = (file: File): Promise<PreUploadedFile> =>
-  new Promise(resolve => {
-    const fileReader = new FileReader();
-
-    fileReader.onload = e => {
-      const fileInfo: PreUploadedFile = {
-        file, // the file itself
-        fileLink: (e.target as any).result, // this is the url for the preview file to render in the img tag
-      };
-      resolve(fileInfo);
-    };
-    fileReader.readAsDataURL(file);
-  });
 
 const StyledPhotoUpload = styled.div`
   display: grid;
@@ -92,9 +69,6 @@ interface Props {
   galleryTitle: string;
 }
 
-const getFilenames = (fileInfo: PreUploadedFile[]): string[] =>
-  fileInfo.map(({ file }) => file.name);
-
 const PhotoUpload: React.FunctionComponent<Props> = ({ galleryTitle }) => {
   const [photoLocation, setPhotoLocation] = useState<PreUploadedFile[]>([]);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -116,6 +90,7 @@ const PhotoUpload: React.FunctionComponent<Props> = ({ galleryTitle }) => {
   return (
     <UploadPhotoMutation mutation={SAVE_PHOTO_INFO}>
       {(uploadPhotos, { client }) => {
+        const saveImageToS3 = photoUpload(client);
         return (
           <StyledPhotoUpload className="container">
             <PhotosContainer<PreUploadedFile> photos={photoLocation}>
@@ -130,52 +105,30 @@ const PhotoUpload: React.FunctionComponent<Props> = ({ galleryTitle }) => {
               onSubmit={async e => {
                 try {
                   e.preventDefault();
-                  // get preSigned URL from AWS
-                  const {
-                    data: { s3PreSignedURLs },
-                  } = await client.query<
-                    { s3PreSignedURLs: S3PreSignedUrl[] },
-                    QueryS3PreSignedUrLsArgs
-                  >({
-                    query: GET_SIGNED_URL,
-                    variables: { filenames: getFilenames(photoLocation) },
-                  });
+                  for await (const { file } of photoLocation) {
+                    const key = await saveImageToS3(file);
 
-                  // upload photos to AWS S3 bucket
-                  const urls = s3PreSignedURLs.map(({ url }, i) => {
-                    const { file } = photoLocation[i];
-                    // return a promise
-                    return uploadImgToS3(url as string, file);
-                  });
-                  // resolve promises
-                  await Promise.all(urls);
+                    // form data suitable for uploading
+                    const photoInfo: AddPhotoInput = {
+                      description: '',
+                      filename: file.name,
+                      url: key,
+                    };
 
-                  // form data suitable for uploading
-                  const photoInfo: AddPhotoInput[] = photoLocation.reduce(
-                    (prev, curr, index) => {
-                      const arr: AddPhotoInput = {
-                        description: '',
-                        filename: curr.file.name,
-                        url: s3PreSignedURLs[index].key as string,
-                      };
-                      return [...prev, arr];
-                    },
-                    [] as any,
-                  );
+                    // execute final mutation to save information of photos in database
+                    const newPhotos = await uploadPhotos({
+                      variables: {
+                        galleryTitle,
+                        photoInfo: [photoInfo],
+                      },
+                    });
 
-                  // execute final mutation to save information of photos in database
-                  const newPhotos = await uploadPhotos({
-                    variables: {
-                      galleryTitle,
-                      photoInfo,
-                    },
-                  });
-
-                  if (!newPhotos) return;
-                  const { data } = newPhotos;
-                  if (!data) return;
-                  const { addPhotos } = data;
-                  // TODO: Do something with downloaded photos
+                    if (!newPhotos) return;
+                    const { data } = newPhotos;
+                    if (!data) return;
+                    const { addPhotos } = data;
+                    console.log('photoUploaded!');
+                  }
                 } catch (err) {
                   console.dir(err);
                   console.log(err.message);

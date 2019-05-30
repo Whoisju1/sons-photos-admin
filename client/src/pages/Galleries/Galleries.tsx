@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from '../../styled-components';
 import { Query } from 'react-apollo';
-import { GALLERY_QUERY } from '../../graphql/queries';
+import { GET_GALLERIES_QUERY } from '../../graphql/queries';
 import AddGalleryForm from '../../components/AddGallery/AddGalleryForm';
 import {
   GetGalleriesQuery,
@@ -36,7 +36,7 @@ interface Props {}
 
 const Galleries: React.FunctionComponent<Props> = () => {
   return (
-    <GalleriesQuery query={GALLERY_QUERY}>
+    <GalleriesQuery query={GET_GALLERIES_QUERY}>
       {({ data, error, loading }) => {
         if (error) {
           console.dir(error);
@@ -55,7 +55,11 @@ const Galleries: React.FunctionComponent<Props> = () => {
               {galleries.map(gallery => {
                 return (
                   <Link to={`gallery/${gallery.title}`}>
-                    <GalleryPreview key={gallery.id} {...gallery} />
+                    <GalleryPreview
+                      key={gallery.id}
+                      {...gallery}
+                      photoCount={gallery.photoQuantity as number}
+                    />
                   </Link>
                 );
               })}

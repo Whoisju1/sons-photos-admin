@@ -7,6 +7,7 @@ import {
   DeletePhotosMutationVariables,
 } from '../../../gql-types.d';
 import { DELETE_PHOTO } from '../../../graphql/mutations/photos';
+import BtnContent from './BtnContent';
 
 class DeletePhoto extends Mutation<
   DeletePhotosMutation,
@@ -18,11 +19,6 @@ const StyledBtn = styled(Button)`
   padding: 0;
   background-color: transparent;
   outline: none;
-`;
-
-const StyledSvg = styled.svg`
-  height: 100%;
-  width: 100%;
 `;
 
 interface Props {
@@ -43,17 +39,8 @@ const DeleteButton: React.FunctionComponent<Props> = props => {
               });
               console.log(deletedPhoto);
             }}>
-            <StyledSvg>
-              <path
-                stroke="#000"
-                strokeWidth="1"
-                fill="none"
-                d="
-                  M10,10
-                  L20,20
-                "
-              />
-            </StyledSvg>
+            <title>Delete Photo</title>
+            <BtnContent />
           </StyledBtn>
         );
       }}

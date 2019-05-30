@@ -14,12 +14,13 @@ export const GET_ACCOUNT_QUERY = gql`
   }
 `;
 
-export const GALLERY_QUERY = gql`
+export const GET_GALLERIES_QUERY = gql`
   query GetGalleries {
     galleries: getGalleries {
       id
       title
       description
+      photoQuantity
     }
   }
 `;

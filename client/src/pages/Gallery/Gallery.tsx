@@ -8,6 +8,7 @@ import { GetGalleryQuery, QueryGetGalleryArgs, Photo } from '../../gql-types.d';
 import PhotoUpload from '../../components/PhotoUpload';
 import GalleryPhoto from './GalleryPhoto';
 import PhotosCollection from '../../components/PhotosCollection';
+import AddPhotoBtn from '../../components/AddPhotoBtn';
 
 const GALLERY_QUERY = gql`
   query GetGallery($title: String!) {
@@ -102,6 +103,9 @@ const Gallery: React.FunctionComponent<Props> = ({ match }) => {
                 }
               </PhotosCollection>
             )}
+            <AddPhotoBtn buttonTitle="Add Photos">
+              <PhotoUpload galleryTitle={gallery} />
+            </AddPhotoBtn>
           </StyledGalleryContainer>
         );
       }}

@@ -1,6 +1,7 @@
 {
   "watch": ["src"],
   "ext": "ts",
+  "legacyWatch": true,
   "ignore": ["src/**/*.spec.ts"],
   "exec": "npx babel-node ./src/server/index.ts --extensions \".ts\""
 }

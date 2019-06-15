@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node --require dotenv/config ./build/index.js",
-    "serve": "nodemon --legacy-watch",
+    "serve": "nodemon",
     "build": "tsc",
     "generate": "gql-gen --config codegen.yml"
   },

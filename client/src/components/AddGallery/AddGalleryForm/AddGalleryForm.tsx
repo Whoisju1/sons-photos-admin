@@ -141,6 +141,11 @@ const AddGalleryForm: React.FunctionComponent<IProps> = props => {
                 autoComplete="off"
               />
             </div>
+            <div className="input-wrapper--file">
+              <label htmlFor="thumbnail">
+                <input type="file" name="thumbnail" id="thumbnail" />
+              </label>
+            </div>
             <input type="submit" value="Create Gallery" />
           </StyledForm>
         );

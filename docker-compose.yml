@@ -4,8 +4,6 @@ services:
     build:
       context: ./api
       dockerfile: Dockerfile.dev
-    ports:
-      - "4000:4000"
     volumes:
       - ./api:/api
       - /api/node_modules
@@ -23,11 +21,10 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile.dev
-    ports:
-      - "3000:3000"
     volumes:
       - ./client:/client
       - /client/node_modules
+# run this command to create volume: "docker volume create --name=postgres_database"
   postgres:
     build:
       context: ./postgres
@@ -37,7 +34,13 @@ services:
     volumes:
       - postgres_database:/var/lib/postgresql/data:Z
     env_file: ./postgres/postgres.env
-# run this command to create volume: "docker volume create --name=postgres_database"
+  nginx:
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
+    ports:
+      - '3000:80'
 volumes:
     postgres_database:
         external: true

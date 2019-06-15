@@ -1,6 +1,6 @@
 FROM node:10.14.2
 WORKDIR /api
-EXPOSE 8000
+EXPOSE 4000
 
 COPY ./package.json ./
 RUN yarn

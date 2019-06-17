@@ -1,7 +1,6 @@
 import {
   MutationEditCompanyResolver,
   Company,
-  Contact,
   EditCompanyInput,
   Role,
 } from '../../../resolver-types';

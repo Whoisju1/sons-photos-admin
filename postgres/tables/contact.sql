@@ -6,7 +6,6 @@ CREATE TABLE IF NOT EXISTS contact (
 
   id SERIAL UNIQUE,
   about TEXT,
-  thumbnail TEXT,
   phone  VARCHAR(50),
   "companyId" INTEGER REFERENCES company (id) ON DELETE CASCADE,
   email  VARCHAR(50),

@@ -50,6 +50,20 @@ export interface CreateGalleryInput {
 
   thumbnail?: Maybe<string>;
 }
+
+export interface EditCompanyInput {
+  name?: Maybe<string>;
+
+  contact?: Maybe<ContactInput>;
+
+  about?: Maybe<string>;
+}
+
+export interface ContactInput {
+  phone?: Maybe<string>;
+
+  email?: Maybe<string>;
+}
 /** the various account types */
 export enum Role {
   SuperAdmin = "SUPER_ADMIN",
@@ -106,6 +120,8 @@ export interface Query {
   getPhoto: Photo;
   /** This query provides a presigned URL from AWS S3 which is as the address where the file is uploaded */
   s3PreSignedURLs: S3PreSignedUrl[];
+  /** Information pertaining to company */
+  company: Company;
 }
 
 export interface Account {
@@ -173,6 +189,30 @@ export interface S3PreSignedUrl {
   key?: Maybe<string>;
 }
 
+export interface Company {
+  id: string;
+
+  name?: Maybe<string>;
+
+  about?: Maybe<string>;
+
+  lastModified?: Maybe<string>;
+
+  createdAt?: Maybe<string>;
+
+  contact?: Maybe<Contact>;
+
+  editedBy?: Maybe<Account>;
+}
+
+export interface Contact {
+  id: string;
+
+  phone?: Maybe<string>;
+
+  email?: Maybe<string>;
+}
+
 export interface Mutation {
   /** User is signed up and user information is provided */
   createAccount: Account;
@@ -190,6 +230,8 @@ export interface Mutation {
   deleteItem?: Maybe<DeleteItem>;
   /** Change password */
   changePassword?: Maybe<Account>;
+
+  editCompany?: Maybe<Company>;
 }
 
 export interface DeletedGallery {
@@ -249,6 +291,9 @@ export interface DeleteItemMutationArgs {
 }
 export interface ChangePasswordMutationArgs {
   password?: Maybe<Password>;
+}
+export interface EditCompanyMutationArgs {
+  input: EditCompanyInput;
 }
 
 import {
@@ -322,6 +367,8 @@ export interface QueryResolvers<TContext = {}, TypeParent = {}> {
     TypeParent,
     TContext
   >;
+  /** Information pertaining to company */
+  company?: QueryCompanyResolver<Company, TypeParent, TContext>;
 }
 
 export type QueryGetAccountResolver<
@@ -375,6 +422,12 @@ export type QueryS3PreSignedUrLsResolver<
 export interface QueryS3PreSignedUrLsArgs {
   filenames: string[];
 }
+
+export type QueryCompanyResolver<
+  R = Company,
+  Parent = {},
+  TContext = {}
+> = Resolver<R, Parent, TContext>;
 
 export interface AccountResolvers<TContext = {}, TypeParent = Account> {
   id?: AccountIdResolver<string, TypeParent, TContext>;
@@ -592,6 +645,86 @@ export type S3PreSignedUrlKeyResolver<
   TContext = {}
 > = Resolver<R, Parent, TContext>;
 
+export interface CompanyResolvers<TContext = {}, TypeParent = Company> {
+  id?: CompanyIdResolver<string, TypeParent, TContext>;
+
+  name?: CompanyNameResolver<Maybe<string>, TypeParent, TContext>;
+
+  about?: CompanyAboutResolver<Maybe<string>, TypeParent, TContext>;
+
+  lastModified?: CompanyLastModifiedResolver<
+    Maybe<string>,
+    TypeParent,
+    TContext
+  >;
+
+  createdAt?: CompanyCreatedAtResolver<Maybe<string>, TypeParent, TContext>;
+
+  contact?: CompanyContactResolver<Maybe<Contact>, TypeParent, TContext>;
+
+  editedBy?: CompanyEditedByResolver<Maybe<Account>, TypeParent, TContext>;
+}
+
+export type CompanyIdResolver<
+  R = string,
+  Parent = Company,
+  TContext = {}
+> = Resolver<R, Parent, TContext>;
+export type CompanyNameResolver<
+  R = Maybe<string>,
+  Parent = Company,
+  TContext = {}
+> = Resolver<R, Parent, TContext>;
+export type CompanyAboutResolver<
+  R = Maybe<string>,
+  Parent = Company,
+  TContext = {}
+> = Resolver<R, Parent, TContext>;
+export type CompanyLastModifiedResolver<
+  R = Maybe<string>,
+  Parent = Company,
+  TContext = {}
+> = Resolver<R, Parent, TContext>;
+export type CompanyCreatedAtResolver<
+  R = Maybe<string>,
+  Parent = Company,
+  TContext = {}
+> = Resolver<R, Parent, TContext>;
+export type CompanyContactResolver<
+  R = Maybe<Contact>,
+  Parent = Company,
+  TContext = {}
+> = Resolver<R, Parent, TContext>;
+export type CompanyEditedByResolver<
+  R = Maybe<Account>,
+  Parent = Company,
+  TContext = {}
+> = Resolver<R, Parent, TContext>;
+
+export interface ContactResolvers<TContext = {}, TypeParent = Contact> {
+  id?: ContactIdResolver<string, TypeParent, TContext>;
+
+  phone?: ContactPhoneResolver<Maybe<string>, TypeParent, TContext>;
+
+  email?: ContactEmailResolver<Maybe<string>, TypeParent, TContext>;
+}
+
+export type ContactIdResolver<
+  R = string,
+  Parent = Contact,
+  TContext = {}
+> = Resolver<R, Parent, TContext>;
+export type ContactPhoneResolver<
+  R = Maybe<string>,
+  Parent = Contact,
+  TContext = {}
+> = Resolver<R, Parent, TContext>;
+export type ContactEmailResolver<
+  R = Maybe<string>,
+  Parent = Contact,
+  TContext = {}
+> = Resolver<R, Parent, TContext>;
+
 export interface MutationResolvers<TContext = {}, TypeParent = {}> {
   /** User is signed up and user information is provided */
   createAccount?: MutationCreateAccountResolver<Account, TypeParent, TContext>;
@@ -626,6 +759,12 @@ export interface MutationResolvers<TContext = {}, TypeParent = {}> {
   /** Change password */
   changePassword?: MutationChangePasswordResolver<
     Maybe<Account>,
+    TypeParent,
+    TContext
+  >;
+
+  editCompany?: MutationEditCompanyResolver<
+    Maybe<Company>,
     TypeParent,
     TContext
   >;
@@ -705,6 +844,15 @@ export type MutationChangePasswordResolver<
 > = Resolver<R, Parent, TContext, MutationChangePasswordArgs>;
 export interface MutationChangePasswordArgs {
   password?: Maybe<Password>;
+}
+
+export type MutationEditCompanyResolver<
+  R = Maybe<Company>,
+  Parent = {},
+  TContext = {}
+> = Resolver<R, Parent, TContext, MutationEditCompanyArgs>;
+export interface MutationEditCompanyArgs {
+  input: EditCompanyInput;
 }
 
 export interface DeletedGalleryResolvers<
@@ -803,6 +951,8 @@ export type IResolvers<TContext = {}> = {
   Gallery?: GalleryResolvers<TContext>;
   Photo?: PhotoResolvers<TContext>;
   S3PreSignedUrl?: S3PreSignedUrlResolvers<TContext>;
+  Company?: CompanyResolvers<TContext>;
+  Contact?: ContactResolvers<TContext>;
   Mutation?: MutationResolvers<TContext>;
   DeletedGallery?: DeletedGalleryResolvers<TContext>;
   DeleteItem?: DeleteItemResolvers<TContext>;

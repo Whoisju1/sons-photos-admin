@@ -1,13 +1,22 @@
-import { ResolverFn } from 'apollo-server-express';
+import Knex from 'knex';
 
-const Gallery: { photos: ResolverFn } = {
-  photos: async ({ id: galleryID }: { id: string }, args: any, { db }) => {
+import {
+  GalleryResolvers,
+  Photo,
+} from '../../resolver-types';
+
+interface IContext {
+  db: Knex;
+}
+
+const Gallery: GalleryResolvers<IContext> = {
+  photos: async ({ id: galleryID }, args, { db }) => {
     try {
       const photosInfo = await db('photo')
         .select()
         .where({ galleryID });
 
-      return photosInfo;
+      return photosInfo as Photo[];
     } catch (err) {
       return err;
     }

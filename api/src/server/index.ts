@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken';
 import db from '../db/knex';
 import resolvers from '../resolvers';
 import fs from 'fs';
-import { EmailService } from '../services/emailService';
+// import { EmailService } from '../services/emailService';
 import * as config from '../config';
 import { AuthorizationDirective } from '../directiveResolvers/AuthorizationDirective';
 
@@ -38,10 +38,10 @@ const server = new ApolloServer({
     bcrypt,
     token: getToken(req),
     user: getToken(req) ? jwt.decode(getToken(req) as string) : null,
-    emailService: new EmailService({
-      SmtpFromAddress: config.EMAIL_FROM,
-      SmtpServerConnectionString: config.EMAIL_CONNECTION_STRING,
-    }),
+    // emailService: new EmailService({
+    //   SmtpFromAddress: config.EMAIL_FROM,
+    //   SmtpServerConnectionString: config.EMAIL_CONNECTION_STRING,
+    // }),
     engine: {
       apiKey: config.ENGINE_API_KEY,
     },

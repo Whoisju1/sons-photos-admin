@@ -41,6 +41,9 @@ services:
       context: ./nginx
     ports:
       - '3000:80'
+    depends_on:
+      - client
+      - api
 volumes:
     postgres_database:
         external: true

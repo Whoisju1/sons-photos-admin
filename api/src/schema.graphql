@@ -20,6 +20,10 @@ type Query {
 
   "This query provides a presigned URL from AWS S3 which is as the address where the file is uploaded"
   s3PreSignedURLs(filenames: [String!]!): [S3PreSignedURL!]!
+
+  # Company
+  "Information pertaining to company"
+  company: Company!
 }
 
 type Mutation {
@@ -55,6 +59,9 @@ type Mutation {
   "Change password"
   changePassword(password: Password): Account
     @authorization(scope: [SUPER_ADMIN, ADMIN, VIEWER])
+
+  # Company
+  editCompany(input: EditCompanyInput!): Company @authorization(scope: [SUPER_ADMIN])
 }
 
 # TYPES
@@ -116,6 +123,12 @@ type S3PreSignedURL @authorization(scope: [SUPER_ADMIN, ADMIN]) {
 #     messageId: ID
 # }
 
+# input emailInput {
+#   to: String!
+#   content: String!
+#   subject: String!
+# }
+
 type DeleteItem @authorization(scope: [SUPER_ADMIN, ADMIN]) {
   "The number of items that was deleted. If 0 is returned then the item may not have existed in the first place"
   quantityDeleted: Int
@@ -125,11 +138,22 @@ type DeletedGallery @authorization(scope: [SUPER_ADMIN, ADMIN]) {
   id: String
 }
 
-# input emailInput {
-#   to: String!
-#   content: String!
-#   subject: String!
-# }
+type Contact {
+  id: ID!
+  phone: String
+  email: String
+}
+
+type Company {
+  id: ID!
+  name: String
+  about: String
+  lastModified: String
+  createdAt: String
+  contact: Contact
+  editedBy: Account
+}
+
 input editUserInput {
   firstName: String
   lastName: String
@@ -153,6 +177,11 @@ input LoginInput {
   password: String!
 }
 
+input ContactInput {
+  phone: String
+  email: String
+}
+
 input AddPhotoInput {
   "The S3 presigned URL where the photo was uploaded to"
   url: String!
@@ -160,6 +189,12 @@ input AddPhotoInput {
   description: String
   "filename to be saved in database to reference when deleting photo from AWS bucket"
   filename: String!
+}
+
+input EditCompanyInput {
+  name: String
+  contact: ContactInput
+  about: String
 }
 
 input CreateGalleryInput {

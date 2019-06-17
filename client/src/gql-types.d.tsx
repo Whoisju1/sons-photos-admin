@@ -37,6 +37,25 @@ export enum CacheControlScope {
   Private = "PRIVATE"
 }
 
+export type Company = {
+  name?: Maybe<Scalars["String"]>;
+  contact?: Maybe<Contact>;
+  about?: Maybe<Scalars["String"]>;
+  modifiedOn?: Maybe<Scalars["String"]>;
+  createdAt?: Maybe<Scalars["String"]>;
+};
+
+export type Contact = {
+  id: Scalars["ID"];
+  phone?: Maybe<Scalars["String"]>;
+  email?: Maybe<Scalars["String"]>;
+};
+
+export type ContactInput = {
+  phone?: Maybe<Scalars["String"]>;
+  email?: Maybe<Scalars["String"]>;
+};
+
 export type CreateAccountInput = {
   username: Scalars["String"];
   firstName: Scalars["String"];
@@ -60,6 +79,12 @@ export type DeletedGallery = {
 export type DeleteItem = {
   /** The number of items that was deleted. If 0 is returned then the item may not have existed in the first place */
   quantityDeleted?: Maybe<Scalars["Int"]>;
+};
+
+export type EditCompanyInput = {
+  name?: Maybe<Scalars["String"]>;
+  contact?: Maybe<ContactInput>;
+  about?: Maybe<Scalars["String"]>;
 };
 
 export type EditUserInput = {
@@ -112,6 +137,7 @@ export type Mutation = {
   deleteItem?: Maybe<DeleteItem>;
   /** Change password */
   changePassword?: Maybe<Account>;
+  editComany?: Maybe<Company>;
 };
 
 export type MutationCreateAccountArgs = {
@@ -148,6 +174,10 @@ export type MutationChangePasswordArgs = {
   password?: Maybe<Scalars["Password"]>;
 };
 
+export type MutationEditComanyArgs = {
+  input?: Maybe<EditCompanyInput>;
+};
+
 export type Photo = {
   id: Scalars["ID"];
   url?: Maybe<Scalars["String"]>;
@@ -171,6 +201,8 @@ export type Query = {
   getPhoto: Photo;
   /** This query provides a presigned URL from AWS S3 which is as the address where the file is uploaded */
   s3PreSignedURLs: Array<S3PreSignedUrl>;
+  /** Information pertaining to company */
+  company: Company;
 };
 
 export type QueryLoginArgs = {

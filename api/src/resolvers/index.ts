@@ -1,9 +1,9 @@
 import queries from './queries';
 import mutations from './mutations';
-import Gallery from './nested/Gallery';
+import * as nested from './nested';
 
 export default {
   Query: { ...queries },
   Mutation: { ...mutations },
-  Gallery,
+  ...nested,
 };

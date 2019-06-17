@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM tiangolo/node-frontend
 
 WORKDIR /client
 COPY ./package.json ./
